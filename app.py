@@ -26,6 +26,25 @@ distritos = st.sidebar.multiselect("📍 Distrito", sorted(df["DISTRITO"].dropna
 compradores = st.sidebar.multiselect("🛒 Comprador", sorted(df["COMPRADOR"].dropna().unique()))
 produtor = st.sidebar.text_input("🔍 Buscar Produtor")
 
+# Estilo do mapa
+tile_option = st.sidebar.selectbox("🗺️ Estilo do Mapa", [
+    "OpenStreetMap",
+    "Stamen Terrain",
+    "Stamen Toner",
+    "CartoDB positron",
+    "CartoDB dark_matter",
+    "Esri Satellite"
+])
+
+# Mapas adicionais via URL
+tile_urls = {
+    "Esri Satellite": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+}
+
+tile_attr = {
+    "Esri Satellite": "Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc."
+}
+
 df_filtrado = df.copy()
 if tecnicos:
     df_filtrado = df_filtrado[df_filtrado["TECNICO"].isin(tecnicos)]
@@ -51,14 +70,17 @@ with col2:
     st.bar_chart(df_filtrado["INSEMINA?"].value_counts())
 
 # Mapa Folium
-st.subheader("🗺️ Mapa com Distritos e Produtores (OpenStreetMap)")
+st.subheader("🗺️ Mapa com Distritos e Produtores")
 
 if not df_filtrado.empty:
-    m = folium.Map(
-        location=[df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()],
-        zoom_start=10,
-        tiles="OpenStreetMap"
-    )
+    center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
+
+    if tile_option in tile_urls:
+        m = folium.Map(location=center, zoom_start=10, tiles=None)
+        folium.TileLayer(tiles=tile_urls[tile_option], attr=tile_attr[tile_option], name=tile_option).add_to(m)
+    else:
+        m = folium.Map(location=center, zoom_start=10, tiles=tile_option)
+
     folium.GeoJson(geojson_data, name="Distritos").add_to(m)
 
     for _, row in df_filtrado.iterrows():
@@ -71,6 +93,7 @@ if not df_filtrado.empty:
             tooltip=row["PRODUTOR"]
         ).add_to(m)
 
+    folium.LayerControl().add_to(m)
     folium_static(m)
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
