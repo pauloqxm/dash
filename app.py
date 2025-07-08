@@ -110,6 +110,7 @@ if not df_filtrado.empty:
     for _, row in df_filtrado.iterrows():
         popup_info = f"""
         <strong>Apelido:</strong> {row['APELIDO']}<br>
+        <strong>Produção dia:</strong> {row['PRODUCAO']}<br>
         <strong>Fazenda:</strong> {row['FAZENDA']}<br>
         <strong>Distrito:</strong> {row['DISTRITO']}<br>
         <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
