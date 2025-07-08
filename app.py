@@ -7,6 +7,13 @@ import json
 
 st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
 
+# Barra superior
+st.markdown(
+    "<div style='background-color:#004080;padding:10px'><h2 style='color:white;text-align:center;'>BASE DE DADOS ESPACIAIS</h2></div>",
+    unsafe_allow_html=True
+)
+
+
 # Carregar dados
 df = pd.read_excel("Produtores_SDA.xlsx")
 df[["LATITUDE", "LONGITUDE"]] = df["COORDENADAS"].str.split(",", expand=True)
