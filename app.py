@@ -7,9 +7,27 @@ import json
 
 st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
 
-# Barra superior
+# Barra fixa no topo
 st.markdown(
-    "<div style='background-color:#004080;padding:10px'><h2 style='color:white;text-align:center;'>BASE DE DADOS ESPACIAIS</h2></div>",
+    """
+    <style>
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 9999;
+        }
+        .reportview-container .main {
+            padding-top: 70px;
+        }
+    </style>
+    <div class='fixed-header'><h2>BASE DE DADOS ESPACIAIS</h2></div>
+    """,
     unsafe_allow_html=True
 )
 
