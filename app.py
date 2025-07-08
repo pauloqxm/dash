@@ -114,11 +114,7 @@ if not df_filtrado.empty:
         <strong>Fazenda:</strong> {row['FAZENDA']}<br>
         <strong>Distrito:</strong> {row['DISTRITO']}<br>
         <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
-        <strong>Contato:</strong> {row['CONTATO']}<br>
-        <strong>RG:</strong> {row['RG']}<br>
-        <strong>CPF:</strong> {row['CPF']}<br>
-        <strong>Data de Nascimento:</strong> {row['DATA NASCIMENTO']}<br>
-        """
+         """
         folium.Marker(
             location=[row["LATITUDE"], row["LONGITUDE"]],
             icon=folium.Icon(color="blue", icon="info-sign"),
