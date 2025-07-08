@@ -47,10 +47,13 @@ with open("distrito.geojson", "r", encoding="utf-8") as f:
 # Filtros
 st.sidebar.title("🔎 Filtros")
 
-# Botão para reiniciar filtros
+
+# Botão para reiniciar filtros usando session_state
 if st.sidebar.button("🔄 Reiniciar Filtros"):
-    st.experimental_set_query_params()
+    for key in list(st.session_state.keys()):
+        del st.session_state[key]
     st.rerun()
+
 
 tecnicos = st.sidebar.multiselect("👨‍🔧 Técnico", sorted(df["TECNICO"].dropna().unique()))
 distritos = st.sidebar.multiselect("📍 Distrito", sorted(df["DISTRITO"].dropna().unique()))
