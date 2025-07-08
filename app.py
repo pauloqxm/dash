@@ -11,15 +11,20 @@ st.title("📖 Programação de Cultos - ADTC")
 df = pd.read_excel("ADTC_PROGRAMAÇÃO.xlsx")
 df.columns = [col.strip().upper() for col in df.columns]
 
-# Adicionar coluna de mês (simulada a partir de data se existisse)
-# Aqui criamos uma data fictícia associada ao dia da semana
+# Simular data e gerar mês em português manualmente
 dias_map = {
     "Domingo": 7, "Segunda-Feira": 1, "Terça-Feira": 2,
     "Quarta-Feira": 3, "Quinta-Feira": 4, "Sexta-Feira": 5, "Sábado": 6
 }
 df["DIA_NUM"] = df["DIA"].map(dias_map)
 df["DATA_FICTICIA"] = pd.to_datetime("2025-07-01") + pd.to_timedelta(df["DIA_NUM"] - 1, unit='d')
-df["MÊS"] = df["DATA_FICTICIA"].dt.month_name(locale="pt_BR")
+
+nomes_meses = {
+    1: "Janeiro", 2: "Fevereiro", 3: "Março", 4: "Abril",
+    5: "Maio", 6: "Junho", 7: "Julho", 8: "Agosto",
+    9: "Setembro", 10: "Outubro", 11: "Novembro", 12: "Dezembro"
+}
+df["MÊS"] = df["DATA_FICTICIA"].dt.month.map(nomes_meses)
 
 # Separar latitude e longitude
 df[['LAT', 'LON']] = df['COORDENADAS'].str.split(',', expand=True)
