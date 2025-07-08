@@ -81,9 +81,10 @@ if produtor:
     df_filtrado = df_filtrado[df_filtrado["PRODUTOR"].str.contains(produtor, case=False, na=False)]
 
 # Tabela
+st.success(f"{len(df_filtrado)} registro(s) encontrado(s).")
 st.title("📋 Dados dos Produtores")
 st.dataframe(df_filtrado, use_container_width=True)
-st.success(f"{len(df_filtrado)} registro(s) encontrado(s).")
+
 
 # Gráficos
 col1, col2 = st.columns(2)
