@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 
@@ -12,11 +11,11 @@ df = pd.read_excel("PED 2025 - APURAÇÃO_FINAL.xlsx")
 # Filtros
 col1, col2 = st.columns(2)
 with col1:
-    zonas = df["Zona"].dropna().unique()
-    zona_selecionada = st.selectbox("Filtrar por Zona:", ["Todas"] + sorted(zonas.tolist()))
+    zonas = df["Zona"].unique()
+    zona_selecionada = st.selectbox("Filtrar por Zona:", ["Todas"] + list(zonas))
 with col2:
-    locais = df["Local"].dropna().unique()
-    local_selecionado = st.selectbox("Filtrar por Local:", ["Todos"] + sorted(locais.tolist()))
+    locais = df["Local"].unique()
+    local_selecionado = st.selectbox("Filtrar por Local:", ["Todos"] + list(locais))
 
 # Aplicar filtros
 df_filtrado = df.copy()
@@ -38,3 +37,4 @@ if "Candidato" in df.columns and "Votos" in df.columns:
 # Total geral
 st.subheader("📌 Total de Votos")
 st.metric("Total", int(df_filtrado["Votos"].sum()))
+
