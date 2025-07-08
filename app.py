@@ -3,100 +3,75 @@ import streamlit as st
 import pandas as pd
 import pydeck as pdk
 
-st.set_page_config(page_title="📖 Programação ADTC", layout="wide")
-st.title("📖 Programação de Cultos - ADTC")
+st.set_page_config(page_title="📅 Programação Geral - Banabuiú", layout="wide")
+st.title("📅 Programação de Atividades - Gerência Banabuiú")
 
 # Carregar dados
-try:
-    df = pd.read_excel("ADTC_PROGRAMAÇÃO.xlsx")
-except Exception as e:
-    st.error("Erro ao carregar a planilha: " + str(e))
-    st.stop()
-
+df = pd.read_excel("PROGRAM_GRBANABUIU.xlsx")
 df.columns = [col.strip().upper() for col in df.columns]
 
-# Tratar colunas de dia
-dias_map = {
-    "Domingo": 7, "Segunda-Feira": 1, "Terça-Feira": 2,
-    "Quarta-Feira": 3, "Quinta-Feira": 4, "Sexta-Feira": 5, "Sábado": 6
-}
-df["DIA_NUM"] = df["DIA"].map(dias_map)
-df["DATA_FICTICIA"] = pd.to_datetime("2025-07-01") + pd.to_timedelta(df["DIA_NUM"].fillna(1) - 1, unit='d')
+# Ajustes de tipo de dado
+df['DATA'] = pd.to_datetime(df['DATA'], errors='coerce')
+df['DIA'] = df['DATA'].dt.strftime('%d/%m/%Y')
+df = df.dropna(subset=['DATA'])
 
-nomes_meses = {
-    1: "Janeiro", 2: "Fevereiro", 3: "Março", 4: "Abril",
-    5: "Maio", 6: "Junho", 7: "Julho", 8: "Agosto",
-    9: "Setembro", 10: "Outubro", 11: "Novembro", 12: "Dezembro"
-}
-df["MÊS"] = df["DATA_FICTICIA"].dt.month.map(nomes_meses)
+# Abas
+aba = st.sidebar.radio("Navegar por:", ["📊 Visão Geral", "📍 Atividades", "🚗 Logística", "🗺️ Mapa (experimental)"])
 
-# Coordenadas seguras
-if "COORDENADAS" in df.columns:
-    try:
-        df[['LAT', 'LON']] = df['COORDENADAS'].str.split(',', expand=True)
-        df['LAT'] = pd.to_numeric(df['LAT'], errors='coerce')
-        df['LON'] = pd.to_numeric(df['LON'], errors='coerce')
-    except Exception as e:
-        st.warning("Erro ao processar coordenadas: " + str(e))
-        df["LAT"], df["LON"] = None, None
-else:
-    df["LAT"], df["LON"] = None, None
+# Filtros comuns
+st.sidebar.markdown("### Filtros")
+datas = df['DIA'].unique().tolist()
+eixos = df['EIXO'].dropna().unique().tolist()
+nucleos = df['NÚCLEO'].dropna().unique().tolist()
+formatos = df['FORMATO'].dropna().unique().tolist()
 
-# Filtros disponíveis
-meses = df["MÊS"].dropna().unique().tolist()
-dias = df['DIA'].dropna().unique().tolist()
-cultos = df['CULTO'].dropna().unique().tolist()
-congs = df['CONGREGAÇÃO'].dropna().unique().tolist()
-
-st.sidebar.header("Filtros")
-filtro_mes = st.sidebar.selectbox("Mês", sorted(meses))
-filtro_dia = st.sidebar.multiselect("Dia da semana", dias, default=dias)
-filtro_culto = st.sidebar.multiselect("Tipo de culto", cultos, default=cultos)
-filtro_cong = st.sidebar.multiselect("Congregação", congs, default=congs)
+filtro_data = st.sidebar.multiselect("Data", datas, default=datas)
+filtro_eixo = st.sidebar.multiselect("Eixo", eixos, default=eixos)
+filtro_nucleo = st.sidebar.multiselect("Núcleo", nucleos, default=nucleos)
+filtro_formato = st.sidebar.multiselect("Formato", formatos, default=formatos)
 
 # Aplicar filtros
 df_filtrado = df[
-    (df["MÊS"] == filtro_mes) &
-    df['DIA'].isin(filtro_dia) &
-    df['CULTO'].isin(filtro_culto) &
-    df['CONGREGAÇÃO'].isin(filtro_cong)
+    df['DIA'].isin(filtro_data) &
+    df['EIXO'].isin(filtro_eixo) &
+    df['NÚCLEO'].isin(filtro_nucleo) &
+    df['FORMATO'].isin(filtro_formato)
 ]
 
-# Tabela
-st.subheader("📋 Programação Filtrada")
-if df_filtrado.empty:
-    st.warning("Nenhum dado encontrado com os filtros selecionados.")
-else:
-    st.dataframe(df_filtrado)
+# Aba 1: Visão Geral
+if aba == "📊 Visão Geral":
+    st.subheader("📌 Quantidade de Atividades por Eixo")
+    eixo_count = df_filtrado['EIXO'].value_counts()
+    st.bar_chart(eixo_count)
 
-    # Gráfico
-    st.subheader("📊 Quantidade de cultos por tipo")
-    grafico = df_filtrado['CULTO'].value_counts()
-    st.bar_chart(grafico)
+    st.subheader("📌 Quantidade por Núcleo")
+    nucleo_count = df_filtrado['NÚCLEO'].value_counts()
+    st.bar_chart(nucleo_count)
 
-    # Mapa
-    st.subheader("🗺️ Mapa das Congregações")
-    mapa_df = df_filtrado[['CONGREGAÇÃO', 'LAT', 'LON']].dropna()
+    st.subheader("📌 Formatos utilizados")
+    formato_count = df_filtrado['FORMATO'].value_counts()
+    st.bar_chart(formato_count)
+
+# Aba 2: Atividades
+elif aba == "📍 Atividades":
+    st.subheader("📍 Lista de Atividades Programadas")
+    st.dataframe(df_filtrado[['DIA', 'GERÊNCIA', 'NÚCLEO', 'EIXO', 'ATIVIDADE', 'FORMATO', 'RESPONSÁVEIS', 'LOCAL']])
+
+# Aba 3: Logística
+elif aba == "🚗 Logística":
+    st.subheader("🚗 Logística e Diárias")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total de Km previstos", f"{df_filtrado['PREVISÃO_KM'].sum():.0f} km")
+    col2.metric("Diárias Motorista", int(df_filtrado['DIARIA_MOT'].fillna(0).sum()))
+    col3.metric("Diárias Terceiro", int(df_filtrado['DIARIA_TER'].fillna(0).sum()))
+    st.dataframe(df_filtrado[['DIA', 'VEÍCULO', 'PREVISÃO_KM', 'DIARIA_MOT', 'DIARIA_TER', 'DIARIA_C&C']])
+
+# Aba 4: Mapa
+elif aba == "🗺️ Mapa (experimental)":
+    st.subheader("🗺️ Mapa (baseado no campo LOCAL)")
+    mapa_df = df_filtrado[['LOCAL', 'DATA', 'ATIVIDADE']].dropna()
     if not mapa_df.empty:
-        st.pydeck_chart(pdk.Deck(
-            map_style="https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
-            initial_view_state=pdk.ViewState(
-                latitude=mapa_df['LAT'].mean(),
-                longitude=mapa_df['LON'].mean(),
-                zoom=9,
-                pitch=0,
-            ),
-            layers=[
-                pdk.Layer(
-                    'ScatterplotLayer',
-                    data=mapa_df,
-                    get_position='[LON, LAT]',
-                    get_radius=500,
-                    get_color=[0, 102, 255, 200],
-                    pickable=True,
-                ),
-            ],
-            tooltip={"text": "{CONGREGAÇÃO}"}
-        ))
+        st.dataframe(mapa_df)
+        st.info("Este mapa é simbólico, pois o campo 'LOCAL' não possui coordenadas. Para ativar mapa real, adicione colunas de latitude/longitude.")
     else:
-        st.info("Nenhuma coordenada válida para exibir no mapa.")
+        st.warning("Nenhum local definido nas atividades filtradas.")
