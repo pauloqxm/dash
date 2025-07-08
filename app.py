@@ -83,7 +83,7 @@ if produtor:
 # Tabela
 st.success(f"{len(df_filtrado)} registro(s) encontrado(s).")
 st.title("📋 Dados dos Produtores")
-st.dataframe(df_filtrado, use_container_width=True)
+st.dataframe(df_filtrado[["TECNICO","PRODUTOR","APELIDO","FAZENDA","DISTRITO","ORDENHA?","INSEMINA?","LATICINIO","COMPRADOR"]], use_container_width=True)
 
 # Mapa
 st.subheader("🗺️ Mapa com Distritos e Produtores")
