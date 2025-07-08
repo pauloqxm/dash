@@ -1,55 +1,69 @@
 
 import streamlit as st
 import pandas as pd
+import pydeck as pdk
 
-st.set_page_config(page_title="Apuração PED 2025", layout="wide")
-st.title("📊 Dashboard Interativo - PED 2025")
+st.set_page_config(page_title="📖 Programação ADTC", layout="wide")
+st.title("📖 Programação de Cultos - ADTC")
 
 # Carregar dados
-df = pd.read_excel("PED 2025 - APURAÇÃO_FINAL.xlsx")
-
-# Converter colunas para maiúsculas sem acento (garantia)
+df = pd.read_excel("ADTC_PROGRAMAÇÃO.xlsx")
 df.columns = [col.strip().upper() for col in df.columns]
 
-# Abas
-aba = st.sidebar.radio("Escolha a visualização:", ["📋 Tabela", "🗳️ Votos por Candidato", "📦 Votos por Chapa", "📌 Totais"])
+# Separar latitude e longitude
+df[['LAT', 'LON']] = df['COORDENADAS'].str.split(',', expand=True)
+df['LAT'] = pd.to_numeric(df['LAT'], errors='coerce')
+df['LON'] = pd.to_numeric(df['LON'], errors='coerce')
 
-# Filtros (colocados no sidebar)
-with st.sidebar:
-    st.markdown("### Filtros")
-    candidatos = df["CANDIDATO"].dropna().unique()
-    filtro_candidato = st.multiselect("Filtrar Candidatos", candidatos, default=candidatos)
+# Filtros
+dias = df['DIA'].unique().tolist()
+cultos = df['CULTO'].unique().tolist()
+congs = df['CONGREGAÇÃO'].unique().tolist()
 
-    chapas = df["NOME_CHAPA"].dropna().unique()
-    filtro_chapa = st.multiselect("Filtrar Chapas", chapas, default=chapas)
+st.sidebar.header("Filtros")
+filtro_dia = st.sidebar.multiselect("Dia da semana", dias, default=dias)
+filtro_culto = st.sidebar.multiselect("Tipo de culto", cultos, default=cultos)
+filtro_cong = st.sidebar.multiselect("Congregação", congs, default=congs)
 
 # Aplicar filtros
 df_filtrado = df[
-    df["CANDIDATO"].isin(filtro_candidato) &
-    df["NOME_CHAPA"].isin(filtro_chapa)
+    df['DIA'].isin(filtro_dia) &
+    df['CULTO'].isin(filtro_culto) &
+    df['CONGREGAÇÃO'].isin(filtro_cong)
 ]
 
-# Tabela
-if aba == "📋 Tabela":
-    st.subheader("📋 Tabela completa com filtros aplicados")
-    st.dataframe(df_filtrado)
+# Exibir tabela
+st.subheader("📋 Programação Filtrada")
+st.dataframe(df_filtrado)
 
-# Gráfico de votos por candidato
-elif aba == "🗳️ Votos por Candidato":
-    st.subheader("🗳️ Comparativo de Votos para Presidente por Candidato")
-    votos = df_filtrado.groupby("CANDIDATO")["VOTOS_PRES"].sum().sort_values(ascending=False)
-    st.bar_chart(votos)
+# Gráfico de quantidade por tipo de culto
+st.subheader("📊 Quantidade de cultos por tipo")
+grafico = df_filtrado['CULTO'].value_counts()
+st.bar_chart(grafico)
 
-# Gráfico de votos por chapa
-elif aba == "📦 Votos por Chapa":
-    st.subheader("📦 Comparativo de Votos por Chapa")
-    votos_chapa = df_filtrado.groupby("NOME_CHAPA")["VOTO_CHAPA"].sum().sort_values(ascending=False)
-    st.bar_chart(votos_chapa)
-
-# Totais
-elif aba == "📌 Totais":
-    total_pres = int(df_filtrado["VOTOS_PRES"].sum())
-    total_chapa = int(df_filtrado["VOTO_CHAPA"].sum())
-    col1, col2 = st.columns(2)
-    col1.metric("Total de Votos para Presidente", total_pres)
-    col2.metric("Total de Votos para Chapas", total_chapa)
+# Mapa com coordenadas
+st.subheader("🗺️ Mapa das Congregações")
+mapa_df = df_filtrado[['CONGREGAÇÃO', 'LAT', 'LON']].dropna()
+if not mapa_df.empty:
+    st.pydeck_chart(pdk.Deck(
+        map_style="mapbox://styles/mapbox/light-v9",
+        initial_view_state=pdk.ViewState(
+            latitude=mapa_df['LAT'].mean(),
+            longitude=mapa_df['LON'].mean(),
+            zoom=9,
+            pitch=0,
+        ),
+        layers=[
+            pdk.Layer(
+                'ScatterplotLayer',
+                data=mapa_df,
+                get_position='[LON, LAT]',
+                get_radius=500,
+                get_color=[200, 30, 0, 160],
+                pickable=True,
+            ),
+        ],
+        tooltip={"text": "{CONGREGAÇÃO}"}
+    ))
+else:
+    st.warning("Nenhuma coordenada encontrada para exibir o mapa.")
