@@ -15,23 +15,35 @@ df['DATA'] = pd.to_datetime(df['DATA'], errors='coerce')
 df['DIA'] = df['DATA'].dt.strftime('%d/%m/%Y')
 df = df.dropna(subset=['DATA'])
 
+# Adiciona coluna de mês em português
+nomes_meses = {
+    1: "Janeiro", 2: "Fevereiro", 3: "Março", 4: "Abril",
+    5: "Maio", 6: "Junho", 7: "Julho", 8: "Agosto",
+    9: "Setembro", 10: "Outubro", 11: "Novembro", 12: "Dezembro"
+}
+df["MÊS"] = df["DATA"].dt.month.map(nomes_meses)
+
 # Abas
 aba = st.sidebar.radio("Navegar por:", ["📊 Visão Geral", "📍 Atividades", "🚗 Logística", "🗺️ Mapa (experimental)"])
 
 # Filtros comuns
 st.sidebar.markdown("### Filtros")
+meses = df["MÊS"].dropna().unique().tolist()
 datas = df['DIA'].unique().tolist()
 eixos = df['EIXO'].dropna().unique().tolist()
 nucleos = df['NÚCLEO'].dropna().unique().tolist()
 formatos = df['FORMATO'].dropna().unique().tolist()
 
-filtro_data = st.sidebar.multiselect("Data", datas, default=datas)
+filtro_mes = st.sidebar.selectbox("Mês", sorted(meses))
+filtro_data = df[df["MÊS"] == filtro_mes]['DIA'].unique().tolist()
+filtro_data = st.sidebar.multiselect("Data", filtro_data, default=filtro_data)
 filtro_eixo = st.sidebar.multiselect("Eixo", eixos, default=eixos)
 filtro_nucleo = st.sidebar.multiselect("Núcleo", nucleos, default=nucleos)
 filtro_formato = st.sidebar.multiselect("Formato", formatos, default=formatos)
 
 # Aplicar filtros
 df_filtrado = df[
+    (df["MÊS"] == filtro_mes) &
     df['DIA'].isin(filtro_data) &
     df['EIXO'].isin(filtro_eixo) &
     df['NÚCLEO'].isin(filtro_nucleo) &
