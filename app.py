@@ -6,20 +6,21 @@ st.set_page_config(page_title="Dashboard SDA", layout="wide")
 
 df = pd.read_excel("Produtores_SDA.xlsx")
 
-# Preparar dados
+# Processamento da coluna COORDENADAS
+df[["LATITUDE", "LONGITUDE"]] = df["COORDENADAS"].str.split(",", expand=True)
 df["LATITUDE"] = pd.to_numeric(df["LATITUDE"], errors="coerce")
 df["LONGITUDE"] = pd.to_numeric(df["LONGITUDE"], errors="coerce")
 df["ORDENHA?"] = df["ORDENHA?"].str.upper().fillna("NAO")
 df["INSEMINA?"] = df["INSEMINA?"].str.upper().fillna("NAO")
 
-# Sidebar com filtros cruzados
+# Sidebar - Filtros
 st.sidebar.title("🔎 Filtros")
 tecnicos = st.sidebar.multiselect("👨‍🔧 Técnico", sorted(df["TECNICO"].dropna().unique()))
 distritos = st.sidebar.multiselect("📍 Distrito", sorted(df["DISTRITO"].dropna().unique()))
 compradores = st.sidebar.multiselect("🛒 Comprador", sorted(df["COMPRADOR"].dropna().unique()))
 produtor = st.sidebar.text_input("🔍 Buscar Produtor")
 
-# Filtros cruzados
+# Aplicar filtros cruzados
 df_filtrado = df.copy()
 if tecnicos:
     df_filtrado = df_filtrado[df_filtrado["TECNICO"].isin(tecnicos)]
