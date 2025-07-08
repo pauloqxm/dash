@@ -94,4 +94,5 @@ view_state = pdk.ViewState(
     pitch=0,
 )
 
-st.pydeck_chart(pdk.Deck(layers=[layer_distritos, layer_pontos], initial_view_state=view_state))
+st.pydeck_chart(pdk.Deck(
+    map_style="mapbox://styles/mapbox/outdoors-v11",layers=[layer_distritos, layer_pontos], initial_view_state=view_state))
