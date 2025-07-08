@@ -111,6 +111,8 @@ if not df_filtrado.empty:
     if tile_option in tile_urls:
         m = folium.Map(location=center, zoom_start=10, tiles=None)
         folium.TileLayer(tiles=tile_urls[tile_option], attr=tile_attr[tile_option], name=tile_option).add_to(m)
+    folium.LayerControl().add_to(m)
+    folium_static(m)
     else:
         m = folium.Map(location=center, zoom_start=10, tiles=tile_option)
 
