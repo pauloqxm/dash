@@ -85,16 +85,6 @@ st.success(f"{len(df_filtrado)} registro(s) encontrado(s).")
 st.title("📋 Dados dos Produtores")
 st.dataframe(df_filtrado, use_container_width=True)
 
-
-# Gráficos
-col1, col2 = st.columns(2)
-with col1:
-    st.subheader("✅ Ordenha")
-    st.bar_chart(df_filtrado["ORDENHA?"].value_counts())
-with col2:
-    st.subheader("🧬 Insemina")
-    st.bar_chart(df_filtrado["INSEMINA?"].value_counts())
-
 # Mapa
 st.subheader("🗺️ Mapa com Distritos e Produtores")
 
