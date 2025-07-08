@@ -36,7 +36,6 @@ tile_option = st.sidebar.selectbox("🗺️ Estilo do Mapa", [
     "Esri Satellite"
 ])
 
-# Mapas adicionais via URL
 tile_urls = {
     "Esri Satellite": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
 }
@@ -45,6 +44,7 @@ tile_attr = {
     "Esri Satellite": "Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc."
 }
 
+# Aplicar filtros
 df_filtrado = df.copy()
 if tecnicos:
     df_filtrado = df_filtrado[df_filtrado["TECNICO"].isin(tecnicos)]
@@ -69,12 +69,11 @@ with col2:
     st.subheader("🧬 Insemina")
     st.bar_chart(df_filtrado["INSEMINA?"].value_counts())
 
-# Mapa Folium
+# Mapa
 st.subheader("🗺️ Mapa com Distritos e Produtores")
 
 if not df_filtrado.empty:
     center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
-
     if tile_option in tile_urls:
         m = folium.Map(location=center, zoom_start=10, tiles=None)
         folium.TileLayer(tiles=tile_urls[tile_option], attr=tile_attr[tile_option], name=tile_option).add_to(m)
@@ -84,12 +83,20 @@ if not df_filtrado.empty:
     folium.GeoJson(geojson_data, name="Distritos").add_to(m)
 
     for _, row in df_filtrado.iterrows():
-        folium.CircleMarker(
+        popup_info = f"""
+        <strong>Apelido:</strong> {row['APELIDO']}<br>
+        <strong>Fazenda:</strong> {row['FAZENDA']}<br>
+        <strong>Distrito:</strong> {row['DISTRITO']}<br>
+        <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
+        <strong>Contato:</strong> {row['CONTATO']}<br>
+        <strong>RG:</strong> {row['RG']}<br>
+        <strong>CPF:</strong> {row['CPF']}<br>
+        <strong>Data de Nascimento:</strong> {row['DATA NASCIMENTO']}<br>
+        """
+        folium.Marker(
             location=[row["LATITUDE"], row["LONGITUDE"]],
-            radius=4,
-            color="red",
-            fill=True,
-            fill_opacity=0.8,
+            icon=folium.Icon(color="blue", icon="info-sign"),
+            popup=folium.Popup(popup_info, max_width=300),
             tooltip=row["PRODUTOR"]
         ).add_to(m)
 
