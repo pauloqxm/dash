@@ -80,15 +80,11 @@ if compradores:
 if produtor:
     df_filtrado = df_filtrado[df_filtrado["PRODUTOR"].str.contains(produtor, case=False, na=False)]
 
-
-
-else:
-    st.info("Nenhum produtor encontrado com os filtros selecionados.")
-
-
-
-st.dataframe(df_filtrado, use_container_width=True)
+# Tabela
 st.success(f"{len(df_filtrado)} registro(s) encontrado(s).")
+st.title("📋 Dados dos Produtores")
+st.dataframe(df_filtrado, use_container_width=True)
+
 
 # Gráficos
 col1, col2 = st.columns(2)
@@ -99,10 +95,6 @@ with col2:
     st.subheader("🧬 Insemina")
     st.bar_chart(df_filtrado["INSEMINA?"].value_counts())
 
-
-else:
-    st.info("Nenhum produtor encontrado com os filtros selecionados.")
-
 # Mapa
 st.subheader("🗺️ Mapa com Distritos e Produtores")
 
@@ -111,8 +103,6 @@ if not df_filtrado.empty:
     if tile_option in tile_urls:
         m = folium.Map(location=center, zoom_start=10, tiles=None)
         folium.TileLayer(tiles=tile_urls[tile_option], attr=tile_attr[tile_option], name=tile_option).add_to(m)
-    folium.LayerControl().add_to(m)
-    folium_static(m)
     else:
         m = folium.Map(location=center, zoom_start=10, tiles=tile_option)
 
@@ -121,6 +111,7 @@ if not df_filtrado.empty:
     for _, row in df_filtrado.iterrows():
         popup_info = f"""
         <strong>Apelido:</strong> {row['APELIDO']}<br>
+        <strong>Produção dia:</strong> {row['PRODUCAO']}<br>
         <strong>Fazenda:</strong> {row['FAZENDA']}<br>
         <strong>Distrito:</strong> {row['DISTRITO']}<br>
         <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
@@ -140,8 +131,3 @@ if not df_filtrado.empty:
     folium_static(m)
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
-
-# Tabela (após o mapa)
-st.success(f"{len(df_filtrado)} registro(s) encontrado(s).")
-st.title("📋 Dados dos Produtores")
-st.dataframe(df_filtrado, use_container_width=True)
