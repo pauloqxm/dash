@@ -2,17 +2,7 @@
 import streamlit as st
 import pandas as pd
 import folium
-    chafarizes_geojson = json.load(f)
-with open("Pocos.geojson") as f:
-    pocos_geojson = json.load(f)
-with open("Sistemas de Abastecimento.geojson") as f:
-    sistemas_geojson = json.load(f)
 from streamlit_folium import folium_static
-    chafarizes_geojson = json.load(f)
-with open("Pocos.geojson") as f:
-    pocos_geojson = json.load(f)
-with open("Sistemas de Abastecimento.geojson") as f:
-    sistemas_geojson = json.load(f)
 import json
 
 st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
@@ -131,39 +121,6 @@ if not df_filtrado.empty:
             popup=folium.Popup(popup_info, max_width=300),
             tooltip=row["PRODUTOR"]
         ).add_to(m)
-
-    
-    # Camada de Chafarizes
-
-    # Camada de Poços
-    pocos_group = folium.FeatureGroup(name="Poços")
-    for feature in pocos_geojson["features"]:
-        coords = feature["geometry"]["coordinates"]
-        folium.CircleMarker(
-            location=[coords[1], coords[0]],
-            radius=5,
-            color="green",
-            fill=True,
-            fill_color="green",
-            fill_opacity=0.7,
-            tooltip="Poço"
-        ).add_to(pocos_group)
-    pocos_group.add_to(m)
-
-    # Camada de Sistemas de Abastecimento
-    sistemas_group = folium.FeatureGroup(name="Sistemas de Abastecimento")
-    for feature in sistemas_geojson["features"]:
-        coords = feature["geometry"]["coordinates"]
-        folium.CircleMarker(
-            location=[coords[1], coords[0]],
-            radius=5,
-            color="orange",
-            fill=True,
-            fill_color="orange",
-            fill_opacity=0.7,
-            tooltip="Sistema de Abastecimento"
-        ).add_to(sistemas_group)
-    sistemas_group.add_to(m)
 
     folium.LayerControl().add_to(m)
     folium_static(m)
