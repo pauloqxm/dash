@@ -84,7 +84,7 @@ if not df_filtrado.empty:
     m = folium.Map(location=center, zoom_start=10, tiles="OpenStreetMap")
 
     # Ícone personalizado para Sistemas de Abastecimento
-    custom_icon = folium.CustomIcon("water-tank.png", icon_size=(30, 30))
+    custom_icon = folium.CustomIcon("./water-tank.png", icon_size=(30, 30))
 
 
     folium.GeoJson(geojson_data, name="Distritos").add_to(m)
