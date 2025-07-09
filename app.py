@@ -84,18 +84,6 @@ if not df_filtrado.empty:
 
     folium.GeoJson(geojson_data, name="Distritos").add_to(m)
     folium.GeoJson(assentamentos_geojson, name="Assentamentos", style_function=lambda x: {
-    folium.GeoJson(pocos_geojson, name="Pocos", style_function=lambda x: {
-        "color": "blue", "weight": 1, "fillOpacity": 0.3
-    }).add_to(m)
-
-    folium.GeoJson(chafarizes_geojson, name="Chafarizes", style_function=lambda x: {
-        "color": "green", "weight": 1, "fillOpacity": 0.3
-    }).add_to(m)
-
-    folium.GeoJson(sistemas_geojson, name="Sistemas de Abastecimento", style_function=lambda x: {
-        "color": "orange", "weight": 1, "fillOpacity": 0.3
-    }).add_to(m)
-
         "color": "#800000",
         "weight": 2,
         "fillOpacity": 0.2
@@ -122,6 +110,19 @@ if not df_filtrado.empty:
             popup=folium.Popup(popup_info, max_width=300),
             tooltip=row["PRODUTOR"]
         ).add_to(m)
+
+    
+    folium.GeoJson(pocos_geojson, name="Poços", style_function=lambda x: {
+        "color": "blue", "weight": 1, "fillOpacity": 0.4
+    }).add_to(m)
+
+    folium.GeoJson(chafarizes_geojson, name="Chafarizes", style_function=lambda x: {
+        "color": "green", "weight": 1, "fillOpacity": 0.4
+    }).add_to(m)
+
+    folium.GeoJson(sistemas_geojson, name="Sistemas de Abastecimento", style_function=lambda x: {
+        "color": "orange", "weight": 1, "fillOpacity": 0.4
+    }).add_to(m)
 
     folium.LayerControl().add_to(m)
     folium_static(m)
