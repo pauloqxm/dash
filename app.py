@@ -140,15 +140,17 @@ if not df_filtrado.empty:
 
     folium.LayerControl().add_to(m)
     
-<style>
-    #map-container {
-        height: 90vh;
-    }
-</style>
-<div id="map-container">
+st.markdown("""
+    <style>
+        #map-container {
+            height: 90vh;
+        }
+    </style>
+    <div id="map-container">
+""", unsafe_allow_html=True)
 
-    folium_static(m)
-</div>
+folium_static(m)
+st.markdown("</div>", unsafe_allow_html=True)
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
 
