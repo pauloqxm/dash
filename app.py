@@ -177,13 +177,14 @@ if not df_filtrado.empty:
         # Removido CircleMarker .add_to(pocos_layer)
     pocos_layer.add_to(m)
 
-    # Camada de Sistemas de Abastecimento com ícone personalizado
+    # Camada de Sistemas de Abastecimento com ícone personalizado e popup com nome da comunidade
     sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento", show=False)
     for feature in sistemas_geojson["features"]:
         coords = feature["geometry"]["coordinates"]
+        comunidade = feature["properties"].get("Comunidade", "Sem nome")
         folium.Marker(
             location=[coords[1], coords[0]],
-            tooltip="Sistema de Abastecimento",
+            popup=folium.Popup(f"Comunidade: {comunidade}", max_width=200),
             icon=folium.CustomIcon("water-tank.png", icon_size=(30, 30))
         ).add_to(sistemas_layer)
     sistemas_layer.add_to(m)
