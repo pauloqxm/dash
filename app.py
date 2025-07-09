@@ -80,6 +80,16 @@ if produtor:
 # Mapa
 st.subheader("🗺️ Mapa com Distritos e Produtores")
 if not df_filtrado.empty:
+    st.markdown("""
+        <style>
+            #map-container {
+                height: 90vh;
+            }
+        </style>
+        <div id='map-container'>
+    """, unsafe_allow_html=True)
+    folium_static(m)
+    st.markdown("</div>", unsafe_allow_html=True)
     center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
     m = folium.Map(location=center, zoom_start=10, tiles="OpenStreetMap")
 
@@ -149,9 +159,8 @@ st.markdown("""
     <div id="map-container">
 """, unsafe_allow_html=True)
 
-folium_static(m)
-st.markdown("</div>", unsafe_allow_html=True)
 else:
+    st.info("Nenhum produtor encontrado com os filtros selecionados.")
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
 
 # Tabela
