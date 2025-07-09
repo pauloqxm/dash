@@ -126,14 +126,17 @@ if not df_filtrado.empty:
     }).add_to(m)
 
     
+    sistemas_group = folium.FeatureGroup(name="Sistemas de Abastecimento")
     for feature in sistemas_geojson['features']:
         coords = feature['geometry']['coordinates']
-        # GeoJSON pode estar em ordem invertida (lon, lat)
-        folium.Marker(
-            location=[coords[1], coords[0]],
-            icon=custom_icon,
-            tooltip="Sistema de Abastecimento"
-        ).add_to(m)
+        sistemas_group.add_child(
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                icon=custom_icon,
+                tooltip="Sistema de Abastecimento"
+            )
+        )
+    m.add_child(sistemas_group)
 
     folium.LayerControl().add_to(m)
     folium_static(m)
