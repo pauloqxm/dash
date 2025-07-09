@@ -4,69 +4,81 @@ import pandas as pd
 import folium
 from streamlit_folium import folium_static
 import json
-from PIL import Image
 
-st.set_page_config(page_title="Dashboard SDA", layout="wide")
+st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
 
-# Barra superior fixa
-st.markdown("""
-<style>
-    .fixed-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: #004080;
-        color: white;
-        text-align: center;
-        padding: 10px 0;
-        z-index: 9999;
-    }
-    .reportview-container .main {
-        padding-top: 70px;
-    }
-</style>
-<div class='fixed-header'><h2>BASE DE DADOS ESPACIAIS</h2></div>
-""", unsafe_allow_html=True)
+# Barra fixa no topo
+st.markdown(
+    """
+    <style>
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 9999;
+        }
+        .reportview-container .main {
+            padding-top: 70px;
+        }
+    </style>
+    <div class='fixed-header'><h2>BASE DE DADOS ESPACIAIS</h2></div>
+    """,
+    unsafe_allow_html=True
+)
+
 
 # Carregar dados
 df = pd.read_excel("Produtores_SDA.xlsx")
+df[["LATITUDE", "LONGITUDE"]] = df["COORDENADAS"].str.split(",", expand=True)
+df["LATITUDE"] = pd.to_numeric(df["LATITUDE"], errors="coerce")
+df["LONGITUDE"] = pd.to_numeric(df["LONGITUDE"], errors="coerce")
+df["ORDENHA?"] = df["ORDENHA?"].str.upper().fillna("NAO")
+df["INSEMINA?"] = df["INSEMINA?"].str.upper().fillna("NAO")
 
-# Coordenadas em float
-df = df.dropna(subset=["COORDENADAS"])
-df[["LATITUDE", "LONGITUDE"]] = df["COORDENADAS"].str.extract(r'(-?\d+\.\d+),\s*(-?\d+\.\d+)').astype(float)
-
-# GeoJSON dos distritos
+# Carregar GeoJSON
 with open("distrito.geojson", "r", encoding="utf-8") as f:
     geojson_data = json.load(f)
 
-# GeoJSON dos assentamentos
-# GeoJSON das novas camadas
-with open("Pocos.geojson", "r", encoding="utf-8") as f3:
-    pocos_geojson = json.load(f3)
-
-with open("Chafarizes.geojson", "r", encoding="utf-8") as f4:
-    chafarizes_geojson = json.load(f4)
-
-with open("Sistemas de Abastecimento.geojson", "r", encoding="utf-8") as f5:
-    sistemas_geojson = json.load(f5)
-
-with open("Assentamentos.geojson", "r", encoding="utf-8") as f2:
-    assentamentos_geojson = json.load(f2)
-
-# Sidebar - filtros
+# Filtros
 st.sidebar.title("🔎 Filtros")
+
+
+# Botão para reiniciar filtros usando session_state
 if st.sidebar.button("🔄 Reiniciar Filtros"):
     for key in list(st.session_state.keys()):
         del st.session_state[key]
     st.rerun()
 
+
 tecnicos = st.sidebar.multiselect("👨‍🔧 Técnico", sorted(df["TECNICO"].dropna().unique()))
 distritos = st.sidebar.multiselect("📍 Distrito", sorted(df["DISTRITO"].dropna().unique()))
 compradores = st.sidebar.multiselect("🛒 Comprador", sorted(df["COMPRADOR"].dropna().unique()))
-produtor = st.sidebar.text_input("🔍 Buscar por nome do produtor")
+produtor = st.sidebar.text_input("🔍 Buscar Produtor")
 
-# Filtragem
+# Estilo do mapa
+tile_option = st.sidebar.selectbox("🗺️ Estilo do Mapa", [
+    "OpenStreetMap",
+    "Stamen Terrain",
+    "Stamen Toner",
+    "CartoDB positron",
+    "CartoDB dark_matter",
+    "Esri Satellite"
+])
+
+tile_urls = {
+    "Esri Satellite": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+}
+
+tile_attr = {
+    "Esri Satellite": "Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc."
+}
+
+# Aplicar filtros
 df_filtrado = df.copy()
 if tecnicos:
     df_filtrado = df_filtrado[df_filtrado["TECNICO"].isin(tecnicos)]
@@ -77,85 +89,32 @@ if compradores:
 if produtor:
     df_filtrado = df_filtrado[df_filtrado["PRODUTOR"].str.contains(produtor, case=False, na=False)]
 
+# Tabela
+st.success(f"{len(df_filtrado)} registro(s) encontrado(s).")
+st.title("📋 Dados dos Produtores")
+st.dataframe(df_filtrado[["TECNICO","PRODUTOR","APELIDO","FAZENDA","DISTRITO","ORDENHA?","INSEMINA?","LATICINIO","COMPRADOR"]], use_container_width=True)
+
 # Mapa
 st.subheader("🗺️ Mapa com Distritos e Produtores")
+
 if not df_filtrado.empty:
     center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
-    
-    m = folium.Map(location=center, zoom_start=10, control_scale=True, tiles=None)
-
-    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
-    folium.TileLayer(
-        tiles="https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
-        attr="Map tiles by Stamen Design, CC BY 3.0 — Map data © OpenStreetMap contributors",
-        name="Terreno"
-    ).add_to(m)
-    folium.TileLayer(
-        tiles="https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
-        attr="Map tiles by Stamen Design, CC BY 3.0 — Map data © OpenStreetMap contributors",
-        name="Preto e Branco"
-    ).add_to(m)
-    folium.TileLayer(
-        tiles="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
-        attr="Map tiles by CartoDB — Map data © OpenStreetMap contributors",
-        name="Claro"
-    ).add_to(m)
-    folium.TileLayer(
-        tiles="https://cartodb-basemaps-a.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png",
-        attr="Map tiles by CartoDB — Map data © OpenStreetMap contributors",
-        name="Escuro"
-    ).add_to(m)
-    folium.TileLayer(
-        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        attr="Tiles © Esri",
-        name="Satélite (Esri)",
-        overlay=False,
-        control=True
-    ).add_to(m)
-
-    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
-    folium.TileLayer("Stamen Terrain", name="Terreno", attr='Map tiles by Stamen Design, CC BY 3.0 — Map data © OpenStreetMap contributors').add_to(m)
-    folium.TileLayer("Stamen Toner", name="Preto e Branco", attr='Map tiles by Stamen Design, CC BY 3.0 — Map data © OpenStreetMap contributors').add_to(m)
-    folium.TileLayer("CartoDB positron", name="Claro", attr='Map tiles by CartoDB — Map data © OpenStreetMap contributors').add_to(m)
-    folium.TileLayer("CartoDB dark_matter", name="Escuro", attr='Map tiles by CartoDB — Map data © OpenStreetMap contributors').add_to(m)
-    folium.TileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                     attr='Tiles © Esri', name='Satélite (Esri)', overlay=False, control=True).add_to(m)
-
-    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
-    folium.TileLayer("Stamen Terrain", name="Terreno").add_to(m)
-    folium.TileLayer("Stamen Toner", name="Preto e Branco").add_to(m)
-    folium.TileLayer("CartoDB positron", name="Claro").add_to(m)
-    folium.TileLayer("CartoDB dark_matter", name="Escuro").add_to(m)
-    folium.TileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                     attr='Esri', name='Satélite (Esri)', overlay=False, control=True).add_to(m)
-
-
-    # Ícone personalizado para Sistemas de Abastecimento
-    custom_icon = folium.CustomIcon("./water-tank.png", icon_size=(30, 30))
-
+    if tile_option in tile_urls:
+        m = folium.Map(location=center, zoom_start=10, tiles=None)
+        folium.TileLayer(tiles=tile_urls[tile_option], attr=tile_attr[tile_option], name=tile_option).add_to(m)
+    else:
+        m = folium.Map(location=center, zoom_start=10, tiles=tile_option)
 
     folium.GeoJson(geojson_data, name="Distritos").add_to(m)
-    folium.GeoJson(assentamentos_geojson, name="Assentamentos", style_function=lambda x: {
-        "color": "#800000",
-        "weight": 2,
-        "fillOpacity": 0.2
-    }).add_to(m)
 
     for _, row in df_filtrado.iterrows():
-        popup_info = (
-            "<strong>Apelido:</strong> {}<br>"
-            "<strong>Fazenda:</strong> {}<br>"
-            "<strong>Distrito:</strong> {}<br>"
-            "<strong>Escolaridade:</strong> {}<br>"
-            "<strong>Contato:</strong> {}<br>"
-            "<strong>RG:</strong> {}<br>"
-            "<strong>CPF:</strong> {}<br>"
-            "<strong>Data de Nascimento:</strong> {}<br>"
-        ).format(
-            row['APELIDO'], row['FAZENDA'], row['DISTRITO'], row['ESCOLARIDADE'],
-            row['CONTATO'], row['RG'], row['CPF'], row['DATA NASCIMENTO']
-        )
-
+        popup_info = f"""
+        <strong>Apelido:</strong> {row['APELIDO']}<br>
+        <strong>Produção dia:</strong> {row['PRODUCAO']}<br>
+        <strong>Fazenda:</strong> {row['FAZENDA']}<br>
+        <strong>Distrito:</strong> {row['DISTRITO']}<br>
+        <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
+         """
         folium.Marker(
             location=[row["LATITUDE"], row["LONGITUDE"]],
             icon=folium.Icon(color="blue", icon="info-sign"),
@@ -164,34 +123,52 @@ if not df_filtrado.empty:
         ).add_to(m)
 
     
-    folium.GeoJson(pocos_geojson, name="Poços", style_function=lambda x: {
-        "color": "blue", "weight": 1, "fillOpacity": 0.4
-    }).add_to(m)
+    # Camada de Chafarizes
+    chafarizes_group = folium.FeatureGroup(name="Chafarizes")
+    for feature in chafarizes_geojson["features"]:
+        coords = feature["geometry"]["coordinates"]
+        folium.CircleMarker(
+            location=[coords[1], coords[0]],
+            radius=5,
+            color="blue",
+            fill=True,
+            fill_color="blue",
+            fill_opacity=0.7,
+            tooltip="Chafariz"
+        ).add_to(chafarizes_group)
+    chafarizes_group.add_to(m)
 
-    folium.GeoJson(chafarizes_geojson, name="Chafarizes", style_function=lambda x: {
-        "color": "green", "weight": 1, "fillOpacity": 0.4
-    }).add_to(m)
+    # Camada de Poços
+    pocos_group = folium.FeatureGroup(name="Poços")
+    for feature in pocos_geojson["features"]:
+        coords = feature["geometry"]["coordinates"]
+        folium.CircleMarker(
+            location=[coords[1], coords[0]],
+            radius=5,
+            color="green",
+            fill=True,
+            fill_color="green",
+            fill_opacity=0.7,
+            tooltip="Poço"
+        ).add_to(pocos_group)
+    pocos_group.add_to(m)
 
-    
+    # Camada de Sistemas de Abastecimento
     sistemas_group = folium.FeatureGroup(name="Sistemas de Abastecimento")
-    sistemas_group = folium.FeatureGroup(name="Sistemas de Abastecimento")
-    for feature in sistemas_geojson['features']:
-        coords = feature['geometry']['coordinates']
-        sistemas_group.add_child(
-            folium.Marker(
-                location=[coords[1], coords[0]],
-                icon=custom_icon,
-                tooltip="Sistema de Abastecimento"
-            )
-        )
+    for feature in sistemas_geojson["features"]:
+        coords = feature["geometry"]["coordinates"]
+        folium.CircleMarker(
+            location=[coords[1], coords[0]],
+            radius=5,
+            color="orange",
+            fill=True,
+            fill_color="orange",
+            fill_opacity=0.7,
+            tooltip="Sistema de Abastecimento"
+        ).add_to(sistemas_group)
     sistemas_group.add_to(m)
 
     folium.LayerControl().add_to(m)
     folium_static(m)
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
-
-# Tabela
-st.success(f"{len(df_filtrado)} registro(s) encontrado(s).")
-st.title("📋 Dados dos Produtores")
-st.dataframe(df_filtrado[["TECNICO","PRODUTOR","APELIDO","FAZENDA","DISTRITO","ORDENHA?","INSEMINA?","LATICINIO","COMPRADOR"]], use_container_width=True)
