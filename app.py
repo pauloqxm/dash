@@ -84,7 +84,7 @@ if not df_filtrado.empty:
 
     folium.GeoJson(geojson_data, name="Distritos").add_to(m)
     folium.GeoJson(assentamentos_geojson, name="Assentamentos", style_function=lambda x: {
-    folium.GeoJson(pocos_geojson, name="Poços", style_function=lambda x: {
+    folium.GeoJson(pocos_geojson, name="Pocos", style_function=lambda x: {
         "color": "blue", "weight": 1, "fillOpacity": 0.3
     }).add_to(m)
 
