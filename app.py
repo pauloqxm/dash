@@ -139,7 +139,7 @@ if not df_filtrado.empty:
         coords = feature["geometry"]["coordinates"]
         folium.CircleMarker(
             location=[coords[1], coords[0]],
-            radius=5,
+            radius=10,
             color="blue",
             fill=True,
             fill_opacity=0.7,
