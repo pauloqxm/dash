@@ -176,8 +176,12 @@ if not df_filtrado.empty:
     sistemas_layer.add_to(m)
 
     # Camada de Assentamentos
+    # Adiciona apenas features do tipo Point
+    
     assentamentos_layer = folium.FeatureGroup(name="Assentamentos")
     for feature in assentamentos_geojson["features"]:
+        if feature["geometry"]["type"] != "Point":
+            continue
         coords = feature["geometry"]["coordinates"]
         folium.CircleMarker(
             location=[coords[1], coords[0]],
