@@ -177,26 +177,15 @@ if not df_filtrado.empty:
         # Removido CircleMarker .add_to(pocos_layer)
     pocos_layer.add_to(m)
 
-    # Camada de Sistemas de Abastecimento
+    # Camada de Sistemas de Abastecimento com ícone personalizado
     sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento", show=False)
     for feature in sistemas_geojson["features"]:
         coords = feature["geometry"]["coordinates"]
-        folium.CircleMarker(
-            location=[coords[1], coords[0]],
-            radius=5,
-            color="orange",
-            fill=True,
-            fill_opacity=0.7,
-            tooltip="Sistema de Abastecimento"
-        )
-
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Sistema de Abastecimento",
-            icon=folium.Icon(color="orange", icon="cog", prefix="fa")
+            icon=folium.CustomIcon("water-tank.png", icon_size=(30, 30))
         ).add_to(sistemas_layer)
-    
-        # Removido CircleMarker .add_to(sistemas_layer)
     sistemas_layer.add_to(m)
 
     # Camada de Assentamentos
