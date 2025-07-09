@@ -139,7 +139,16 @@ if not df_filtrado.empty:
     m.add_child(sistemas_group)
 
     folium.LayerControl().add_to(m)
+    
+<style>
+    #map-container {
+        height: 90vh;
+    }
+</style>
+<div id="map-container">
+
     folium_static(m)
+</div>
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
 
