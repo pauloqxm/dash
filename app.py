@@ -2,14 +2,12 @@
 import streamlit as st
 import pandas as pd
 import folium
-with open("Chafarizes.geojson") as f:
     chafarizes_geojson = json.load(f)
 with open("Pocos.geojson") as f:
     pocos_geojson = json.load(f)
 with open("Sistemas de Abastecimento.geojson") as f:
     sistemas_geojson = json.load(f)
 from streamlit_folium import folium_static
-with open("Chafarizes.geojson") as f:
     chafarizes_geojson = json.load(f)
 with open("Pocos.geojson") as f:
     pocos_geojson = json.load(f)
@@ -136,19 +134,6 @@ if not df_filtrado.empty:
 
     
     # Camada de Chafarizes
-    chafarizes_group = folium.FeatureGroup(name="Chafarizes")
-    for feature in chafarizes_geojson["features"]:
-        coords = feature["geometry"]["coordinates"]
-        folium.CircleMarker(
-            location=[coords[1], coords[0]],
-            radius=5,
-            color="blue",
-            fill=True,
-            fill_color="blue",
-            fill_opacity=0.7,
-            tooltip="Chafariz"
-        ).add_to(chafarizes_group)
-    chafarizes_group.add_to(m)
 
     # Camada de Poços
     pocos_group = folium.FeatureGroup(name="Poços")
