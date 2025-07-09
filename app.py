@@ -4,6 +4,7 @@ import pandas as pd
 import folium
 from streamlit_folium import folium_static
 import json
+from PIL import Image
 
 st.set_page_config(page_title="Dashboard SDA", layout="wide")
 
@@ -82,6 +83,10 @@ if not df_filtrado.empty:
     center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
     m = folium.Map(location=center, zoom_start=10, tiles="OpenStreetMap")
 
+    # Ícone personalizado para Sistemas de Abastecimento
+    custom_icon = folium.CustomIcon("water-tank.png", icon_size=(30, 30))
+
+
     folium.GeoJson(geojson_data, name="Distritos").add_to(m)
     folium.GeoJson(assentamentos_geojson, name="Assentamentos", style_function=lambda x: {
         "color": "#800000",
@@ -120,9 +125,15 @@ if not df_filtrado.empty:
         "color": "green", "weight": 1, "fillOpacity": 0.4
     }).add_to(m)
 
-    folium.GeoJson(sistemas_geojson, name="Sistemas de Abastecimento", style_function=lambda x: {
-        "color": "orange", "weight": 1, "fillOpacity": 0.4
-    }).add_to(m)
+    
+    for feature in sistemas_geojson['features']:
+        coords = feature['geometry']['coordinates']
+        # GeoJSON pode estar em ordem invertida (lon, lat)
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            icon=custom_icon,
+            tooltip="Sistema de Abastecimento"
+        ).add_to(m)
 
     folium.LayerControl().add_to(m)
     folium_static(m)
