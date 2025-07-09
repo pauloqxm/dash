@@ -144,7 +144,15 @@ if not df_filtrado.empty:
             fill=True,
             fill_opacity=0.7,
             tooltip="Chafariz"
+        )
+
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            tooltip="Chafariz",
+            icon=folium.Icon(color="blue", icon="tint", prefix="fa")
         ).add_to(chafarizes_layer)
+    
+        # Removido CircleMarker .add_to(chafarizes_layer)
     chafarizes_layer.add_to(m)
 
     # Camada de Poços
@@ -158,7 +166,15 @@ if not df_filtrado.empty:
             fill=True,
             fill_opacity=0.7,
             tooltip="Poço"
+        )
+
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            tooltip="Poço",
+            icon=folium.Icon(color="green", icon="water", prefix="fa")
         ).add_to(pocos_layer)
+    
+        # Removido CircleMarker .add_to(pocos_layer)
     pocos_layer.add_to(m)
 
     # Camada de Sistemas de Abastecimento
@@ -172,7 +188,15 @@ if not df_filtrado.empty:
             fill=True,
             fill_opacity=0.7,
             tooltip="Sistema de Abastecimento"
+        )
+
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            tooltip="Sistema de Abastecimento",
+            icon=folium.Icon(color="orange", icon="cog", prefix="fa")
         ).add_to(sistemas_layer)
+    
+        # Removido CircleMarker .add_to(sistemas_layer)
     sistemas_layer.add_to(m)
 
     # Camada de Assentamentos
@@ -190,7 +214,15 @@ if not df_filtrado.empty:
             fill=True,
             fill_opacity=0.7,
             tooltip="Assentamento"
+        )
+
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            tooltip="Assentamento",
+            icon=folium.Icon(color="purple", icon="home", prefix="fa")
         ).add_to(assentamentos_layer)
+    
+        # Removido CircleMarker .add_to(assentamentos_layer)
     assentamentos_layer.add_to(m)
 
     folium.LayerControl().add_to(m)
