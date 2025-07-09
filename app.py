@@ -127,6 +127,7 @@ if not df_filtrado.empty:
 
     
     sistemas_group = folium.FeatureGroup(name="Sistemas de Abastecimento")
+    sistemas_group = folium.FeatureGroup(name="Sistemas de Abastecimento")
     for feature in sistemas_geojson['features']:
         coords = feature['geometry']['coordinates']
         sistemas_group.add_child(
@@ -136,23 +137,11 @@ if not df_filtrado.empty:
                 tooltip="Sistema de Abastecimento"
             )
         )
-    m.add_child(sistemas_group)
+    sistemas_group.add_to(m)
 
     folium.LayerControl().add_to(m)
-    
-st.markdown("""
-    <style>
-        #map-container {
-            height: 90vh;
-        }
-    </style>
-    <div id="map-container">
-""", unsafe_allow_html=True)
-
-folium_static(m)
-st.markdown("</div>", unsafe_allow_html=True)
+    folium_static(m)
 else:
-    st.info("Nenhum produtor encontrado com os filtros selecionados.")
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
 
 # Tabela
