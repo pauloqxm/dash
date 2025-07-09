@@ -139,7 +139,7 @@ if not df_filtrado.empty:
         coords = feature["geometry"]["coordinates"]
         folium.CircleMarker(
             location=[coords[1], coords[0]],
-            radius=10,
+            radius=5,
             color="blue",
             fill=True,
             fill_opacity=0.7,
@@ -149,7 +149,7 @@ if not df_filtrado.empty:
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Chafariz",
-            icon=folium.Icon(color="blue", icon="tint", prefix="fa", icon_size=(20, 20))
+            icon=folium.Icon(color="blue", icon="tint", prefix="fa")
         ).add_to(chafarizes_layer)
     
         # Removido CircleMarker .add_to(chafarizes_layer)
@@ -171,7 +171,7 @@ if not df_filtrado.empty:
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Poço",
-            icon=folium.Icon(color="green", icon="water", prefix="fa", icon_size=(12, 12))
+            icon=folium.Icon(color="green", icon="water", prefix="fa")
         ).add_to(pocos_layer)
     
         # Removido CircleMarker .add_to(pocos_layer)
@@ -193,7 +193,7 @@ if not df_filtrado.empty:
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Sistema de Abastecimento",
-            icon=folium.Icon(color="orange", icon="cog", prefix="fa", icon_size=(12, 12))
+            icon=folium.Icon(color="orange", icon="cog", prefix="fa")
         ).add_to(sistemas_layer)
     
         # Removido CircleMarker .add_to(sistemas_layer)
@@ -219,7 +219,7 @@ if not df_filtrado.empty:
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Assentamento",
-            icon=folium.Icon(color="purple", icon="home", prefix="fa", icon_size=(12, 12))
+            icon=folium.Icon(color="purple", icon="home", prefix="fa")
         ).add_to(assentamentos_layer)
     
         # Removido CircleMarker .add_to(assentamentos_layer)
