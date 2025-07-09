@@ -81,7 +81,17 @@ if produtor:
 st.subheader("🗺️ Mapa com Distritos e Produtores")
 if not df_filtrado.empty:
     center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
-    m = folium.Map(location=center, zoom_start=10, tiles="OpenStreetMap")
+    
+    m = folium.Map(location=center, zoom_start=10, control_scale=True, tiles=None)
+
+    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
+    folium.TileLayer("Stamen Terrain", name="Terreno").add_to(m)
+    folium.TileLayer("Stamen Toner", name="Preto e Branco").add_to(m)
+    folium.TileLayer("CartoDB positron", name="Claro").add_to(m)
+    folium.TileLayer("CartoDB dark_matter", name="Escuro").add_to(m)
+    folium.TileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                     attr='Esri', name='Satélite (Esri)', overlay=False, control=True).add_to(m)
+
 
     # Ícone personalizado para Sistemas de Abastecimento
     custom_icon = folium.CustomIcon("./water-tank.png", icon_size=(30, 30))
