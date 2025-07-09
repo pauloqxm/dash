@@ -85,6 +85,14 @@ if not df_filtrado.empty:
     m = folium.Map(location=center, zoom_start=10, control_scale=True, tiles=None)
 
     folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
+    folium.TileLayer("Stamen Terrain", name="Terreno", attr='Map tiles by Stamen Design, CC BY 3.0 — Map data © OpenStreetMap contributors').add_to(m)
+    folium.TileLayer("Stamen Toner", name="Preto e Branco", attr='Map tiles by Stamen Design, CC BY 3.0 — Map data © OpenStreetMap contributors').add_to(m)
+    folium.TileLayer("CartoDB positron", name="Claro", attr='Map tiles by CartoDB — Map data © OpenStreetMap contributors').add_to(m)
+    folium.TileLayer("CartoDB dark_matter", name="Escuro", attr='Map tiles by CartoDB — Map data © OpenStreetMap contributors').add_to(m)
+    folium.TileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                     attr='Tiles © Esri', name='Satélite (Esri)', overlay=False, control=True).add_to(m)
+
+    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
     folium.TileLayer("Stamen Terrain", name="Terreno").add_to(m)
     folium.TileLayer("Stamen Toner", name="Preto e Branco").add_to(m)
     folium.TileLayer("CartoDB positron", name="Claro").add_to(m)
