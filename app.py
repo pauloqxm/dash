@@ -134,7 +134,7 @@ if not df_filtrado.empty:
 
     
     # Camada de Chafarizes
-    chafarizes_layer = folium.FeatureGroup(name="Chafarizes")
+    chafarizes_layer = folium.FeatureGroup(name="Chafarizes", show=False)
     for feature in chafarizes_geojson["features"]:
         coords = feature["geometry"]["coordinates"]
         folium.CircleMarker(
@@ -149,14 +149,14 @@ if not df_filtrado.empty:
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Chafariz",
-            icon=folium.Icon(color="blue", icon="tint", prefix="fa")
+            icon=folium.Icon(color="blue", icon="tint", prefix="fa", icon_size=(12, 12))
         ).add_to(chafarizes_layer)
     
         # Removido CircleMarker .add_to(chafarizes_layer)
     chafarizes_layer.add_to(m)
 
     # Camada de Poços
-    pocos_layer = folium.FeatureGroup(name="Poços")
+    pocos_layer = folium.FeatureGroup(name="Poços", show=False)
     for feature in pocos_geojson["features"]:
         coords = feature["geometry"]["coordinates"]
         folium.CircleMarker(
@@ -171,14 +171,14 @@ if not df_filtrado.empty:
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Poço",
-            icon=folium.Icon(color="green", icon="water", prefix="fa")
+            icon=folium.Icon(color="green", icon="water", prefix="fa", icon_size=(12, 12))
         ).add_to(pocos_layer)
     
         # Removido CircleMarker .add_to(pocos_layer)
     pocos_layer.add_to(m)
 
     # Camada de Sistemas de Abastecimento
-    sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
+    sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento", show=False)
     for feature in sistemas_geojson["features"]:
         coords = feature["geometry"]["coordinates"]
         folium.CircleMarker(
@@ -193,7 +193,7 @@ if not df_filtrado.empty:
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Sistema de Abastecimento",
-            icon=folium.Icon(color="orange", icon="cog", prefix="fa")
+            icon=folium.Icon(color="orange", icon="cog", prefix="fa", icon_size=(12, 12))
         ).add_to(sistemas_layer)
     
         # Removido CircleMarker .add_to(sistemas_layer)
@@ -202,7 +202,7 @@ if not df_filtrado.empty:
     # Camada de Assentamentos
     # Adiciona apenas features do tipo Point
     
-    assentamentos_layer = folium.FeatureGroup(name="Assentamentos")
+    assentamentos_layer = folium.FeatureGroup(name="Assentamentos", show=False)
     for feature in assentamentos_geojson["features"]:
         if feature["geometry"]["type"] != "Point":
             continue
@@ -219,7 +219,7 @@ if not df_filtrado.empty:
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Assentamento",
-            icon=folium.Icon(color="purple", icon="home", prefix="fa")
+            icon=folium.Icon(color="purple", icon="home", prefix="fa", icon_size=(12, 12))
         ).add_to(assentamentos_layer)
     
         # Removido CircleMarker .add_to(assentamentos_layer)
