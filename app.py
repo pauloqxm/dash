@@ -40,6 +40,16 @@ with open("distrito.geojson", "r", encoding="utf-8") as f:
     geojson_data = json.load(f)
 
 # GeoJSON dos assentamentos
+# GeoJSON das novas camadas
+with open("Pocos.geojson", "r", encoding="utf-8") as f3:
+    pocos_geojson = json.load(f3)
+
+with open("Chafarizes.geojson", "r", encoding="utf-8") as f4:
+    chafarizes_geojson = json.load(f4)
+
+with open("Sistemas de Abastecimento.geojson", "r", encoding="utf-8") as f5:
+    sistemas_geojson = json.load(f5)
+
 with open("Assentamentos.geojson", "r", encoding="utf-8") as f2:
     assentamentos_geojson = json.load(f2)
 
@@ -74,6 +84,18 @@ if not df_filtrado.empty:
 
     folium.GeoJson(geojson_data, name="Distritos").add_to(m)
     folium.GeoJson(assentamentos_geojson, name="Assentamentos", style_function=lambda x: {
+    folium.GeoJson(pocos_geojson, name="Poços", style_function=lambda x: {
+        "color": "blue", "weight": 1, "fillOpacity": 0.3
+    }).add_to(m)
+
+    folium.GeoJson(chafarizes_geojson, name="Chafarizes", style_function=lambda x: {
+        "color": "green", "weight": 1, "fillOpacity": 0.3
+    }).add_to(m)
+
+    folium.GeoJson(sistemas_geojson, name="Sistemas de Abastecimento", style_function=lambda x: {
+        "color": "orange", "weight": 1, "fillOpacity": 0.3
+    }).add_to(m)
+
         "color": "#800000",
         "weight": 2,
         "fillOpacity": 0.2
