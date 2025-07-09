@@ -149,7 +149,7 @@ if not df_filtrado.empty:
         folium.Marker(
             location=[coords[1], coords[0]],
             tooltip="Chafariz",
-            icon=folium.Icon(color="blue", icon="tint", prefix="fa", icon_size=(12, 12))
+            icon=folium.Icon(color="blue", icon="tint", prefix="fa", icon_size=(20, 20))
         ).add_to(chafarizes_layer)
     
         # Removido CircleMarker .add_to(chafarizes_layer)
