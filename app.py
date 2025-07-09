@@ -184,4 +184,3 @@ if not df_filtrado.empty:
     folium_static(m)
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
-
