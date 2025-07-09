@@ -44,6 +44,16 @@ df["INSEMINA?"] = df["INSEMINA?"].str.upper().fillna("NAO")
 with open("distrito.geojson", "r", encoding="utf-8") as f:
     geojson_data = json.load(f)
 
+with open("Chafarizes.geojson") as f:
+    chafarizes_geojson = json.load(f)
+with open("Pocos.geojson") as f:
+    pocos_geojson = json.load(f)
+with open("Sistemas de Abastecimento.geojson") as f:
+    sistemas_geojson = json.load(f)
+with open("Assentamentos.geojson") as f:
+    assentamentos_geojson = json.load(f)
+
+
 # Filtros
 st.sidebar.title("🔎 Filtros")
 
@@ -121,6 +131,63 @@ if not df_filtrado.empty:
             popup=folium.Popup(popup_info, max_width=300),
             tooltip=row["PRODUTOR"]
         ).add_to(m)
+
+    
+    # Camada de Chafarizes
+    chafarizes_layer = folium.FeatureGroup(name="Chafarizes")
+    for feature in chafarizes_geojson["features"]:
+        coords = feature["geometry"]["coordinates"]
+        folium.CircleMarker(
+            location=[coords[1], coords[0]],
+            radius=5,
+            color="blue",
+            fill=True,
+            fill_opacity=0.7,
+            tooltip="Chafariz"
+        ).add_to(chafarizes_layer)
+    chafarizes_layer.add_to(m)
+
+    # Camada de Poços
+    pocos_layer = folium.FeatureGroup(name="Poços")
+    for feature in pocos_geojson["features"]:
+        coords = feature["geometry"]["coordinates"]
+        folium.CircleMarker(
+            location=[coords[1], coords[0]],
+            radius=5,
+            color="green",
+            fill=True,
+            fill_opacity=0.7,
+            tooltip="Poço"
+        ).add_to(pocos_layer)
+    pocos_layer.add_to(m)
+
+    # Camada de Sistemas de Abastecimento
+    sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
+    for feature in sistemas_geojson["features"]:
+        coords = feature["geometry"]["coordinates"]
+        folium.CircleMarker(
+            location=[coords[1], coords[0]],
+            radius=5,
+            color="orange",
+            fill=True,
+            fill_opacity=0.7,
+            tooltip="Sistema de Abastecimento"
+        ).add_to(sistemas_layer)
+    sistemas_layer.add_to(m)
+
+    # Camada de Assentamentos
+    assentamentos_layer = folium.FeatureGroup(name="Assentamentos")
+    for feature in assentamentos_geojson["features"]:
+        coords = feature["geometry"]["coordinates"]
+        folium.CircleMarker(
+            location=[coords[1], coords[0]],
+            radius=5,
+            color="purple",
+            fill=True,
+            fill_opacity=0.7,
+            tooltip="Assentamento"
+        ).add_to(assentamentos_layer)
+    assentamentos_layer.add_to(m)
 
     folium.LayerControl().add_to(m)
     folium_static(m)
