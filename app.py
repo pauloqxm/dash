@@ -2,7 +2,19 @@
 import streamlit as st
 import pandas as pd
 import folium
+with open("Chafarizes.geojson") as f:
+    chafarizes_geojson = json.load(f)
+with open("Pocos.geojson") as f:
+    pocos_geojson = json.load(f)
+with open("Sistemas de Abastecimento.geojson") as f:
+    sistemas_geojson = json.load(f)
 from streamlit_folium import folium_static
+with open("Chafarizes.geojson") as f:
+    chafarizes_geojson = json.load(f)
+with open("Pocos.geojson") as f:
+    pocos_geojson = json.load(f)
+with open("Sistemas de Abastecimento.geojson") as f:
+    sistemas_geojson = json.load(f)
 import json
 
 st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
