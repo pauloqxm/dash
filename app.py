@@ -57,12 +57,14 @@ with open("distritos_ponto.geojson", "r", encoding="utf-8") as f:
 # SIDEBAR - CONTROLE DE CAMADAS (AGORA VEM PRIMEIRO)
 st.sidebar.title("🗺️ Controle de Camadas")
 
+#Menu INFRAESTRUTURA
 with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos = st.checkbox("Distritos", value=True)
+    show_distritos_pontos = st.checkbox("Sede Distritos", value=False)
     show_produtores = st.checkbox("Produtores", value=False)
     show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
-    show_distritos_pontos = st.checkbox("Sede Distritos", value=False)
 
+#Menu RECURSOS HÍDRICOS    
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
     show_pocos = st.checkbox("Poços", value=False)
