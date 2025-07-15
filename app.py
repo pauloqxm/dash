@@ -179,7 +179,7 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 tooltip="Poço",
-                icon=folium.Icon(color="green", icon="water", prefix="fa")
+                icon = folium.CustomIcon("https://i.ibb.co/mk8HRKv/chafariz.png", icon_size=(25, 25))
             ).add_to(pocos_layer)
         pocos_layer.add_to(m)
 
