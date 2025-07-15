@@ -48,10 +48,11 @@ with open("Pocos.geojson", "r", encoding="utf-8") as f:
 with open("Sistemas de Abastecimento.geojson", "r", encoding="utf-8") as f:
     sistemas_geojson = json.load(f)
 with open("areas_reforma.geojson", "r", encoding="utf-8") as f:
+      areas_reforma_geojson = json.load(f)
 
 with open("distritos_ponto.geojson", "r", encoding="utf-8") as f:
     distritos_ponto_geojson = json.load(f)
-    areas_reforma_geojson = json.load(f)
+  
 
 # SIDEBAR - CONTROLE DE CAMADAS (AGORA VEM PRIMEIRO)
 st.sidebar.title("🗺️ Controle de Camadas")
@@ -198,7 +199,7 @@ if not df_filtrado.empty:
         distritos_pontos_layer = folium.FeatureGroup(name="Distritos (Ponto)")
         for feature in distritos_ponto_geojson["features"]:
             coords = feature["geometry"]["coordinates"]
-            nome = feature["properties"].get("Nome", "Sem Nome")
+            nome = feature["properties"].get("Name", "Sem Nome")
             icon = folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(25, 25))
             folium.Marker(
                 location=[coords[1], coords[0]],
