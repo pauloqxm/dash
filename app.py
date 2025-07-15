@@ -55,7 +55,7 @@ with open("distritos_ponto.geojson", "r", encoding="utf-8") as f:
   
 
 # SIDEBAR - CONTROLE DE CAMADAS (AGORA VEM PRIMEIRO)
-st.sidebar.title("🗺️ Controle de Camadas")
+st.sidebar.title("🗺️ Controle de Camadas") 
 
 #Menu INFRAESTRUTURA
 with st.sidebar.expander("🏘️ Infraestrutura"):
