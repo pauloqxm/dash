@@ -147,7 +147,7 @@ if not df_filtrado.empty:
             areas_reforma_geojson,
             name="Áreas de Reforma",
             tooltip=folium.GeoJsonTooltip(fields=["Name"], aliases=["Nome:"]),
-            style_function=lambda x: {"fillColor": "#ff7800", "color": "black", "weight": 1, "fillOpacity": 0.4}
+            style_function=lambda x: {"fillColor": "#ff7800", "color": "red", "weight": 1, "fillOpacity": 0.4}
         ).add_to(m)
 
     if show_chafarizes:
