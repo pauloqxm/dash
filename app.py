@@ -51,7 +51,20 @@ with open("Sistemas de Abastecimento.geojson") as f:
 with open("Assentamentos.geojson") as f:
     assentamentos_geojson = json.load(f)
 
-# Filtros
+# SIDEBAR - CONTROLE DE CAMADAS (AGORA VEM PRIMEIRO)
+st.sidebar.title("🗺️ Controle de Camadas")
+
+with st.sidebar.expander("🏘️ Infraestrutura"):
+    show_distritos = st.checkbox("Distritos", value=True)
+    show_produtores = st.checkbox("Produtores", value=True)
+    show_assentamentos = st.checkbox("Assentamentos", value=False)
+
+with st.sidebar.expander("💧 Recursos Hídricos"):
+    show_chafarizes = st.checkbox("Chafarizes", value=False)
+    show_pocos = st.checkbox("Poços", value=False)
+    show_sistemas = st.checkbox("Sistemas de Abastecimento", value=False)
+
+# SIDEBAR - FILTROS (AGORA VEM DEPOIS)
 st.sidebar.title("🔎 Filtros")
 
 # Botão para reiniciar filtros usando session_state
@@ -75,19 +88,7 @@ tile_option = st.sidebar.selectbox("🗺️ Estilo do Mapa", [
     "Esri Satellite"
 ])
 
-# Controle de Camadas na Sidebar
-st.sidebar.title("🗺️ Controle de Camadas")
-
-with st.sidebar.expander("🏘️ Infraestrutura"):
-    show_distritos = st.checkbox("Distritos", value=True)
-    show_produtores = st.checkbox("Produtores", value=True)
-    show_assentamentos = st.checkbox("Assentamentos", value=False)
-
-with st.sidebar.expander("💧 Recursos Hídricos"):
-    show_chafarizes = st.checkbox("Chafarizes", value=False)
-    show_pocos = st.checkbox("Poços", value=False)
-    show_sistemas = st.checkbox("Sistemas de Abastecimento", value=False)
-
+# Resto do código permanece igual...
 tile_urls = {
     "Esri Satellite": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
 }
