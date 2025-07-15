@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import folium
@@ -31,7 +30,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
 # Carregar dados
 df = pd.read_excel("Produtores_SDA.xlsx")
 df[["LATITUDE", "LONGITUDE"]] = df["COORDENADAS"].str.split(",", expand=True)
@@ -53,17 +51,14 @@ with open("Sistemas de Abastecimento.geojson") as f:
 with open("Assentamentos.geojson") as f:
     assentamentos_geojson = json.load(f)
 
-
 # Filtros
 st.sidebar.title("🔎 Filtros")
-
 
 # Botão para reiniciar filtros usando session_state
 if st.sidebar.button("🔄 Reiniciar Filtros"):
     for key in list(st.session_state.keys()):
         del st.session_state[key]
     st.rerun()
-
 
 tecnicos = st.sidebar.multiselect("👨‍🔧 Técnico", sorted(df["TECNICO"].dropna().unique()))
 distritos = st.sidebar.multiselect("📍 Distrito", sorted(df["DISTRITO"].dropna().unique()))
@@ -79,6 +74,19 @@ tile_option = st.sidebar.selectbox("🗺️ Estilo do Mapa", [
     "CartoDB dark_matter",
     "Esri Satellite"
 ])
+
+# Controle de Camadas na Sidebar
+st.sidebar.title("🗺️ Controle de Camadas")
+
+with st.sidebar.expander("🏘️ Infraestrutura"):
+    show_distritos = st.checkbox("Distritos", value=True)
+    show_produtores = st.checkbox("Produtores", value=True)
+    show_assentamentos = st.checkbox("Assentamentos", value=False)
+
+with st.sidebar.expander("💧 Recursos Hídricos"):
+    show_chafarizes = st.checkbox("Chafarizes", value=False)
+    show_pocos = st.checkbox("Poços", value=False)
+    show_sistemas = st.checkbox("Sistemas de Abastecimento", value=False)
 
 tile_urls = {
     "Esri Satellite": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -115,106 +123,78 @@ if not df_filtrado.empty:
     else:
         m = folium.Map(location=center, zoom_start=10, tiles=tile_option)
 
-    folium.GeoJson(geojson_data, name="Distritos").add_to(m)
-
-    for _, row in df_filtrado.iterrows():
-        popup_info = f"""
-        <strong>Apelido:</strong> {row['APELIDO']}<br>
-        <strong>Produção dia:</strong> {row['PRODUCAO']}<br>
-        <strong>Fazenda:</strong> {row['FAZENDA']}<br>
-        <strong>Distrito:</strong> {row['DISTRITO']}<br>
-        <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
-         """
-        folium.Marker(
-            location=[row["LATITUDE"], row["LONGITUDE"]],
-            icon=folium.Icon(color="blue", icon="info-sign"),
-            popup=folium.Popup(popup_info, max_width=300),
-            tooltip=row["PRODUTOR"]
+    # Adicionar camadas conforme seleção
+    if show_distritos:
+        folium.GeoJson(
+            geojson_data, 
+            name="Distritos",
+            style_function=lambda x: {'fillColor': '#ffff00', 'color': '#000000', 'weight': 1}
         ).add_to(m)
 
-    
-    # Camada de Chafarizes
-    chafarizes_layer = folium.FeatureGroup(name="Chafarizes", show=False)
-    for feature in chafarizes_geojson["features"]:
-        coords = feature["geometry"]["coordinates"]
-        folium.CircleMarker(
-            location=[coords[1], coords[0]],
-            radius=5,
-            color="blue",
-            fill=True,
-            fill_opacity=0.7,
-            tooltip="Chafariz"
-        )
+    if show_produtores:
+        for _, row in df_filtrado.iterrows():
+            popup_info = f"""
+            <strong>Apelido:</strong> {row['APELIDO']}<br>
+            <strong>Produção dia:</strong> {row['PRODUCAO']}<br>
+            <strong>Fazenda:</strong> {row['FAZENDA']}<br>
+            <strong>Distrito:</strong> {row['DISTRITO']}<br>
+            <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
+            """
+            folium.Marker(
+                location=[row["LATITUDE"], row["LONGITUDE"]],
+                icon=folium.Icon(color="blue", icon="info-sign"),
+                popup=folium.Popup(popup_info, max_width=300),
+                tooltip=row["PRODUTOR"]
+            ).add_to(m)
 
-        folium.Marker(
-            location=[coords[1], coords[0]],
-            tooltip="Chafariz",
-            icon=folium.Icon(color="blue", icon="tint", prefix="fa")
-        ).add_to(chafarizes_layer)
-    
-        # Removido CircleMarker .add_to(chafarizes_layer)
-    chafarizes_layer.add_to(m)
+    if show_chafarizes:
+        chafarizes_layer = folium.FeatureGroup(name="Chafarizes")
+        for feature in chafarizes_geojson["features"]:
+            coords = feature["geometry"]["coordinates"]
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                tooltip="Chafariz",
+                icon=folium.Icon(color="blue", icon="tint", prefix="fa")
+            ).add_to(chafarizes_layer)
+        chafarizes_layer.add_to(m)
 
-    # Camada de Poços
-    pocos_layer = folium.FeatureGroup(name="Poços", show=False)
-    for feature in pocos_geojson["features"]:
-        coords = feature["geometry"]["coordinates"]
-        folium.CircleMarker(
-            location=[coords[1], coords[0]],
-            radius=5,
-            color="green",
-            fill=True,
-            fill_opacity=0.7,
-            tooltip="Poço"
-        )
+    if show_pocos:
+        pocos_layer = folium.FeatureGroup(name="Poços")
+        for feature in pocos_geojson["features"]:
+            coords = feature["geometry"]["coordinates"]
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                tooltip="Poço",
+                icon=folium.Icon(color="green", icon="water", prefix="fa")
+            ).add_to(pocos_layer)
+        pocos_layer.add_to(m)
 
-        folium.Marker(
-            location=[coords[1], coords[0]],
-            tooltip="Poço",
-            icon=folium.Icon(color="green", icon="water", prefix="fa")
-        ).add_to(pocos_layer)
-    
-        # Removido CircleMarker .add_to(pocos_layer)
-    pocos_layer.add_to(m)
+    if show_sistemas:
+        sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
+        for feature in sistemas_geojson["features"]:
+            coords = feature["geometry"]["coordinates"]
+            comunidade = feature["properties"].get("Comunidade", "Sem nome")
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(f"Comunidade: {comunidade}", max_width=200),
+                icon=folium.CustomIcon("water-tank.png", icon_size=(30, 30))
+            ).add_to(sistemas_layer)
+        sistemas_layer.add_to(m)
 
-    # Camada de Sistemas de Abastecimento com ícone personalizado e popup com nome da comunidade
-    sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento", show=False)
-    for feature in sistemas_geojson["features"]:
-        coords = feature["geometry"]["coordinates"]
-        comunidade = feature["properties"].get("Comunidade", "Sem nome")
-        folium.Marker(
-            location=[coords[1], coords[0]],
-            popup=folium.Popup(f"Comunidade: {comunidade}", max_width=200),
-            icon=folium.CustomIcon("water-tank.png", icon_size=(30, 30))
-        ).add_to(sistemas_layer)
-    sistemas_layer.add_to(m)
+    if show_assentamentos:
+        assentamentos_layer = folium.FeatureGroup(name="Assentamentos")
+        for feature in assentamentos_geojson["features"]:
+            if feature["geometry"]["type"] != "Point":
+                continue
+            coords = feature["geometry"]["coordinates"]
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                tooltip="Assentamento",
+                icon=folium.Icon(color="purple", icon="home", prefix="fa")
+            ).add_to(assentamentos_layer)
+        assentamentos_layer.add_to(m)
 
-    # Camada de Assentamentos
-    # Adiciona apenas features do tipo Point
-    
-    assentamentos_layer = folium.FeatureGroup(name="Assentamentos", show=False)
-    for feature in assentamentos_geojson["features"]:
-        if feature["geometry"]["type"] != "Point":
-            continue
-        coords = feature["geometry"]["coordinates"]
-        folium.CircleMarker(
-            location=[coords[1], coords[0]],
-            radius=5,
-            color="purple",
-            fill=True,
-            fill_opacity=0.7,
-            tooltip="Assentamento"
-        )
-
-        folium.Marker(
-            location=[coords[1], coords[0]],
-            tooltip="Assentamento",
-            icon=folium.Icon(color="purple", icon="home", prefix="fa")
-        ).add_to(assentamentos_layer)
-    
-        # Removido CircleMarker .add_to(assentamentos_layer)
-    assentamentos_layer.add_to(m)
-
+    # Manter o LayerControl para quem prefere controlar diretamente no mapa
     folium.LayerControl().add_to(m)
     folium_static(m)
 else:
