@@ -110,10 +110,6 @@ if produtor:
 
 # Tabela
 st.success(f"{len(df_filtrado)} registro(s) encontrado(s).")
-st.title("📋 Dados dos Produtores")
-st.dataframe(df_filtrado[["TECNICO","PRODUTOR","APELIDO","FAZENDA","DISTRITO","ORDENHA?","INSEMINA?","LATICINIO","COMPRADOR"]], use_container_width=True)
-
-# Mapa
 st.subheader("🗺️ Mapa com Distritos e Produtores")
 
 if not df_filtrado.empty:
@@ -197,6 +193,10 @@ if not df_filtrado.empty:
 
     # Manter o LayerControl para quem prefere controlar diretamente no mapa
     folium.LayerControl().add_to(m)
-    folium_static(m)
+    folium_static(m, width=0, height=700)
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
+st.title("📋 Dados dos Produtores")
+st.dataframe(df_filtrado[["TECNICO","PRODUTOR","APELIDO","FAZENDA","DISTRITO","ORDENHA?","INSEMINA?","LATICINIO","COMPRADOR"]], use_container_width=True)
+
+# Mapa
