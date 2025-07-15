@@ -50,22 +50,22 @@ with open("Sistemas de Abastecimento.geojson") as f:
     sistemas_geojson = json.load(f)
 with open("areas_reforma.geojson") as f:
     areas_reforma_geojson = json.load(f)
-  
 
-# SIDEBAR - CONTROLE DE CAMADAS (AGORA VEM PRIMEIRO)
+# SIDEBAR - CONTROLE DE CAMADAS
 st.sidebar.title("🗺️ Controle de Camadas")
 
 with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos = st.checkbox("Distritos", value=True)
     show_produtores = st.checkbox("Produtores", value=True)
-    
+
 show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
-    with st.sidebar.expander("💧 Recursos Hídricos"):
+
+with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
     show_pocos = st.checkbox("Poços", value=False)
     show_sistemas = st.checkbox("Sistemas de Abastecimento", value=False)
 
-# SIDEBAR - FILTROS (AGORA VEM DEPOIS)
+# SIDEBAR - FILTROS
 st.sidebar.title("🔎 Filtros")
 
 # Botão para reiniciar filtros usando session_state
@@ -89,7 +89,6 @@ tile_option = st.sidebar.selectbox("🗺️ Estilo do Mapa", [
     "Esri Satellite"
 ])
 
-# Resto do código permanece igual...
 tile_urls = {
     "Esri Satellite": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
 }
@@ -179,7 +178,6 @@ if not df_filtrado.empty:
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
 
-    
     if show_areas_reforma:
         areas_layer = folium.FeatureGroup(name="Áreas de Reforma")
         folium.GeoJson(
@@ -190,13 +188,11 @@ if not df_filtrado.empty:
         ).add_to(areas_layer)
         areas_layer.add_to(m)
 
-        
     # Manter o LayerControl para quem prefere controlar diretamente no mapa
     folium.LayerControl().add_to(m)
     folium_static(m, width=0, height=700)
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
+
 st.title("📋 Dados dos Produtores")
 st.dataframe(df_filtrado[["TECNICO","PRODUTOR","APELIDO","FAZENDA","DISTRITO","ORDENHA?","INSEMINA?","LATICINIO","COMPRADOR"]], use_container_width=True)
-
-# Mapa
