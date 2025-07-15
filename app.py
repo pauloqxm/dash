@@ -48,6 +48,8 @@ with open("Pocos.geojson", "r", encoding="utf-8") as f:
 with open("Sistemas de Abastecimento.geojson", "r", encoding="utf-8") as f:
     sistemas_geojson = json.load(f)
 with open("areas_reforma.geojson", "r", encoding="utf-8") as f:
+with open("distritos_ponto.geojson", "r", encoding="utf-8") as f:
+    distritos_ponto_geojson = json.load(f)
     areas_reforma_geojson = json.load(f)
 
 # SIDEBAR - CONTROLE DE CAMADAS (AGORA VEM PRIMEIRO)
@@ -64,6 +66,7 @@ with st.sidebar.expander("💧 Recursos Hídricos"):
     show_sistemas = st.checkbox("Sistemas de Abastecimento", value=False)
 
 # SIDEBAR - FILTROS (AGORA VEM DEPOIS)
+    show_distritos_pontos = st.checkbox("Distritos (Ponto)", value=False)
 st.sidebar.title("🔎 Filtros")
 
 # Botão para reiniciar filtros usando session_state
@@ -188,6 +191,20 @@ if not df_filtrado.empty:
                 icon=folium.CustomIcon("water-tank.png", icon_size=(30, 30))
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
+
+    
+    if show_distritos_pontos:
+        distritos_pontos_layer = folium.FeatureGroup(name="Distritos (Ponto)")
+        for feature in distritos_ponto_geojson["features"]:
+            coords = feature["geometry"]["coordinates"]
+            nome = feature["properties"].get("Nome", "Sem Nome")
+            icon = folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(25, 25))
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                icon=icon,
+                tooltip=nome
+            ).add_to(distritos_pontos_layer)
+        distritos_pontos_layer.add_to(m)
 
     folium.LayerControl().add_to(m)
     folium_static(m, width=0, height=700)
