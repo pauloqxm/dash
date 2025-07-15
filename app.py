@@ -48,8 +48,8 @@ with open("Pocos.geojson") as f:
     pocos_geojson = json.load(f)
 with open("Sistemas de Abastecimento.geojson") as f:
     sistemas_geojson = json.load(f)
-with open("areas_reforma.geojson") as f:
-   areas_geojson = json.load(f)
+with open("Assentamentos.geojson") as f:
+    assentamentos_geojson = json.load(f)
 
 # SIDEBAR - CONTROLE DE CAMADAS (AGORA VEM PRIMEIRO)
 st.sidebar.title("🗺️ Controle de Camadas")
@@ -178,18 +178,18 @@ if not df_filtrado.empty:
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
 
-    if show_areas:
+    if show_assentamentos:
         assentamentos_layer = folium.FeatureGroup(name="Assentamentos")
-        for feature in areas_geojson["features"]:
-            if feature["geometry"]["type"] != "MultiLineString":
+        for feature in assentamentos_geojson["features"]:
+            if feature["geometry"]["type"] != "Point":
                 continue
             coords = feature["geometry"]["coordinates"]
             folium.Marker(
                 location=[coords[1], coords[0]],
                 tooltip="Assentamento",
                 icon=folium.Icon(color="purple", icon="home", prefix="fa")
-            ).add_to(areas_layer)
-        areas_layer.add_to(m)
+            ).add_to(assentamentos_layer)
+        assentamentos_layer.add_to(m)
 
     # Manter o LayerControl para quem prefere controlar diretamente no mapa
     folium.LayerControl().add_to(m)
