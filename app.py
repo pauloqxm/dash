@@ -48,6 +48,7 @@ with open("Pocos.geojson", "r", encoding="utf-8") as f:
 with open("Sistemas de Abastecimento.geojson", "r", encoding="utf-8") as f:
     sistemas_geojson = json.load(f)
 with open("areas_reforma.geojson", "r", encoding="utf-8") as f:
+
 with open("distritos_ponto.geojson", "r", encoding="utf-8") as f:
     distritos_ponto_geojson = json.load(f)
     areas_reforma_geojson = json.load(f)
