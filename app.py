@@ -59,7 +59,7 @@ st.sidebar.title("🗺️ Controle de Camadas")
 
 with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos = st.checkbox("Distritos", value=True)
-    show_produtores = st.checkbox("Produtores", value=True)
+    show_produtores = st.checkbox("Produtores", value=False)
     show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
     show_distritos_pontos = st.checkbox("Sede Distritos", value=False)
 
