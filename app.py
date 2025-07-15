@@ -61,14 +61,13 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos = st.checkbox("Distritos", value=True)
     show_produtores = st.checkbox("Produtores", value=True)
     show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
+    show_distritos_pontos = st.checkbox("Sede Distritos", value=False)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
     show_pocos = st.checkbox("Poços", value=False)
     show_sistemas = st.checkbox("Sistemas de Abastecimento", value=False)
-
-# SIDEBAR - FILTROS (AGORA VEM DEPOIS)
-    show_distritos_pontos = st.checkbox("Distritos (Ponto)", value=False)
+   
 st.sidebar.title("🔎 Filtros")
 
 # Botão para reiniciar filtros usando session_state
