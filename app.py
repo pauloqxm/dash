@@ -49,6 +49,8 @@ with open("Pocos.geojson") as f:
 with open("Sistemas de Abastecimento.geojson") as f:
     sistemas_geojson = json.load(f)
 with open("Assentamentos.geojson") as f:
+with open("areas_reforma.geojson") as f:
+    areas_reforma_geojson = json.load(f)
     assentamentos_geojson = json.load(f)
 
 # SIDEBAR - CONTROLE DE CAMADAS (AGORA VEM PRIMEIRO)
@@ -59,7 +61,8 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_produtores = st.checkbox("Produtores", value=True)
     show_assentamentos = st.checkbox("Assentamentos", value=False)
 
-with st.sidebar.expander("💧 Recursos Hídricos"):
+show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
+    with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
     show_pocos = st.checkbox("Poços", value=False)
     show_sistemas = st.checkbox("Sistemas de Abastecimento", value=False)
@@ -179,6 +182,16 @@ if not df_filtrado.empty:
         sistemas_layer.add_to(m)
 
     if show_assentamentos:
+    if show_areas_reforma:
+        areas_layer = folium.FeatureGroup(name="Áreas de Reforma")
+        folium.GeoJson(
+            areas_reforma_geojson,
+            name="Áreas de Reforma",
+            tooltip=folium.GeoJsonTooltip(fields=["Nome", "Código"], aliases=["Nome:", "Código:"]),
+            style_function=lambda x: {"fillColor": "#ff7800", "color": "black", "weight": 1, "fillOpacity": 0.4}
+        ).add_to(areas_layer)
+        areas_layer.add_to(m)
+
         assentamentos_layer = folium.FeatureGroup(name="Assentamentos")
         for feature in assentamentos_geojson["features"]:
             if feature["geometry"]["type"] != "Point":
