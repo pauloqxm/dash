@@ -48,10 +48,9 @@ with open("Pocos.geojson") as f:
     pocos_geojson = json.load(f)
 with open("Sistemas de Abastecimento.geojson") as f:
     sistemas_geojson = json.load(f)
-with open("Assentamentos.geojson") as f:
 with open("areas_reforma.geojson") as f:
     areas_reforma_geojson = json.load(f)
-    assentamentos_geojson = json.load(f)
+  
 
 # SIDEBAR - CONTROLE DE CAMADAS (AGORA VEM PRIMEIRO)
 st.sidebar.title("🗺️ Controle de Camadas")
@@ -59,8 +58,7 @@ st.sidebar.title("🗺️ Controle de Camadas")
 with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos = st.checkbox("Distritos", value=True)
     show_produtores = st.checkbox("Produtores", value=True)
-    show_assentamentos = st.checkbox("Assentamentos", value=False)
-
+    
 show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
     with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
@@ -181,7 +179,7 @@ if not df_filtrado.empty:
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
 
-    if show_assentamentos:
+    
     if show_areas_reforma:
         areas_layer = folium.FeatureGroup(name="Áreas de Reforma")
         folium.GeoJson(
@@ -192,18 +190,7 @@ if not df_filtrado.empty:
         ).add_to(areas_layer)
         areas_layer.add_to(m)
 
-        assentamentos_layer = folium.FeatureGroup(name="Assentamentos")
-        for feature in assentamentos_geojson["features"]:
-            if feature["geometry"]["type"] != "Point":
-                continue
-            coords = feature["geometry"]["coordinates"]
-            folium.Marker(
-                location=[coords[1], coords[0]],
-                tooltip="Assentamento",
-                icon=folium.Icon(color="purple", icon="home", prefix="fa")
-            ).add_to(assentamentos_layer)
-        assentamentos_layer.add_to(m)
-
+        
     # Manter o LayerControl para quem prefere controlar diretamente no mapa
     folium.LayerControl().add_to(m)
     folium_static(m, width=0, height=700)
