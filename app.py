@@ -143,7 +143,7 @@ if not df_filtrado.empty:
             """
             folium.Marker(
                 location=[row["LATITUDE"], row["LONGITUDE"]],
-                icon=folium.Icon(color="blue", icon="info-sign"),
+                icon = folium.CustomIcon("https://i.ibb.co/KjYtpNMb/farm.png", icon_size=(25, 25)),
                 popup=folium.Popup(popup_info, max_width=300),
                 tooltip=row["PRODUTOR"]
             ).add_to(m)
