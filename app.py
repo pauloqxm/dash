@@ -146,7 +146,7 @@ if not df_filtrado.empty:
         folium.GeoJson(
             areas_reforma_geojson,
             name="Áreas de Reforma",
-            tooltip=folium.GeoJsonTooltip(fields=["Name", "Código"], aliases=["Nome:", "Código:"]),
+            tooltip=folium.GeoJsonTooltip(fields=["Name"], aliases=["Nome:"]),
             style_function=lambda x: {"fillColor": "#ff7800", "color": "black", "weight": 1, "fillOpacity": 0.4}
         ).add_to(m)
 
