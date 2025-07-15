@@ -143,12 +143,17 @@ if not df_filtrado.empty:
             ).add_to(m)
 
     if show_areas_reforma:
-        folium.GeoJson(
-            areas_reforma_geojson,
-            name="Áreas de Reforma",
-            tooltip=folium.GeoJsonTooltip(fields=["Name"], aliases=["Nome:"]),
-            style_function=lambda x: {"fillColor": "#ff7800", "color": "red", "weight": 1, "fillOpacity": 0.4}
-        ).add_to(m)
+        areas_layer = folium.FeatureGroup(name="Áreas de Reforma")
+        for feature in areas_reforma_geojson["features"]:
+            popup_text = feature["properties"].get("Name", "Sem Nome")
+            folium.GeoJson(
+                feature,
+                name="Área de Reforma",
+                tooltip=folium.GeoJsonTooltip(fields=["Name"], aliases=["Nome:"]),
+                popup=folium.Popup(popup_text, max_width=300),
+                style_function=lambda x: {"fillColor": "#ff7800", "color": "red", "weight": 1, "fillOpacity": 0.4}
+            ).add_to(areas_layer)
+        areas_layer.add_to(m)
 
     if show_chafarizes:
         chafarizes_layer = folium.FeatureGroup(name="Chafarizes")
