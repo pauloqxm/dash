@@ -188,4 +188,47 @@ if not df_filtrado.empty:
 
     if show_pocos:
         pocos_layer = folium.FeatureGroup(name="Poços")
-        for featur
+        for feature in geojson_pocos["features"]:
+            coords = feature["geometry"]["coordinates"]
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                tooltip="Poços",
+                icon=folium.CustomIcon("https://i.ibb.co/mk8HRKv/chafariz.png", icon_size=(25, 15))
+            ).add_to(pocos_layer)
+        pocos_layer.add_to(m)
+
+    if show_cisternas:
+        cisternas_layer = folium.FeatureGroup(name="Cisternas")
+        for feature in geojson_cisternas["features"]:
+            coords = feature["geometry"]["coordinates"]
+            Bairro_Loc = feature["properties"].get("Comunidade", "Sem nome")
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(f"Comunidade: {Bairro_Loc}", max_width=200),
+                tooltip="Cisternas",
+                icon=folium.CustomIcon("https://i.ibb.co/Xkdpcnmx/water-tank.png", icon_size=(15, 15))
+            ).add_to(cisternas_layer)
+        cisternas_layer.add_to(m)
+
+    if show_sistemas:
+        sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
+        for feature in geojson_sistemas["features"]:
+            coords = feature["geometry"]["coordinates"]
+            comunidade = feature["properties"].get("Comunidade", "Sem nome")
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(f"Comunidade: {comunidade}", max_width=200),
+                icon=folium.CustomIcon("https://i.ibb.co/jZh1WZyL/water-tower.png", icon_size=(25, 25))
+            ).add_to(sistemas_layer)
+        sistemas_layer.add_to(m)
+
+    folium.LayerControl().add_to(m)
+    folium_static(m, width=0, height=700)
+
+else:
+    st.info("Nenhum produtor encontrado com os filtros selecionados.")
+
+# Tabela final
+st.title("📋 Dados dos Produtores")
+colunas = ["TECNICO", "PRODUTOR", "APELIDO", "FAZENDA", "DISTRITO", "ORDENHA?", "INSEMINA?", "LATICINIO", "COMPRADOR"]
+st.dataframe(df_filtrado[colunas], use_container_width=True)
