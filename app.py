@@ -6,9 +6,8 @@ import json
 
 st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
 
-# Barra fixa no topo
-st.markdown(
-    """
+# Estilos personalizados para a sidebar
+st.markdown("""
     <style>
         .fixed-header {
             position: fixed;
@@ -24,11 +23,23 @@ st.markdown(
         .reportview-container .main {
             padding-top: 70px;
         }
+        /* Infraestrutura - primeiro expander */
+        section[data-testid="stSidebar"] details:nth-of-type(1) summary {
+            background-color: #003366 !important;
+            color: white !important;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        /* Recursos Hídricos - segundo expander */
+        section[data-testid="stSidebar"] details:nth-of-type(2) summary {
+            background-color: #0059b3 !important;
+            color: white !important;
+            font-weight: bold;
+            border-radius: 5px;
+        }
     </style>
     <div class='fixed-header'><h2>BASE DE DADOS ESPACIAIS</h2></div>
-    """,
-    unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
 # Carregar dados
 df = pd.read_excel("Produtores_SDA.xlsx")
@@ -126,7 +137,7 @@ if not df_filtrado.empty:
         folium.GeoJson(
             geojson_data,
             name="Distritos",
-            style_function=lambda x: {'fillColor': '#9fe2fc','fillOpacity': '0.2', 'color': '#000000', 'weight': 1}
+            style_function=lambda x: {'fillColor': '#9fe2fc','fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
         ).add_to(m)
 
     if show_produtores:
