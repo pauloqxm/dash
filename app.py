@@ -64,6 +64,8 @@ with open("distritos_ponto.geojson", "r", encoding="utf-8") as f:
     distritos_ponto_geojson = json.load(f)
 with open("cisternas.geojson", "r", encoding="utf-8") as f:
     cisternas_geojson = json.load(f)
+with open("acudes.geojson", "r", encoding="utf-8") as f:
+    acudes_geojson = json.load(f)
 
 # SIDEBAR - CONTROLE DE CAMADAS
 st.sidebar.title("🗺️ Controle de Camadas")
@@ -140,6 +142,13 @@ if not df_filtrado.empty:
             style_function=lambda x: {'fillColor': '#9fe2fc','fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
         ).add_to(m)
 
+    if show_distritos:
+    folium.GeoJson(
+        acude_geojson,
+        name="Açudes",
+        style_function=lambda x: {'fillColor': '#026ac4','fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
+    ).add_to(m)
+
     if show_produtores:
         for _, row in df_filtrado.iterrows():
             popup_info = f"""
@@ -204,6 +213,19 @@ if not df_filtrado.empty:
             ).add_to(cisternas_layer)
         cisternas_layer.add_to(m)
 
+    if show_cisternas:
+    cisternas_layer = folium.FeatureGroup(name="Sem Nome")
+    for feature in cisternas_geojson["features"]:
+        coords = feature["geometry"]["coordinates"]
+        Bairro_Loc = feature["properties"].get("Comunidade", "Sem nome")
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            popup=folium.Popup(f"Comunidade: {Bairro_Loc}", max_width=200),
+            tooltip="Cisternas",
+            icon=folium.CustomIcon("https://i.ibb.co/Xkdpcnmx/water-tank.png", icon_size=(15, 15))
+        ).add_to(cisternas_layer)
+    cisternas_layer.add_to(m)
+
     if show_sistemas:
         sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
         for feature in sistemas_geojson["features"]:
@@ -215,19 +237,6 @@ if not df_filtrado.empty:
                 icon = folium.CustomIcon("https://i.ibb.co/jZh1WZyL/water-tower.png", icon_size=(25, 25))
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
-
-    if show_distritos_pontos:
-        distritos_pontos_layer = folium.FeatureGroup(name="Distritos (Ponto)")
-        for feature in distritos_ponto_geojson["features"]:
-            coords = feature["geometry"]["coordinates"]
-            nome = feature["properties"].get("Name", "Sem Nome")
-            icon = folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(25, 25))
-            folium.Marker(
-                location=[coords[1], coords[0]],
-                icon=icon,
-                tooltip=nome
-            ).add_to(distritos_pontos_layer)
-        distritos_pontos_layer.add_to(m)
 
     folium.LayerControl().add_to(m)
     folium_static(m, width=0, height=700)
