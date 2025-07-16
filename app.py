@@ -51,7 +51,7 @@ with open("areas_reforma.geojson", "r", encoding="utf-8") as f:
     areas_reforma_geojson = json.load(f)
 with open("distritos_ponto.geojson", "r", encoding="utf-8") as f:
     distritos_ponto_geojson = json.load(f)
-with open("cisternas.geojson.geojson", "r", encoding="utf-8") as f:
+with open("cisternas.geojson", "r", encoding="utf-8") as f:
     cisternas_geojson = json.load(f)
 
 # SIDEBAR - CONTROLE DE CAMADAS
