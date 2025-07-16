@@ -201,7 +201,7 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(f"Comunidade: {comunidade}", max_width=200),
-                icon = folium.CustomIcon("https://i.ibb.co/jZh1WZyL/water-tower.png", icon_size=(20, 25))
+                icon = folium.CustomIcon("https://i.ibb.co/jZh1WZyL/water-tower.png", icon_size=(25, 25))
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
 
