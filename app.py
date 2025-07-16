@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import folium
@@ -93,22 +94,6 @@ distritos = st.sidebar.multiselect("📍 Distrito", sorted(df["DISTRITO"].dropna
 compradores = st.sidebar.multiselect("🛒 Comprador", sorted(df["COMPRADOR"].dropna().unique()))
 produtor = st.sidebar.text_input("🔍 Buscar Produtor")
 
-tile_option = st.sidebar.selectbox("🗺️ Estilo do Mapa", [
-    "OpenStreetMap",
-    "Stamen Terrain",
-    "Stamen Toner",
-    "CartoDB positron",
-    "CartoDB dark_matter",
-    "Esri Satellite"
-])
-
-tile_urls = {
-    "Esri Satellite": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-}
-tile_attr = {
-    "Esri Satellite": "Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc."
-}
-
 # Aplicar filtros
 df_filtrado = df.copy()
 if tecnicos:
@@ -126,11 +111,19 @@ st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
 if not df_filtrado.empty:
     center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
-    if tile_option in tile_urls:
-        m = folium.Map(location=center, zoom_start=10, tiles=None)
-        folium.TileLayer(tiles=tile_urls[tile_option], attr=tile_attr[tile_option], name=tile_option).add_to(m)
-    else:
-        m = folium.Map(location=center, zoom_start=10, tiles=tile_option)
+    m = folium.Map(location=center, zoom_start=10, tiles=None)
+
+    # Adicionar camadas de fundo ao mapa
+    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
+    folium.TileLayer("Stamen Terrain", name="Stamen Terrain").add_to(m)
+    folium.TileLayer("Stamen Toner", name="Stamen Toner").add_to(m)
+    folium.TileLayer("CartoDB positron", name="CartoDB Positron").add_to(m)
+    folium.TileLayer("CartoDB dark_matter", name="CartoDB Dark Matter").add_to(m)
+    folium.TileLayer(
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attr="Tiles © Esri",
+        name="Esri Satellite"
+    ).add_to(m)
 
     if show_distritos:
         folium.GeoJson(
