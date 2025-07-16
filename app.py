@@ -181,7 +181,7 @@ if not df_filtrado.empty:
         pocos_layer.add_to(m)
 
     if show_cisternas:
-        cisternas_layer = folium.FeatureGroup(name="Cisternas")
+        cisternas_layer = folium.FeatureGroup(name="Sem Nome")
         for feature in cisternas_geojson["features"]:
             coords = feature["geometry"]["coordinates"]
             Bairro_Loc = feature["properties"].get("Comunidade", "Sem nome")
