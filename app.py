@@ -111,19 +111,37 @@ st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
 if not df_filtrado.empty:
     center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
+    
     m = folium.Map(location=center, zoom_start=10, tiles=None)
 
-    # Adicionar camadas de fundo ao mapa
+    # Adicionar camadas de fundo com atribuições corretas
     folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
-    folium.TileLayer("Stamen Terrain", name="Stamen Terrain").add_to(m)
-    folium.TileLayer("Stamen Toner", name="Stamen Toner").add_to(m)
-    folium.TileLayer("CartoDB positron", name="CartoDB Positron").add_to(m)
-    folium.TileLayer("CartoDB dark_matter", name="CartoDB Dark Matter").add_to(m)
+    folium.TileLayer(
+        tiles="https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png",
+        attr="Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.",
+        name="Stamen Terrain"
+    ).add_to(m)
+    folium.TileLayer(
+        tiles="https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
+        attr="Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.",
+        name="Stamen Toner"
+    ).add_to(m)
+    folium.TileLayer(
+        tiles="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        attr="© OpenStreetMap contributors, © CARTO",
+        name="CartoDB Positron"
+    ).add_to(m)
+    folium.TileLayer(
+        tiles="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        attr="© OpenStreetMap contributors, © CARTO",
+        name="CartoDB Dark Matter"
+    ).add_to(m)
     folium.TileLayer(
         tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        attr="Tiles © Esri",
+        attr="Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc.",
         name="Esri Satellite"
     ).add_to(m)
+
 
     if show_distritos:
         folium.GeoJson(
