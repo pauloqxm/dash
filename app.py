@@ -144,7 +144,7 @@ if not df_filtrado.empty:
 
     if show_acudes:
     folium.GeoJson(
-        acude_geojson,
+        geojson_acudes,
         name="Açudes",
         style_function=lambda x: {'fillColor': '#026ac4','fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
     ).add_to(m)
