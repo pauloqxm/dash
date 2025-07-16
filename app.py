@@ -187,7 +187,7 @@ if not df_filtrado.empty:
             cisternas = feature["properties"].get("Bairro_Loc", "Sem nome")
             folium.Marker(
                 location=[coords[1], coords[0]],
-                popup=folium.Popup(f"Bairro_Loc: {cisternas}", max_width=200),
+                popup=folium.Popup(f"Comunidade: {Bairro_Loc}", max_width=200),
                 tooltip="Cisternas",
                 icon=folium.CustomIcon("https://i.ibb.co/Xkdpcnmx/water-tank.png", icon_size=(20, 20))
             ).add_to(cisternas_layer)
