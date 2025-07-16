@@ -65,7 +65,7 @@ with open("distritos_ponto.geojson", "r", encoding="utf-8") as f:
 with open("cisternas.geojson", "r", encoding="utf-8") as f:
     cisternas_geojson = json.load(f)
 with open("acudes.geojson", "r", encoding="utf-8") as f:
-    acudes_geojson = json.load(f)
+    geojson_acudes = json.load(f)
 
 # SIDEBAR - CONTROLE DE CAMADAS
 st.sidebar.title("🗺️ Controle de Camadas")
