@@ -151,15 +151,17 @@ if not df_filtrado.empty:
         ).add_to(m)
 
     if show_distritos_ponto:
-        distritos_ponto_layer = folium.FeatureGroup(name="Sede Distritos")
-        for feature in geojson_distritos_ponto["features"]["Name"]:
-            coords = feature["geometry"]["coordinates"]
-            folium.Marker(
-                location=[coords[1], coords[0]],
-                popup=folium.Popup(f"Name: {Distrito}", max_width=200),
-                icon=folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(20, 20))
-            ).add_to(distritos_ponto_layer)
-        distritos_ponto_layer.add_to(m)
+    distritos_ponto_layer = folium.FeatureGroup(name="Sede Distritos")
+    for feature in geojson_distritos_ponto["features"]:
+        coords = feature["geometry"]["coordinates"]
+        nome_distrito = feature["properties"].get("Name", "Sem nome")
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            popup=folium.Popup(f"Name: {nome_distrito}", max_width=200),
+            icon=folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(20, 20))
+        ).add_to(distritos_ponto_layer)
+    distritos_ponto_layer.add_to(m)
+
 
     if show_acudes:
         folium.GeoJson(
