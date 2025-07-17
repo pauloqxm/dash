@@ -105,43 +105,27 @@ if compradores:
 if produtor:
     df_filtrado = df_filtrado[df_filtrado["PRODUTOR"].str.contains(produtor, case=False, na=False)]
 
+# (continua no próximo bloco por limitação de tamanho)
+
+
 total = len(df_filtrado)
 st.success(f"{total} registro(s) encontrado(s).")
 st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
 if not df_filtrado.empty:
     center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
-    
     m = folium.Map(location=center, zoom_start=10, tiles=None)
 
-    folium.TileLayer(
-        tiles="https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png",
-        attr="Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.",
-        name="Stamen Terrain"
-    ).add_to(m)
-    folium.TileLayer(
-        tiles="https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
-        attr="Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.",
-        name="Stamen Toner"
-    ).add_to(m)
-    folium.TileLayer(
-        tiles="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-        attr="© OpenStreetMap contributors, © CARTO",
-        name="CartoDB Positron"
-    ).add_to(m)
-    folium.TileLayer(
-        tiles="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-        attr="© OpenStreetMap contributors, © CARTO",
-        name="CartoDB Dark Matter"
-    ).add_to(m)
+    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
+    folium.TileLayer("Stamen Terrain", name="Stamen Terrain").add_to(m)
+    folium.TileLayer("Stamen Toner", name="Stamen Toner").add_to(m)
+    folium.TileLayer("CartoDB Positron", name="CartoDB Positron").add_to(m)
+    folium.TileLayer("CartoDB Dark_Matter", name="CartoDB Dark Matter").add_to(m)
     folium.TileLayer(
         tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        attr="Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc.",
+        attr="Tiles © Esri",
         name="Esri Satellite"
     ).add_to(m)
-    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
-
-    # Adicionar camadas de fundo com atribuições corretas  
 
     if show_distritos:
         folium.GeoJson(
@@ -151,17 +135,16 @@ if not df_filtrado.empty:
         ).add_to(m)
 
     if show_distritos_ponto:
-    distritos_ponto_layer = folium.FeatureGroup(name="Sede Distritos")
-    for feature in geojson_distritos_ponto["features"]:
-        coords = feature["geometry"]["coordinates"]
-        nome_distrito = feature["properties"].get("Name", "Sem nome")
-        folium.Marker(
-            location=[coords[1], coords[0]],
-            popup=folium.Popup(f"Name: {nome_distrito}", max_width=200),
-            icon=folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(20, 20))
-        ).add_to(distritos_ponto_layer)
-    distritos_ponto_layer.add_to(m)
-
+        distritos_ponto_layer = folium.FeatureGroup(name="Sede Distritos")
+        for feature in geojson_distritos_ponto["features"]:
+            coords = feature["geometry"]["coordinates"]
+            nome_distrito = feature["properties"].get("Name", "Sem nome")
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(f"Name: {nome_distrito}", max_width=200),
+                icon=folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(20, 20))
+            ).add_to(distritos_ponto_layer)
+        distritos_ponto_layer.add_to(m)
 
     if show_acudes:
         folium.GeoJson(
@@ -172,19 +155,13 @@ if not df_filtrado.empty:
 
     if show_produtores:
         for _, row in df_filtrado.iterrows():
-            popup_info = f"""
-            <strong>Apelido:</strong> {row['APELIDO']}<br>
-            <strong>Produção dia:</strong> {row['PRODUCAO']}<br>
-            <strong>Fazenda:</strong> {row['FAZENDA']}<br>
-            <strong>Distrito:</strong> {row['DISTRITO']}<br>
-            <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
-            """
+            popup_info = f'<strong>Apelido:</strong> {row["APELIDO"]}<br>'                          f'<strong>Produção dia:</strong> {row["PRODUCAO"]}<br>'                          f'<strong>Fazenda:</strong> {row["FAZENDA"]}<br>'                          f'<strong>Distrito:</strong> {row["DISTRITO"]}<br>'                          f'<strong>Escolaridade:</strong> {row["ESCOLARIDADE"]}'
             folium.Marker(
                 location=[row["LATITUDE"], row["LONGITUDE"]],
                 icon=folium.CustomIcon("https://i.ibb.co/My5kq3GH/icons8-fazenda-64.png", icon_size=(25, 25)),
                 popup=folium.Popup(popup_info, max_width=300),
                 tooltip=row["PRODUTOR"]
-          ).add_to(m)
+            ).add_to(m)
 
     if show_areas_reforma:
         areas_layer = folium.FeatureGroup(name="Áreas de Reforma")
