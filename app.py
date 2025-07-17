@@ -269,13 +269,10 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(popup_info, max_width=300),
-                icon=folium.CustomIcon("https://i.ibb.co/jZh1WZy/water-tower.png", icon_size=(25, 25))
+                icon=folium.CustomIcon("https://i.ibb.co/sd8DxJQ5/water-tower.png", icon_size=(25, 25))
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
-                icon=folium.CustomIcon("https://i.ibb.co/jZh1WZy/water-tower.png", icon_size=(25, 25))
-            ).add_to(sistemas_layer)
-        sistemas_layer.add_to(m)
-
+               
     folium.LayerControl(collapsed=True).add_to(m)
     folium_static(m, width=1200, height=700)
 
