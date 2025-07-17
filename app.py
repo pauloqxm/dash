@@ -148,7 +148,7 @@ if not df_filtrado.empty:
 
     if show_distritos:
         folium.GeoJson(
-            geojson_distrito,
+            geojson_distritos,
             name="Distritos",
             style_function=lambda x: {'fillColor': '#9fe2fc', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
         ).add_to(m)
