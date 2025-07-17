@@ -172,7 +172,7 @@ if not df_filtrado.empty:
         distritos_ponto_layer = folium.FeatureGroup(name="Sede Distritos")
         for feature in geojson_data["distritos_ponto"]["features"]:
             coords = feature["geometry"]["coordinates"]
-            nome_distrito = feature["properties"].get("Name", "Sem nome")
+            nome_distrito = feature["properties"].get("tessellate", "Sem nome")
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(f"Distrito: {nome_distrito}", max_width=200),
