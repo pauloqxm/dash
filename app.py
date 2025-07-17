@@ -255,7 +255,7 @@ if not df_filtrado.empty:
         ).add_to(m)
 
 
-    if show_sistemas and geojson_data.get("sistemas"):
+  if show_sistemas and geojson_data.get("sistemas"):
     sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
     for feature in geojson_data["sistemas"]["features"]:
         coords = feature["geometry"]["coordinates"]
@@ -273,6 +273,7 @@ if not df_filtrado.empty:
             icon=folium.CustomIcon("https://i.ibb.co/sd8DxJQ5/water-tower.png", icon_size=(25, 25))
         ).add_to(sistemas_layer)
     sistemas_layer.add_to(m)
+
                
     folium.LayerControl(collapsed=True).add_to(m)
     folium_static(m, width=1200, height=700)
