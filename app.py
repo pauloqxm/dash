@@ -259,11 +259,20 @@ if not df_filtrado.empty:
         sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
         for feature in geojson_data["sistemas"]["features"]:
             coords = feature["geometry"]["coordinates"]
-            comunidade = feature["properties"].get("Comunidade", "Sem nome")
+            props = feature["properties"]
+            popup_info = f"""
+            <strong>Comunidade:</strong> {props.get("Comunidade", "Sem nome")}<br>
+            <strong>Associação:</strong> {props.get("Associacao", "Não informado")}<br>
+            <strong>Ano:</strong> {props.get("Ano", "Não informado")}<br>
+            <strong>Município:</strong> {props.get("Municipio", "Não informado")}
+            """
             folium.Marker(
                 location=[coords[1], coords[0]],
-                popup=folium.Popup(f"Comunidade: {comunidade}", max_width=200),
-                icon=folium.CustomIcon("https://i.ibb.co/sd8DxJQ5/water-tower.png", icon_size=(25, 25))
+                popup=folium.Popup(popup_info, max_width=300),
+                icon=folium.CustomIcon("https://i.ibb.co/jZh1WZy/water-tower.png", icon_size=(25, 25))
+            ).add_to(sistemas_layer)
+        sistemas_layer.add_to(m)
+                icon=folium.CustomIcon("https://i.ibb.co/jZh1WZy/water-tower.png", icon_size=(25, 25))
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
 
