@@ -181,7 +181,7 @@ if not df_filtrado.empty:
                 location=[row["LATITUDE"], row["LONGITUDE"]],
                 icon=folium.CustomIcon("https://i.ibb.co/My5kq3GH/icons8-fazenda-64.png", icon_size=(25, 25)),
                 popup=folium.Popup(popup_info, max_width=300),
-                tooltip=row["PRODUTOR"]
+                tooltip=row["PRODUTO"]
             ).add_to(m)
 
     if show_areas_reforma:
