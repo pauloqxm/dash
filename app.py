@@ -153,6 +153,17 @@ if not df_filtrado.empty:
             style_function=lambda x: {'fillColor': '#9fe2fc', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
         ).add_to(m)
 
+    if show_distritos_ponto:
+        distritos_ponto_layer = folium.FeatureGroup(name="Sede Distritos")
+        for feature in geojson_pocos["features"]:
+            coords = feature["geometry"]["coordinates"]
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                tooltip="Poços",
+                icon=folium.CustomIcon("https://i.ibb.co/mk8HRKv/chafariz.png", icon_size=(25, 15))
+            ).add_to(distritos_ponto_layer)
+        distritos_ponto_layer.add_to(m)
+
     if show_acudes:
         folium.GeoJson(
             geojson_acudes,
