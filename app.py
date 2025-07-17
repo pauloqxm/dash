@@ -275,7 +275,7 @@ if not df_filtrado.empty:
                 icon_size=(25, 25)
             )
         ).add_to(sistemas_layer)
-    sistemas_layer.add_to(m)
+    sistemas_layer.add_to(m) 
     
     folium.LayerControl(collapsed=True).add_to(m)
     folium_static(m, width=1200, height=700)
