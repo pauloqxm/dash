@@ -256,26 +256,26 @@ if not df_filtrado.empty:
 
     
     if show_sistemas and geojson_data.get("sistemas"):
-    sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
-    for feature in geojson_data["sistemas"]["features"]:
-        coords = feature["geometry"]["coordinates"]
-        props = feature["properties"]
-        popup_info = (
-            "<strong>Comunidade:</strong> " + props.get("Comunidade", "Sem nome") + "<br>"
-            "<strong>Associação:</strong> " + props.get("Associacao", "Não informado") + "<br>"
-            "<strong>Ano:</strong> " + str(props.get("Ano", "Não informado")) + "<br>"
-            "<strong>Município:</strong> " + props.get("Municipio", "Não informado")
-        )
-        folium.Marker(
-            location=[coords[1], coords[0]],
-            popup=folium.Popup(popup_info, max_width=300),
-            tooltip=props.get("Comunidade", "Sem nome"),
-            icon=folium.CustomIcon(
-                "https://i.ibb.co/sd8DxJQ5/water-tower.png",
-                icon_size=(25, 25)
+        sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
+        for feature in geojson_data["sistemas"]["features"]:
+            coords = feature["geometry"]["coordinates"]
+            props = feature["properties"]
+            popup_info = (
+                "<strong>Comunidade:</strong> " + props.get("Comunidade", "Sem nome") + "<br>"
+                "<strong>Associação:</strong> " + props.get("Associacao", "Não informado") + "<br>"
+                "<strong>Ano:</strong> " + str(props.get("Ano", "Não informado")) + "<br>"
+                "<strong>Município:</strong> " + props.get("Municipio", "Não informado")
             )
-        ).add_to(sistemas_layer)
-    sistemas_layer.add_to(m) 
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(popup_info, max_width=300),
+                tooltip=props.get("Comunidade", "Sem nome"),
+                icon=folium.CustomIcon(
+                    "https://i.ibb.co/sd8DxJQ5/water-tower.png",
+                    icon_size=(25, 25)
+                )
+            ).add_to(sistemas_layer)
+        sistemas_layer.add_to(m) 
     
     folium.LayerControl(collapsed=True).add_to(m)
     folium_static(m, width=1200, height=700)
