@@ -175,7 +175,7 @@ if not df_filtrado.empty:
             nome_distrito = feature["properties"].get("Name", "Sem nome")
             folium.Marker(
                 location=[coords[1], coords[0]],
-                popup=folium.Popup(f"Name: {nome_distrito}", max_width=200),
+                popup=folium.Popup(f"tessellate: {nome_distrito}", max_width=200),
                 icon=folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(20, 20))
             ).add_to(distritos_ponto_layer)
         distritos_ponto_layer.add_to(m)
