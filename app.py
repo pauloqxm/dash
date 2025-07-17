@@ -114,8 +114,6 @@ if not df_filtrado.empty:
     
     m = folium.Map(location=center, zoom_start=10, tiles=None)
 
-    # Adicionar camadas de fundo com atribuições corretas
-    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
     folium.TileLayer(
         tiles="https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png",
         attr="Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.",
@@ -141,6 +139,11 @@ if not df_filtrado.empty:
         attr="Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc.",
         name="Esri Satellite"
     ).add_to(m)
+    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
+
+
+    # Adicionar camadas de fundo com atribuições corretas
+    
 
 
     if show_distritos:
@@ -233,7 +236,7 @@ if not df_filtrado.empty:
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
 
-    folium.LayerControl().add_to(m)
+    folium.LayerControl(collapsed=False).add_to(m)
     folium_static(m, width=0, height=700)
 
 else:
