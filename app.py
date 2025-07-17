@@ -160,7 +160,7 @@ if not df_filtrado.empty:
             name=layer["name"]
         ).add_to(m)
 
-    # Adicionar camadas de dados
+    # CAMADAS INFRAESTRUTURA
     if show_distritos and geojson_data.get("distrito"):
         folium.GeoJson(
             geojson_data["distrito"],
@@ -179,13 +179,6 @@ if not df_filtrado.empty:
                 icon=folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(20, 20))
             ).add_to(distritos_ponto_layer)
         distritos_ponto_layer.add_to(m)
-
-    if show_acudes and geojson_data.get("acudes"):
-        folium.GeoJson(
-            geojson_data["acudes"],
-            name="Açudes",
-            style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
-        ).add_to(m)
 
     if show_produtores:
         for _, row in df_filtrado.iterrows():
@@ -215,6 +208,8 @@ if not df_filtrado.empty:
                 style_function=lambda x: {"fillColor": "#ff7800", "color": "red", "weight": 1, "fillOpacity": 0.4}
             ).add_to(areas_layer)
         areas_layer.add_to(m)
+
+    # CAMADAS RECURSOS HÍDRICOS
 
     if show_chafarizes and geojson_data.get("chafarizes"):
         chafarizes_layer = folium.FeatureGroup(name="Chafarizes")
@@ -250,6 +245,14 @@ if not df_filtrado.empty:
                 icon=folium.CustomIcon("https://i.ibb.co/Xkdpcnm/water-tank.png", icon_size=(15, 15))
             ).add_to(cisternas_layer)
         cisternas_layer.add_to(m)
+
+    if show_acudes and geojson_data.get("acudes"):
+        folium.GeoJson(
+            geojson_data["acudes"],
+            name="Açudes",
+            style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
+        ).add_to(m)
+
 
     if show_sistemas and geojson_data.get("sistemas"):
         sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
