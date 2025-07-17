@@ -141,10 +141,7 @@ if not df_filtrado.empty:
     ).add_to(m)
     folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
 
-
-    # Adicionar camadas de fundo com atribuições corretas
-    
-
+    # Adicionar camadas de fundo com atribuições corretas  
 
     if show_distritos:
         folium.GeoJson(
@@ -160,7 +157,7 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 tooltip="Poços",
-                icon=folium.CustomIcon("https://i.ibb.co/mk8HRKv/chafariz.png", icon_size=(25, 15))
+                icon=folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(20, 20))
             ).add_to(distritos_ponto_layer)
         distritos_ponto_layer.add_to(m)
 
