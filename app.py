@@ -267,7 +267,7 @@ if not df_filtrado.empty:
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
 
-    folium.LayerControl(collapsed=False).add_to(m)
+    folium.LayerControl(collapsed=True).add_to(m)
     folium_static(m, width=1200, height=700)
 
 else:
