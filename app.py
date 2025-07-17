@@ -161,6 +161,7 @@ if not df_filtrado.empty:
         ).add_to(m)
 
     # CAMADAS INFRAESTRUTURA
+    
     if show_distritos and geojson_data.get("distrito"):
         folium.GeoJson(
             geojson_data["distrito"],
@@ -218,7 +219,7 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 tooltip="Chafariz",
-                icon=folium.Icon(color="blue", icon="tint", prefix="fa")
+                icon=folium.CustomIcon("https://i.ibb.co/mk8HRKv/chafariz.png", icon_size=(25, 15))
             ).add_to(chafarizes_layer)
         chafarizes_layer.add_to(m)
 
@@ -229,7 +230,7 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 tooltip="Poços",
-                icon=folium.CustomIcon("https://i.ibb.co/mk8HRKv/chafariz.png", icon_size=(25, 15))
+                icon=folium.CustomIcon("https://i.ibb.co/YFjtqq1x/water-well.png", icon_size=(25, 15))
             ).add_to(pocos_layer)
         pocos_layer.add_to(m)
 
