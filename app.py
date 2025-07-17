@@ -156,7 +156,6 @@ if not df_filtrado.empty:
             coords = feature["geometry"]["coordinates"]
             folium.Marker(
                 location=[coords[1], coords[0]],
-                tooltip="Poços",
                 tooltip=row["Name"]
                 icon=folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(20, 20))
             ).add_to(distritos_ponto_layer)
