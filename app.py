@@ -268,7 +268,7 @@ if not df_filtrado.empty:
         sistemas_layer.add_to(m)
 
     folium.LayerControl(collapsed=False).add_to(m)
-    folium_static(m, width=0, height=700)
+    folium_static(m, width=1200, height=700)
 
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
