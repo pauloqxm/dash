@@ -254,6 +254,8 @@ if not df_filtrado.empty:
             style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
         ).add_to(m)
 
+
+    
     if show_sistemas and geojson_data.get("sistemas"):
     sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
     for feature in geojson_data["sistemas"]["features"]:
@@ -276,6 +278,9 @@ if not df_filtrado.empty:
         ).add_to(sistemas_layer)
     sistemas_layer.add_to(m)
 
+                icon=folium.CustomIcon("https://i.ibb.co/jZh1WZy/water-tower.png", icon_size=(25, 25))
+            ).add_to(sistemas_layer)
+        sistemas_layer.add_to(m)
 
     folium.LayerControl(collapsed=True).add_to(m)
     folium_static(m, width=1200, height=700)
