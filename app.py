@@ -269,7 +269,6 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(popup_info, max_width=300),
-                tooltip=row["Comunidade"]
                 icon=folium.CustomIcon("https://i.ibb.co/sd8DxJQ5/water-tower.png", icon_size=(25, 25))
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
