@@ -59,6 +59,7 @@ try:
         "cisternas": "cisternas.geojson",
         "acudes": "acudes.geojson",
         "estradas": "estradas.geojson",
+        "escolas": "escolas.geojson",
     }
 
     geojson_data = {}
@@ -82,6 +83,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_produtores = st.checkbox("Produtores", value=False)
     show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
     show_estradas = st.checkbox("Estradas", value=False)
+    show_escolas = st.checkbox("Escolas", value=True)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
@@ -218,6 +220,28 @@ if not df_filtrado.empty:
                 style_function=lambda x: {"fillColor": "#ff7800", "color": "red", "weight": 1, "fillOpacity": 0.4}
             ).add_to(areas_layer)
         areas_layer.add_to(m)
+        
+    if show_escolas and geojson_data.get("escolas"):
+        escolas_layer = folium.FeatureGroup(name="Escolas")
+        for feature in geojson_data["sistemas"]["features"]:
+            coords = feature["geometry"]["coordinates"]
+            props = feature["properties"]
+            popup_info = (
+                "<strong>no_entidad:</strong> " + props.get("Escola", "Sem nome") + "<br>"
+                "<strong>endeereco:</strong> " + props.get("Bairro/Distrito", "Não informado") + "<br>"
+                "<strong>fone_1:</strong> " + str(props.get("Contato", "Não informado")) + "<br>"
+                "<strong>no_localiz:</strong> " + props.get("Localização", "Não informado")
+            )
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(popup_info, max_width=300),
+                tooltip=props.get("no_entidad", "Sem nome"),
+                icon=folium.CustomIcon(
+                    "https://i.ibb.co/sd8DxJQ5/water-tower.png",
+                    icon_size=(25, 25)
+                )
+            ).add_to(escolas_layer)
+        escolas_layer.add_to(m)
 
     # CAMADAS RECURSOS HÍDRICOS
 
