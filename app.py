@@ -227,10 +227,15 @@ if not df_filtrado.empty:
             coords = feature["geometry"]["coordinates"]
             props = feature["properties"]
             popup_info = (
-                "<strong>Escola:</strong> " + props.get("no_entidad", "Sem nome") + "<br>"
-                "<strong>Endereço:</strong> " + props.get("endereco", "Não informado") + "<br>"
-                "<strong>Contato:</strong> " + str(props.get("fone_1", "Não informado")) + "<br>"
-                "<strong>Localização:</strong> " + props.get("no_localiz", "Não informado")
+    "<div style='font-family: Arial, sans-serif;'>"
+    "<h4 style='margin: 0; color: #2A4D9B;'>🏫 Escola Municipal</h4>"
+    "<hr style='margin:4px 0;'>"
+    "<strong>Nome:</strong> " + props.get("no_entidad", "Sem nome") + "<br>"
+    "<strong>Endereço:</strong> " + props.get("endereco", "Não informado") + "<br>"
+    "<strong>Contato:</strong> " + str(props.get("fone_1", "Não informado")) + "<br>"
+    "<strong>Localização:</strong> " + props.get("no_localiz", "Não informado") +
+    "</div>"
+
             )
             folium.Marker(
                 location=[coords[1], coords[0]],
