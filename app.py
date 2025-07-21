@@ -249,7 +249,7 @@ if not df_filtrado.empty:
             ).add_to(escolas_layer)
         escolas_layer.add_to(m)
 
-     if show_postos and geojson_data.get("postos"):
+    if show_postos and geojson_data.get("postos"):
         postos_layer = folium.FeatureGroup(name="Postos")
         for feature in geojson_data["postos"]["features"]:
             coords = feature["geometry"]["coordinates"]
