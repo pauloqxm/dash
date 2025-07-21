@@ -60,6 +60,7 @@ try:
         "acudes": "acudes.geojson",
         "estradas": "estradas.geojson",
         "escolas": "escolas.geojson",
+        "postos": "postos.geojson",
     }
 
     geojson_data = {}
@@ -84,6 +85,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
     show_estradas = st.checkbox("Estradas", value=False)
     show_escolas = st.checkbox("Escolas", value=True)
+    postos_escolas = st.checkbox("Postos de Saúde", value=True)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
@@ -246,6 +248,32 @@ if not df_filtrado.empty:
                 )
             ).add_to(escolas_layer)
         escolas_layer.add_to(m)
+
+    if show_postos and geojson_data.get("postos"):
+        postos_layer = folium.FeatureGroup(name="Postos")
+        for feature in geojson_data["postos"]["features"]:
+            coords = feature["geometry"]["coordinates"]
+            props = feature["properties"]
+            popup_info = (
+    "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
+    "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏥 Postos de Saúde</h4>"
+    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Posto:</span> " + props.get("nome", "Sem nome") + "</p>"
+    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Endereço:</span> " + props.get("endereco", "Não informado") + "</p>"
+    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Bairro:</span> " + str(props.get("bairro", "Não informado")) + "</p>"
+    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Município:</span> " + props.get("municipio", "Não informado") + "</p>"
+    "</div>"
+
+            )
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(popup_info, max_width=300),
+                tooltip=props.get("no_entidad", "Sem nome"),
+                icon=folium.CustomIcon(
+                    "https://i.ibb.co/pBsQcQws/education.png",
+                    icon_size=(25, 25)
+                )
+            ).add_to(postos_layer)
+        postos_layer.add_to(m)
 
     # CAMADAS RECURSOS HÍDRICOS
 
