@@ -227,13 +227,12 @@ if not df_filtrado.empty:
             coords = feature["geometry"]["coordinates"]
             props = feature["properties"]
             popup_info = (
-    "<div style='font-family: Arial, sans-serif;'>"
-    "<h4 style='margin: 0; color: #2A4D9B;'>🏫 Escola Municipal</h4>"
-    "<hr style='margin:4px 0;'>"
-    "<strong>Nome:</strong> " + props.get("no_entidad", "Sem nome") + "<br>"
-    "<strong>Endereço:</strong> " + props.get("endereco", "Não informado") + "<br>"
-    "<strong>Contato:</strong> " + str(props.get("fone_1", "Não informado")) + "<br>"
-    "<strong>Localização:</strong> " + props.get("no_localiz", "Não informado") +
+    "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
+    "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏫 Escola Municipal</h4>"
+    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Nome:</span> " + props.get("no_entidad", "Sem nome") + "</p>"
+    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Endereço:</span> " + props.get("endereco", "Não informado") + "</p>"
+    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Contato:</span> " + str(props.get("fone_1", "Não informado")) + "</p>"
+    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Localização:</span> " + props.get("no_localiz", "Não informado") + "</p>"
     "</div>"
 
             )
