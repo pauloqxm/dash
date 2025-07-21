@@ -269,7 +269,7 @@ if not df_filtrado.empty:
                 popup=folium.Popup(popup_info, max_width=300),
                 tooltip=props.get("no_entidad", "Sem nome"),
                 icon=folium.CustomIcon(
-                    "https://i.ibb.co/pBsQcQws/education.png",
+                    "https://i.ibb.co/rGdw6d71/hospital.png",
                     icon_size=(25, 25)
                 )
             ).add_to(postos_layer)
