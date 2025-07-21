@@ -223,7 +223,7 @@ if not df_filtrado.empty:
         
     if show_escolas and geojson_data.get("escolas"):
         escolas_layer = folium.FeatureGroup(name="Escolas")
-        for feature in geojson_data["sistemas"]["features"]:
+        for feature in geojson_data["escolas"]["features"]:
             coords = feature["geometry"]["coordinates"]
             props = feature["properties"]
             popup_info = (
