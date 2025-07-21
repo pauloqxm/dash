@@ -228,14 +228,14 @@ if not df_filtrado.empty:
             props = feature["properties"]
             popup_info = (
                 "<strong>Escola:</strong> " + props.get("no_entidad", "Sem nome") + "<br>"
-                "<strong>Bairro/Distrito:</strong> " + props.get("endereco", "Não informado") + "<br>"
+                "<strong>Endereço:</strong> " + props.get("endereco", "Não informado") + "<br>"
                 "<strong>Contato:</strong> " + str(props.get("fone_1", "Não informado")) + "<br>"
                 "<strong>Localização:</strong> " + props.get("no_localiz", "Não informado")
             )
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(popup_info, max_width=300),
-                tooltip=props.get("Escola", "Sem nome"),
+                tooltip=props.get("no_entidad", "Sem nome"),
                 icon=folium.CustomIcon(
                     "https://i.ibb.co/pBsQcQws/education.png",
                     icon_size=(25, 25)
