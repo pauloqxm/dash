@@ -61,7 +61,7 @@ try:
         "estradas": "estradas.geojson",
         "escolas": "escolas.geojson",
         "postos": "postos.geojson",
-        "urbanas": "urbanas.geojson",
+        "": ".geojson",
     }
 
     geojson_data = {}
@@ -87,7 +87,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_estradas = st.checkbox("Estradas", value=False)
     show_escolas = st.checkbox("Escolas", value=True)
     show_postos = st.checkbox("Postos de Saúde", value=True)
-    show_urbanas = st.checkbox("Áreas Urbanas", value=True)
+    show_ = st.checkbox("Áreas ", value=True)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
@@ -281,7 +281,7 @@ if not df_filtrado.empty:
         folium.GeoJson(
             geojson_data["urbanas"],
             name="Aréas Urbanas",
-            style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
+            style_function=lambda x: {'fillColor': '#9e064d', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
         ).add_to(m)
 
 
