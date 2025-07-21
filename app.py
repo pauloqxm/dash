@@ -61,7 +61,7 @@ try:
         "estradas": "estradas.geojson",
         "escolas": "escolas.geojson",
         "postos": "postos.geojson",
-        "": ".geojson",
+        "urbanas": "urbanas.geojson",
     }
 
     geojson_data = {}
@@ -87,7 +87,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_estradas = st.checkbox("Estradas", value=False)
     show_escolas = st.checkbox("Escolas", value=True)
     show_postos = st.checkbox("Postos de Saúde", value=True)
-    show_ = st.checkbox("Áreas ", value=True)
+    show_urbanas = st.checkbox("Áreas ", value=True)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
