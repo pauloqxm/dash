@@ -187,7 +187,7 @@ if not df_filtrado.empty:
         folium.GeoJson(
             geojson_data["estradas"],
             name="estradas",
-            style_function=lambda x: {'fillColor': '#802f04', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
+            style_function=lambda x: {'fillColor': '#802f04', 'fillOpacity': 0.2, 'color': '#802f04', 'weight': 1}
         ).add_to(m)
 
     if show_produtores:
