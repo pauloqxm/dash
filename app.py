@@ -61,6 +61,7 @@ try:
         "estradas": "estradas.geojson",
         "escolas": "escolas.geojson",
         "postos": "postos.geojson",
+        "urbanas": "urbanas.geojson",
     }
 
     geojson_data = {}
@@ -86,6 +87,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_estradas = st.checkbox("Estradas", value=False)
     show_escolas = st.checkbox("Escolas", value=True)
     show_postos = st.checkbox("Postos de Saúde", value=True)
+    show_urbanas = st.checkbox("Postos de Saúde", value=True)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
@@ -274,6 +276,14 @@ if not df_filtrado.empty:
                 )
             ).add_to(postos_layer)
         postos_layer.add_to(m)
+
+    if show_urbanas and geojson_data.get("urbanas"):
+        folium.GeoJson(
+            geojson_data["urbanas"],
+            name="Aréas Urbanas",
+            style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
+        ).add_to(m)
+
 
     # CAMADAS RECURSOS HÍDRICOS
 
