@@ -57,7 +57,8 @@ try:
         "areas_reforma": "areas_reforma.geojson",
         "distritos_ponto": "distritos_ponto.geojson",
         "cisternas": "cisternas.geojson",
-        "acudes": "acudes.geojson"
+        "acudes": "acudes.geojson",
+        "estradas": "estradas.geojson",
     }
 
     geojson_data = {}
@@ -80,6 +81,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos_ponto = st.checkbox("Sede Distritos", value=False)
     show_produtores = st.checkbox("Produtores", value=False)
     show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
+    show_estradas = st.checkbox("Estradas", value=False)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
@@ -180,6 +182,13 @@ if not df_filtrado.empty:
                 icon=folium.CustomIcon("https://i.ibb.co/zwckDkW/gps.png", icon_size=(20, 20))
             ).add_to(distritos_ponto_layer)
         distritos_ponto_layer.add_to(m)
+        
+    if show_estradas and geojson_data.get("estradas"):
+        folium.GeoJson(
+            geojson_data["estradas"],
+            name="estradas",
+            style_function=lambda x: {'fillColor': '#802f04', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
+        ).add_to(m)
 
     if show_produtores:
         for _, row in df_filtrado.iterrows():
