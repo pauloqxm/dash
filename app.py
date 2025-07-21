@@ -267,7 +267,7 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(popup_info, max_width=300),
-                tooltip=props.get("no_entidad", "Sem nome"),
+                tooltip=props.get("nome", "Sem nome"),
                 icon=folium.CustomIcon(
                     "https://i.ibb.co/rGdw6d71/hospital.png",
                     icon_size=(25, 25)
