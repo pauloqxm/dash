@@ -123,11 +123,20 @@ st.success(f"{total} registro(s) encontrado(s).")
 st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
 if not df_filtrado.empty:
+    # Calcular os limites do mapa com margem
+    padding = 0.02  # graus de margem
+    sw = [df_filtrado["LATITUDE"].min() - padding, df_filtrado["LONGITUDE"].min() - padding]
+    ne = [df_filtrado["LATITUDE"].max() + padding, df_filtrado["LONGITUDE"].max() + padding]
+    
+    # Criar mapa centralizado na média
     m = folium.Map(
-    location=[-5.1998, -39.2893],  # Centro de Quixeramobim
-    zoom_start=11,
-    tiles=None
-)
+        location=[df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()],
+        zoom_start=10,
+        tiles=None
+    )
+    
+    # Ajustar os limites do mapa para incluir todos os pontos
+    m.fit_bounds([sw, ne])
 
     # Adicionar camadas de fundo
     tile_layers = [
