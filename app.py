@@ -316,7 +316,7 @@ if not df_filtrado.empty:
             props = feature["properties"]
             popup_info = (
     "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
-    "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏫 Escola Municipal</h4>"
+    "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏫 Poços Construídos</h4>"
     "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Comunidade:</span> " + props.get("Localidade", "Sem nome") + "</p>"
     "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Profunidade:</span> " + props.get("Profundida", "Não informado") + "</p>"
     "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Vazão:</span> " + props.get("Vazão_LH_2", "Não informado") + "</p>"
@@ -326,7 +326,7 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(popup_info, max_width=300),
-                tooltip=props.get("no_entidad", "Sem nome"),
+                tooltip=props.get("Localidade", "Sem nome"),
                 icon=folium.CustomIcon(
                     "https://i.ibb.co/6JrpxXMT/water.png",
                     icon_size=(25, 25)
