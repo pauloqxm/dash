@@ -122,8 +122,7 @@ total = len(df_filtrado)
 st.success(f"{total} registro(s) encontrado(s).")
 st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
-if not df_filtrado.empty:
-    center = [df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()]
+center = [-5.1998, -39.2893]
     
     m = folium.Map(location=center, zoom_start=10, tiles=None)
 
