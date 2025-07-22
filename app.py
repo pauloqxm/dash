@@ -310,30 +310,30 @@ if not df_filtrado.empty:
         chafarizes_layer.add_to(m)
 
     if show_pocos and geojson_data.get("pocos"):
-        pocos_layer = folium.FeatureGroup(name="Poços")
-        for feature in geojson_data["pocos"]["features"]:
-            coords = feature["geometry"]["coordinates"]
-            props = feature["properties"]
-            popup_info = (
-    "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
-    "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏥 Poços Profundos</h4>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Comunidade:</span> " + props.get("Localidade", "Sem nome") + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Ano:</span> " + props.get("Ano", "Não informado") + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Profundidade:</span>" + props.get("Profundida", "Não informado")) + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Vazão:</span> " + props.get("Vazão_LH_2", "Não informado") + "</p>"
-    "</div>"
-
+    pocos_layer = folium.FeatureGroup(name="Poços")
+    for feature in geojson_data["pocos"]["features"]:
+        coords = feature["geometry"]["coordinates"]
+        props = feature["properties"]
+        popup_info = (
+            "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
+            "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏥 Poços Profundos</h4>"
+            "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Comunidade:</span> " + str(props.get("Localidade", "Sem nome")) + "</p>"
+            "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Ano:</span> " + str(props.get("Ano", "Não informado")) + "</p>"
+            "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Profundidade:</span> " + str(props.get("Profundida", "Não informado")) + "</p>"
+            "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Vazão:</span> " + str(props.get("Vazão_LH_2", "Não informado")) + "</p>"
+            "</div>"
+        )
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            popup=folium.Popup(popup_info, max_width=300),
+            tooltip=props.get("nome", "Sem nome"),
+            icon=folium.CustomIcon(
+                "https://i.ibb.co/6JrpxXMT/water.png",
+                icon_size=(23, 23)
             )
-            folium.Marker(
-                location=[coords[1], coords[0]],
-                popup=folium.Popup(popup_info, max_width=300),
-                tooltip=props.get("nome", "Sem nome"),
-                icon=folium.CustomIcon(
-                    "https://i.ibb.co/6JrpxXMT/water.png",
-                    icon_size=(23, 23)
-                )
-            ).add_to(pocos_layer)
-        pocos_layer.add_to(m)
+        ).add_to(pocos_layer)
+    pocos_layer.add_to(m)
+
 
     if show_cisternas and geojson_data.get("cisternas"):
         cisternas_layer = folium.FeatureGroup(name="Cisternas")
