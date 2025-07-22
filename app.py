@@ -85,9 +85,9 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_produtores = st.checkbox("Produtores", value=False)
     show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
     show_estradas = st.checkbox("Estradas", value=False)
-    show_escolas = st.checkbox("Escolas", value=True)
-    show_postos = st.checkbox("Postos de Saúde", value=True)
-    show_urbanas = st.checkbox("Áreas Urbanas", value=True)
+    show_escolas = st.checkbox("Escolas", value=False)
+    show_postos = st.checkbox("Postos de Saúde", value=False)
+    show_urbanas = st.checkbox("Áreas Urbanas", value=False)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
