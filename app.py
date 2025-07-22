@@ -310,10 +310,10 @@ if not df_filtrado.empty:
         chafarizes_layer.add_to(m)
 
     if show_pocos and geojson_data.get("pocos"):
-        pocos_layer = folium.FeatureGroup(name="Poços")
+        pocos_layer = folium.FeatureGroup(Anos="Poços")
         for feature in geojson_data["pocos"]["features"]:
             coords = feature["geometry"]["coordinates"]
-            Ano = feature["properties"].get("Name", "Sem nome")
+            Ano = feature["properties"].get("Ano", "Sem nome")
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(f"Período: {Ano}", max_width=200),
