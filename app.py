@@ -319,7 +319,7 @@ if not df_filtrado.empty:
     "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏥 Poços Profundos</h4>"
     "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Comunidade:</span> " + props.get("Localidade", "Sem nome") + "</p>"
     "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Ano:</span> " + props.get("Ano", "Não informado") + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Profundidade:</span> " + str(props.get("Profundida", "Não informado")) + "</p>"
+    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Profundidade:</span>" + props.get("Profundida", "Não informado")) + "</p>"
     "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Vazão:</span> " + props.get("Vazão_LH_2", "Não informado") + "</p>"
     "</div>"
 
