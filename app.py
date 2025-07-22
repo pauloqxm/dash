@@ -304,12 +304,12 @@ if not df_filtrado.empty:
         pocos_layer = folium.FeatureGroup(name="Poços")
         for feature in geojson_data["pocos"]["features"]:
         coords = feature["geometry"]["coordinates"]
-        folium.Marker(
-        location=[coords[1], coords[0]],
-        tooltip="Poços",
-        icon=folium.CustomIcon("https://i.ibb.co/YFjtqq1x/water-well.png", icon_size=(25, 15))
-        ).add_to(pocos_layer)
-        pocos_layer.add_to(m)
+            folium.Marker(
+            location=[coords[1], coords[0]],
+            tooltip="Poços",
+            icon=folium.CustomIcon("https://i.ibb.co/YFjtqq1x/water-well.png", icon_size=(25, 15))
+            ).add_to(pocos_layer)
+            pocos_layer.add_to(m)
 
 if show_cisternas and geojson_data.get("cisternas"):
     cisternas_layer = folium.FeatureGroup(name="Cisternas")
