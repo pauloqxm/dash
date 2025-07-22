@@ -124,7 +124,7 @@ st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
 center = [-5.1998, -39.2893]
     
-    m = folium.Map(location=center, zoom_start=10, tiles=None)
+m = folium.Map(location=center, zoom_start=10, tiles=None)
 
     # Adicionar camadas de fundo
     tile_layers = [
