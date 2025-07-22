@@ -309,7 +309,7 @@ if not df_filtrado.empty:
             ).add_to(chafarizes_layer)
         chafarizes_layer.add_to(m)
 
-    if show_epocos and geojson_data.get("pocos"):
+    if show_pocos and geojson_data.get("pocos"):
         pocos_layer = folium.FeatureGroup(name="Poços")
         for feature in geojson_data["pocos"]["features"]:
             coords = feature["geometry"]["coordinates"]
