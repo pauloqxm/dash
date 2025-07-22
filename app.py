@@ -313,10 +313,10 @@ if not df_filtrado.empty:
         pocos_layer = folium.FeatureGroup(name="Poços")
         for feature in geojson_data["pocos"]["features"]:
             coords = feature["geometry"]["coordinates"]
-            Localidade = feature["properties"].get("Name", "Sem nome")
+            Ano = feature["properties"].get("Name", "Sem nome")
             folium.Marker(
                 location=[coords[1], coords[0]],
-                popup=folium.Popup(f"Comunidade: {Localidade}", max_width=200),
+                popup=folium.Popup(f"Período: {Ano}", max_width=200),
                 icon=folium.CustomIcon("https://i.ibb.co/6JrpxXMT/water.png", icon_size=(23, 23))
             ).add_to(pocos_layer)
         pocos_layer.add_to(m)
