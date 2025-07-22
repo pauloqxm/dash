@@ -52,7 +52,7 @@ try:
     geojson_files = {
         "distrito": "distrito.geojson",
         "chafarizes": "Chafarizes.geojson",
-        "pocos": "Pocos.geojson",
+        "pocos": "ocos.geojson",
         "sistemas": "Sistemas de Abastecimento.geojson",
         "areas_reforma": "areas_reforma.geojson",
         "distritos_ponto": "distritos_ponto.geojson",
