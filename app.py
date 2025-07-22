@@ -329,7 +329,7 @@ if not df_filtrado.empty:
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(f"Comunidade: {Bairro_Loc}", max_width=200),
                 tooltip="Cisternas",
-                icon=folium.CustomIcon("https://i.ibb.co/Xkdpcnm/water-tank.png", icon_size=(15, 15))
+                icon=folium.CustomIcon("https://i.ibb.co/jvLz192m/water-tank.png", icon_size=(15, 15))
             ).add_to(cisternas_layer)
         cisternas_layer.add_to(m)
 
