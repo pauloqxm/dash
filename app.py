@@ -313,70 +313,55 @@ if not df_filtrado.empty:
     pocos_layer = folium.FeatureGroup(name="Poços")
     for feature in geojson_data["pocos"]["features"]:
         coords = feature["geometry"]["coordinates"]
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            tooltip="Poços",
+            icon=folium.CustomIcon("https://i.ibb.co/YFjtqq1x/water-well.png", icon_size=(25, 15))
+        ).add_to(pocos_layer)
+    pocos_layer.add_to(m)
+
+if show_cisternas and geojson_data.get("cisternas"):
+    cisternas_layer = folium.FeatureGroup(name="Cisternas")
+    for feature in geojson_data["cisternas"]["features"]:
+        coords = feature["geometry"]["coordinates"]
+        Bairro_Loc = feature["properties"].get("Comunidade", "Sem nome")
+        folium.Marker(
+            location=[coords[1], coords[0]],
+            popup=folium.Popup(f"Comunidade: {Bairro_Loc}", max_width=200),
+            tooltip="Cisternas",
+            icon=folium.CustomIcon("https://i.ibb.co/Xkdpcnm/water-tank.png", icon_size=(15, 15))
+        ).add_to(cisternas_layer)
+    cisternas_layer.add_to(m)
+
+if show_acudes and geojson_data.get("acudes"):
+    folium.GeoJson(
+        geojson_data["acudes"],
+        name="Açudes",
+        style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
+    ).add_to(m)
+
+if show_sistemas and geojson_data.get("sistemas"):
+    sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
+    for feature in geojson_data["sistemas"]["features"]:
+        coords = feature["geometry"]["coordinates"]
         props = feature["properties"]
         popup_info = (
-            "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
-            "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏥 Poços Profundos</h4>"
-            "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Comunidade:</span> " + str(props.get("Localidade", "Sem nome")) + "</p>"
-            "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Ano:</span> " + str(props.get("Ano", "Não informado")) + "</p>"
-            "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Profundidade:</span> " + str(props.get("Profundida", "Não informado")) + "</p>"
-            "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Vazão:</span> " + str(props.get("Vazão_LH_2", "Não informado")) + "</p>"
-            "</div>"
+            "<strong>Comunidade:</strong> " + props.get("Comunidade", "Sem nome") + "<br>"
+            "<strong>Associação:</strong> " + props.get("Associacao", "Não informado") + "<br>"
+            "<strong>Ano:</strong> " + str(props.get("Ano", "Não informado")) + "<br>"
+            "<strong>Município:</strong> " + props.get("Municipio", "Não informado")
         )
         folium.Marker(
             location=[coords[1], coords[0]],
             popup=folium.Popup(popup_info, max_width=300),
-            tooltip=props.get("nome", "Sem nome"),
+            tooltip=props.get("Comunidade", "Sem nome"),
             icon=folium.CustomIcon(
-                "https://i.ibb.co/6JrpxXMT/water.png",
-                icon_size=(23, 23)
+                "https://i.ibb.co/sd8DxJQ5/water-tower.png",
+                icon_size=(25, 25)
             )
-        ).add_to(pocos_layer)
-    pocos_layer.add_to(m)
-
-
-    if show_cisternas and geojson_data.get("cisternas"):
-        cisternas_layer = folium.FeatureGroup(name="Cisternas")
-        for feature in geojson_data["cisternas"]["features"]:
-            coords = feature["geometry"]["coordinates"]
-            Bairro_Loc = feature["properties"].get("Comunidade", "Sem nome")
-            folium.Marker(
-                location=[coords[1], coords[0]],
-                popup=folium.Popup(f"Comunidade: {Bairro_Loc}", max_width=200),
-                tooltip="Cisternas",
-                icon=folium.CustomIcon("https://i.ibb.co/jvLz192m/water-tank.png", icon_size=(18, 18))
-            ).add_to(cisternas_layer)
-        cisternas_layer.add_to(m)
-
-    if show_acudes and geojson_data.get("acudes"):
-        folium.GeoJson(
-            geojson_data["acudes"],
-            name="Açudes",
-            style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
-        ).add_to(m)
-
-    
-    if show_sistemas and geojson_data.get("sistemas"):
-        sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
-        for feature in geojson_data["sistemas"]["features"]:
-            coords = feature["geometry"]["coordinates"]
-            props = feature["properties"]
-            popup_info = (
-                "<strong>Comunidade:</strong> " + props.get("Comunidade", "Sem nome") + "<br>"
-                "<strong>Associação:</strong> " + props.get("Associacao", "Não informado") + "<br>"
-                "<strong>Ano:</strong> " + str(props.get("Ano", "Não informado")) + "<br>"
-                "<strong>Município:</strong> " + props.get("Municipio", "Não informado")
-            )
-            folium.Marker(
-                location=[coords[1], coords[0]],
-                popup=folium.Popup(popup_info, max_width=300),
-                tooltip=props.get("Comunidade", "Sem nome"),
-                icon=folium.CustomIcon(
-                    "https://i.ibb.co/sd8DxJQ5/water-tower.png",
-                    icon_size=(25, 25)
-                )
-            ).add_to(sistemas_layer)
-        sistemas_layer.add_to(m) 
+        ).add_to(sistemas_layer)
+    sistemas_layer.add_to(m)
+ 
     
     folium.LayerControl(collapsed=True).add_to(m)
     folium_static(m, width=1200, height=700)
