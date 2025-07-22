@@ -52,7 +52,7 @@ try:
     geojson_files = {
         "distrito": "distrito.geojson",
         "chafarizes": "Chafarizes.geojson",
-        "pocos": "pocos_profundos.geojson",
+        "pocos": "Pocos.geojson",
         "sistemas": "Sistemas de Abastecimento.geojson",
         "areas_reforma": "areas_reforma.geojson",
         "distritos_ponto": "distritos_ponto.geojson",
@@ -123,20 +123,11 @@ st.success(f"{total} registro(s) encontrado(s).")
 st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
 if not df_filtrado.empty:
-    # Calcular os limites do mapa com margem
-    padding = 0.02  # graus de margem
-    sw = [df_filtrado["LATITUDE"].min() - padding, df_filtrado["LONGITUDE"].min() - padding]
-    ne = [df_filtrado["LATITUDE"].max() + padding, df_filtrado["LONGITUDE"].max() + padding]
-    
-    # Criar mapa centralizado na média
     m = folium.Map(
-        location=[df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()],
-        zoom_start=10,
-        tiles=None
-    )
-    
-    # Ajustar os limites do mapa para incluir todos os pontos
-    m.fit_bounds([sw, ne])
+    location=[-5.1998, -39.2893],  # Centro fixo de Quixeramobim
+    zoom_start=11,
+    tiles=None
+)
 
     # Adicionar camadas de fundo
     tile_layers = [
@@ -360,8 +351,7 @@ if show_sistemas and geojson_data.get("sistemas"):
                 icon_size=(25, 25)
             )
         ).add_to(sistemas_layer)
-    sistemas_layer.add_to(m)
- 
+    sistemas_layer.add_to(m) 
     
     folium.LayerControl(collapsed=True).add_to(m)
     folium_static(m, width=1200, height=700)
