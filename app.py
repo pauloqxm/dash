@@ -316,7 +316,7 @@ if not df_filtrado.empty:
             Ano = feature["properties"].get("Ano", "Sem nome")
             folium.Marker(
                 location=[coords[1], coords[0]],
-                popup=folium.Popup(f"Período: {Ano}", max_width=200),
+                popup=folium.Popup(f"Comunidade: {Localidade}", max_width=200),
                 icon=folium.CustomIcon("https://i.ibb.co/6JrpxXMT/water.png", icon_size=(23, 23))
             ).add_to(pocos_layer)
         pocos_layer.add_to(m)
