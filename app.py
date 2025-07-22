@@ -313,7 +313,7 @@ if not df_filtrado.empty:
         pocos_layer = folium.FeatureGroup(Anos="Poços")
         for feature in geojson_data["pocos"]["features"]:
             coords = feature["geometry"]["coordinates"]
-            Ano = feature["properties"].get("Localidade", "Sem nome")
+            Localidade = feature["properties"].get("Localidade", "Sem nome")
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(f"Comunidade: {Localidade}", max_width=200),
