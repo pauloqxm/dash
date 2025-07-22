@@ -331,7 +331,7 @@ if not df_filtrado.empty:
                 icon_size=(23, 23)
             )
         ).add_to(pocos_layer)
-    pocos_layer.add_to(m)
+     pocos_layer.add_to(m)
     
     if show_cisternas and geojson_data.get("cisternas"):
         cisternas_layer = folium.FeatureGroup(name="Cisternas")
