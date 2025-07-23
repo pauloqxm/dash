@@ -50,6 +50,7 @@ try:
 
     # GeoJSONs
     geojson_files = {
+        "outorgas": "outorgas.geojson",
         "distrito": "distrito.geojson",
         "chafarizes": "Chafarizes.geojson",
         "pocos": "pocos_profundos.geojson",
@@ -90,6 +91,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_urbanas = st.checkbox("Áreas Urbanas", value=False)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
+    show_outorgas = st.checkbox("Outorgas", value=False)
     show_chafarizes = st.checkbox("Chafarizes", value=False)
     show_pocos = st.checkbox("Poços", value=False)
     show_cisternas = st.checkbox("Cisternas", value=False)
@@ -374,7 +376,30 @@ if not df_filtrado.empty:
                     icon_size=(25, 25)
                 )
             ).add_to(sistemas_layer)
-        sistemas_layer.add_to(m) 
+        sistemas_layer.add_to(m)
+
+    if show_outorgas and geojson_data.get("outorgas"):
+        outorgas_layer = folium.FeatureGroup(name="Outorgas")
+        for feature in geojson_data["outorgas"]["features"]:
+            coords = feature["geometry"]["coordinates"]
+            props = feature["properties"]
+            popup_info = (
+                "<div style='font-family: Arial, sans-serif; border: 2px solid #008080; border-radius: 8px; padding: 8px; background-color: #f0ffff;'>"
+                "<h4 style='margin-top: 0; margin-bottom: 8px; color: #008080; border-bottom: 1px solid #ccc;'>📝 Outorga</h4>"
+                "<p style='margin: 4px 0;'><strong>📄 Tipo de Uso:</strong> " + str(props.get("TIPO_DE_US", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>🌊 Manancial:</strong> " + str(props.get("MANANCIAL", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>📅 Vigência:</strong> " + str(props.get("VIGÊNCIA", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>💧 Volume Outorgado:</strong> " + str(props.get("VOLUME_OUT", "Não informado")) + "</p>"
+                "</div>"
+            )
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(popup_info, max_width=300),
+                tooltip=props.get("TIPO_DE_US", "Outorga"),
+                icon=folium.CustomIcon("https://i.ibb.co/DVJdmxd/license.png", icon_size=(25, 25))
+            ).add_to(outorgas_layer)
+        outorgas_layer.add_to(m)
+ 
     
     folium.LayerControl(collapsed=True).add_to(m)
     folium_static(m, width=1200, height=700)
