@@ -310,13 +310,25 @@ if not df_filtrado.empty:
         chafarizes_layer.add_to(m)
 
     if show_pocos and geojson_data.get("pocos"):
-        pocos_layer = folium.FeatureGroup(Anos="Poços")
+        pocos_layer = folium.FeatureGroup(name="Poços")
         for feature in geojson_data["pocos"]["features"]:
             coords = feature["geometry"]["coordinates"]
-            Localidade = feature["properties"].get("Localidade", "Sem nome")
+            props = feature["properties"]
+
+            popup_info = (
+                "<div style='font-family: Arial, sans-serif; border: 2px solid #0059b3; border-radius: 8px; padding: 8px; background-color: #f0f8ff;'>"
+                "<h4 style='margin-top: 0; margin-bottom: 8px; color: #0059b3; border-bottom: 1px solid #ccc;'>💧 Poço Profundo</h4>"
+                "<p style='margin: 4px 0;'><strong>📍 Localidade:</strong> " + str(props.get("Localidade", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>📏 Profundidade:</strong> " + str(props.get("Profundida", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>💦 Vazão (L/h):</strong> " + str(props.get("Vazão_LH_2", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>⚡ Energia:</strong> " + str(props.get("Energia", "Não informado")) + "</p>"
+                "</div>"
+            )
+
             folium.Marker(
                 location=[coords[1], coords[0]],
-                popup=folium.Popup(f"Comunidade: {Localidade}", max_width=200),
+                popup=folium.Popup(popup_info, max_width=300),
+                tooltip=props.get("Localidade", "Poço"),
                 icon=folium.CustomIcon("https://i.ibb.co/6JrpxXMT/water.png", icon_size=(23, 23))
             ).add_to(pocos_layer)
         pocos_layer.add_to(m)
