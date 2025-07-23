@@ -396,7 +396,7 @@ if not df_filtrado.empty:
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(popup_info, max_width=300),
                 tooltip=props.get("TIPO_DE_US", "Outorga"),
-                icon=folium.CustomIcon("https://i.ibb.co/DVJdmxd/license.png", icon_size=(25, 25))
+                icon=folium.CustomIcon("https://i.ibb.co/kg8SpYRY/certificate.png", icon_size=(23, 23))
             ).add_to(outorgas_layer)
         outorgas_layer.add_to(m)
  
