@@ -124,26 +124,21 @@ total = len(df_filtrado)
 st.success(f"{total} registro(s) encontrado(s).")
 st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
-if not df_filtrado.empty or show_outorgas or show_pocos or show_chafarizes or show_cisternas or show_sistemas or show_acudes or show_distritos or show_distritos_ponto or show_escolas or show_postos or show_urbanas or show_areas_reforma:
-
-    if not df_filtrado.empty:
-        center_lat = df_filtrado["LATITUDE"].mean()
-        center_lon = df_filtrado["LONGITUDE"].mean()
-    else:
-        center_lat = -5.2000
-        center_lon = -39.3000
-
+if not df_filtrado.empty:
+    # Calcular os limites do mapa com margem
+    padding = 0.02  # graus de margem
+    sw = [df_filtrado["LATITUDE"].min() - padding, df_filtrado["LONGITUDE"].min() - padding]
+    ne = [df_filtrado["LATITUDE"].max() + padding, df_filtrado["LONGITUDE"].max() + padding]
+    
+    # Criar mapa centralizado na média
     m = folium.Map(
-        location=[center_lat, center_lon],
+        location=[df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()],
         zoom_start=10,
         tiles=None
     )
-
-    if not df_filtrado.empty and df_filtrado["LATITUDE"].notna().all() and df_filtrado["LONGITUDE"].notna().all():
-        padding = 0.02
-        sw = [df_filtrado["LATITUDE"].min() - padding, df_filtrado["LONGITUDE"].min() - padding]
-        ne = [df_filtrado["LONGITUDE"].max() + padding, df_filtrado["LONGITUDE"].max() + padding]
-        m.fit_bounds([sw, ne])
+    
+    # Ajustar os limites do mapa para incluir todos os pontos
+    m.fit_bounds([sw, ne])
 
     # Adicionar camadas de fundo
     tile_layers = [
@@ -410,7 +405,7 @@ if not df_filtrado.empty or show_outorgas or show_pocos or show_chafarizes or sh
     folium_static(m, width=1200, height=700)
 
 else:
-    st.info("Nenhum dado selecionado para visualização no mapa.")
+    st.info("Nenhum produtor encontrado com os filtros selecionados.")
 
 # Tabela final
 st.title("📋 Dados dos Produtores")
