@@ -50,7 +50,7 @@ try:
 
     # GeoJSONs
     geojson_files = {
-        "outorgas": "outorga.geojson",
+        "outorgas": "outorgado.geojson",
         "distrito": "distrito.geojson",
         "chafarizes": "Chafarizes.geojson",
         "pocos": "pocos_profundos.geojson",
