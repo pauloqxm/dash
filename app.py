@@ -293,6 +293,12 @@ if not df_filtrado.empty:
         postos_layer.add_to(m)
 
     if show_urbanas and geojson_data.get("urbanas"):
+        folium.GeoJson(
+            geojson_data["urbanas"],
+            name="Aréas Urbanas",
+            style_function=lambda x: {'fillColor': '#9e064d', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
+        ).add_to(m)
+
     if show_comunidades and geojson_data.get("comunidades"):
         comunidades_layer = folium.FeatureGroup(name="Comunidades")
         for feature in geojson_data["comunidades"]["features"]:
@@ -314,13 +320,6 @@ if not df_filtrado.empty:
                 icon=folium.CustomIcon("https://i.ibb.co/QPzLW67/home.png", icon_size=(24, 24))
             ).add_to(comunidades_layer)
         comunidades_layer.add_to(m)
-
-        folium.GeoJson(
-            geojson_data["urbanas"],
-            name="Aréas Urbanas",
-            style_function=lambda x: {'fillColor': '#9e064d', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
-        ).add_to(m)
-
 
     # CAMADAS RECURSOS HÍDRICOS
 
