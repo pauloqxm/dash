@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import folium_static
+from folium.plugins import MeasureControl
 import json
 
 st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
@@ -134,10 +135,7 @@ if not df_filtrado.empty:
     
     # Criar mapa centralizado na média
     m = folium.Map(
-    # Adiciona ferramenta de medição de distância
-    from folium.plugins import MeasureControl
-    m.add_child(MeasureControl(primary_length_unit='kilometers'))
-
+m.add_child(MeasureControl(primary_length_unit='kilometers'))
         location=[df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()],
         zoom_start=10,
         tiles=None
