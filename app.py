@@ -3,6 +3,7 @@ import pandas as pd
 import folium
 from streamlit_folium import folium_static
 from folium.plugins import MeasureControl
+from folium.plugins import Draw, Search, MousePosition
 import json
 
 st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
@@ -427,6 +428,13 @@ if not df_filtrado.empty:
  
     
     folium.LayerControl(collapsed=True).add_to(m)
+    # Plugins interativos
+    MousePosition().add_to(m)
+    Draw(export=True).add_to(m)
+    # Exemplo de uso do Search (você pode substituir 'comunidades_layer' por outra camada)
+    if show_comunidades and geojson_data.get("comunidades"):
+        Search(layer=comunidades_layer, search_label="Name", placeholder="🔍 Buscar comunidade").add_to(m)
+
     folium_static(m, width=1200, height=700)
 
 else:
