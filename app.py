@@ -296,7 +296,7 @@ if not df_filtrado.empty:
             geojson_data["urbanas"],
             name="Aréas Urbanas",
             style_function=lambda x: {'fillColor': '#9e064d', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
-        ).add_to(m)).add_to(m)
+        ).add_to(m).add_to(m)
 
     if show_comunidades and geojson_data.get("comunidades"):
         comunidades_layer = folium.FeatureGroup(name="Comunidades")
