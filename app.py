@@ -63,6 +63,7 @@ try:
         "escolas": "escolas.geojson",
         "postos": "postos.geojson",
         "urbanas": "urbanas.geojson",
+        "comunidades": "comunidades.geojson",
     }
 
     geojson_data = {}
@@ -89,6 +90,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_escolas = st.checkbox("Escolas", value=False)
     show_postos = st.checkbox("Postos de Saúde", value=False)
     show_urbanas = st.checkbox("Áreas Urbanas", value=False)
+    show_comunidades = st.checkbox("Comunidades", value=False)
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_outorgas = st.checkbox("Outorgas", value=False)
@@ -291,6 +293,28 @@ if not df_filtrado.empty:
         postos_layer.add_to(m)
 
     if show_urbanas and geojson_data.get("urbanas"):
+    if show_comunidades and geojson_data.get("comunidades"):
+        comunidades_layer = folium.FeatureGroup(name="Comunidades")
+        for feature in geojson_data["comunidades"]["features"]:
+            coords = feature["geometry"]["coordinates"]
+            props = feature["properties"]
+            nome = props.get("Nome", "Sem nome")
+            distrito = props.get("Distrito", "Não informado")
+            popup_info = f"""
+            <div style='font-family: Arial, sans-serif; border: 2px solid #4CAF50; border-radius: 8px; padding: 8px; background-color: #f0fff0;'>
+            <h4 style='margin-top: 0; margin-bottom: 8px; color: #2E7D32;'>🏘️ Comunidade</h4>
+            <p><strong>📛 Nome:</strong> {nome}</p>
+            <p><strong>📍 Distrito:</strong> {distrito}</p>
+            </div>
+            """
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                tooltip=nome,
+                popup=folium.Popup(popup_info, max_width=300),
+                icon=folium.CustomIcon("https://i.ibb.co/QPzLW67/home.png", icon_size=(24, 24))
+            ).add_to(comunidades_layer)
+        comunidades_layer.add_to(m)
+
         folium.GeoJson(
             geojson_data["urbanas"],
             name="Aréas Urbanas",
