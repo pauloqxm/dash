@@ -84,14 +84,14 @@ st.sidebar.title("🗺️ Controle de Camadas")
 with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos = st.checkbox("Distritos", value=True)
     show_distritos_ponto = st.checkbox("Sede Distritos", value=False)
+    show_comunidades = st.checkbox("Comunidades", value=False)
+    show_urbanas = st.checkbox("Áreas Urbanas", value=False)
     show_produtores = st.checkbox("Produtores", value=False)
     show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
     show_estradas = st.checkbox("Estradas", value=False)
     show_escolas = st.checkbox("Escolas", value=False)
     show_postos = st.checkbox("Postos de Saúde", value=False)
-    show_urbanas = st.checkbox("Áreas Urbanas", value=False)
-    show_comunidades = st.checkbox("Comunidades", value=False)
-
+        
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_outorgas = st.checkbox("Outorgas", value=False)
     show_chafarizes = st.checkbox("Chafarizes", value=False)
