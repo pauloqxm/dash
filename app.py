@@ -136,6 +136,7 @@ if not df_filtrado.empty:
     # Criar mapa centralizado na média
     m = folium.Map(
 m.add_child(MeasureControl(primary_length_unit='kilometers'))
+    m.add_child(MeasureControl(primary_length_unit='kilometers'))
         location=[df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()],
         zoom_start=10,
         tiles=None
