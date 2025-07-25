@@ -292,12 +292,7 @@ if not df_filtrado.empty:
             ).add_to(postos_layer)
         postos_layer.add_to(m)
 
-    if show_urbanas and geojson_data.get("urbanas"):folium.GeoJson(
-            geojson_data["urbanas"],
-            name="Aréas Urbanas",
-            style_function=lambda x: {'fillColor': '#9e064d', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
-        ).add_to(m).add_to(m)
-
+    if show_urbanas and geojson_data.get("urbanas"):
     if show_comunidades and geojson_data.get("comunidades"):
         comunidades_layer = folium.FeatureGroup(name="Comunidades")
         for feature in geojson_data["comunidades"]["features"]:
@@ -320,6 +315,11 @@ if not df_filtrado.empty:
             ).add_to(comunidades_layer)
         comunidades_layer.add_to(m)
 
+        folium.GeoJson(
+            geojson_data["urbanas"],
+            name="Aréas Urbanas",
+            style_function=lambda x: {'fillColor': '#9e064d', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
+        ).add_to(m)
 
 
     # CAMADAS RECURSOS HÍDRICOS
@@ -377,4 +377,61 @@ if not df_filtrado.empty:
             geojson_data["acudes"],
             name="Açudes",
             style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
-        
+        ).add_to(m)
+
+    
+    if show_sistemas and geojson_data.get("sistemas"):
+        sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
+        for feature in geojson_data["sistemas"]["features"]:
+            coords = feature["geometry"]["coordinates"]
+            props = feature["properties"]
+            popup_info = (
+                "<strong>Comunidade:</strong> " + props.get("Comunidade", "Sem nome") + "<br>"
+                "<strong>Associação:</strong> " + props.get("Associacao", "Não informado") + "<br>"
+                "<strong>Ano:</strong> " + str(props.get("Ano", "Não informado")) + "<br>"
+                "<strong>Município:</strong> " + props.get("Municipio", "Não informado")
+            )
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(popup_info, max_width=300),
+                tooltip=props.get("Comunidade", "Sem nome"),
+                icon=folium.CustomIcon(
+                    "https://i.ibb.co/sd8DxJQ5/water-tower.png",
+                    icon_size=(25, 25)
+                )
+            ).add_to(sistemas_layer)
+        sistemas_layer.add_to(m)
+
+    if show_outorgas and geojson_data.get("outorgas"):
+        outorgas_layer = folium.FeatureGroup(name="Outorgas")
+        for feature in geojson_data["outorgas"]["features"]:
+            coords = feature["geometry"]["coordinates"]
+            props = feature["properties"]
+            popup_info = (
+                "<div style='font-family: Arial, sans-serif; border: 2px solid #008080; border-radius: 8px; padding: 8px; background-color: #f0ffff;'>"
+                "<h4 style='margin-top: 0; margin-bottom: 8px; color: #008080; border-bottom: 1px solid #ccc;'>📝 Outorga</h4>"
+                "<p style='margin: 4px 0;'><strong>📄 Tipo de Uso:</strong> " + str(props.get("TIPO_DE_US", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>🌊 Manancial:</strong> " + str(props.get("MANANCIAL", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>📅 Vigência:</strong> " + str(props.get("VIGÊNCIA", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>💧 Volume Outorgado:</strong> " + str(props.get("VOLUME_OUT", "Não informado")) + "</p>"
+                "</div>"
+            )
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(popup_info, max_width=300),
+                tooltip=props.get("TIPO_DE_US", "Outorga"),
+                icon=folium.CustomIcon("https://i.ibb.co/kg8SpYRY/certificate.png", icon_size=(23, 23))
+            ).add_to(outorgas_layer)
+        outorgas_layer.add_to(m)
+ 
+    
+    folium.LayerControl(collapsed=True).add_to(m)
+    folium_static(m, width=1200, height=700)
+
+else:
+    st.info("Nenhum produtor encontrado com os filtros selecionados.")
+
+# Tabela final
+st.title("📋 Dados dos Produtores")
+colunas = ["TECNICO", "PRODUTOR", "APELIDO", "FAZENDA", "DISTRITO", "ORDENHA?", "INSEMINA?", "LATICINIO", "COMPRADOR"]
+st.dataframe(df_filtrado[colunas], use_container_width=True)
