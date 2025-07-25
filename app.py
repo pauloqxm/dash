@@ -301,7 +301,7 @@ if not df_filtrado.empty:
 
     if show_comunidades and geojson_data.get("comunidades"):
         comunidades_layer = folium.FeatureGroup(name="Comunidades")
-        for feature in geojson_data["name"]["features"]:
+        for feature in geojson_data["comunidades"]["features"]:
             coords = feature["geometry"]["coordinates"]
             props = feature["properties"]
             nome = props.get("Name", "Sem nome")
