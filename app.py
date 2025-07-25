@@ -134,6 +134,10 @@ if not df_filtrado.empty:
     
     # Criar mapa centralizado na média
     m = folium.Map(
+    # Adiciona ferramenta de medição de distância
+    from folium.plugins import MeasureControl
+    m.add_child(MeasureControl(primary_length_unit='kilometers'))
+
         location=[df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()],
         zoom_start=10,
         tiles=None
