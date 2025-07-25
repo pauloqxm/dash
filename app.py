@@ -87,17 +87,17 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_comunidades = st.checkbox("Comunidades", value=False)
     show_urbanas = st.checkbox("Áreas Urbanas", value=False)
     show_produtores = st.checkbox("Produtores", value=False)
-    show_areas_reforma = st.checkbox("Áreas de Reforma", value=False)
+    show_areas_reforma = st.checkbox("Assentamentos", value=False)
     show_estradas = st.checkbox("Estradas", value=False)
     show_escolas = st.checkbox("Escolas", value=False)
     show_postos = st.checkbox("Postos de Saúde", value=False)
         
 with st.sidebar.expander("💧 Recursos Hídricos"):
-    show_outorgas = st.checkbox("Outorgas", value=False)
     show_chafarizes = st.checkbox("Chafarizes", value=False)
     show_pocos = st.checkbox("Poços", value=False)
     show_cisternas = st.checkbox("Cisternas", value=False)
     show_sistemas = st.checkbox("Sistemas de Abastecimento", value=False)
+    show_outorgas = st.checkbox("Outorgas", value=False)
     show_acudes = st.checkbox("Açudes", value=False)
 
 st.sidebar.title("🔎 Filtros")
