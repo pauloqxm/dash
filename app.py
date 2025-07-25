@@ -317,7 +317,7 @@ if not df_filtrado.empty:
                 location=[coords[1], coords[0]],
                 tooltip=nome,
                 popup=folium.Popup(popup_info, max_width=300),
-                icon=folium.CustomIcon("https://i.ibb.co/QPzLW67/home.png", icon_size=(24, 24))
+                icon=folium.CustomIcon("https://i.ibb.co/kgbmmjWc/location-icon-242304.png", icon_size=(18, 18))
             ).add_to(comunidades_layer)
         comunidades_layer.add_to(m)
 
