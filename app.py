@@ -306,13 +306,7 @@ if not df_filtrado.empty:
             props = feature["properties"]
             nome = props.get("Name", "Sem nome")
             distrito = props.get("Distrito", "Não informado")
-            popup_info = f"""
-            <div style='font-family: Arial, sans-serif; border: 2px solid #4CAF50; border-radius: 8px; padding: 8px; background-color: #f0fff0;'>
-            <h4 style='margin-top: 0; margin-bottom: 8px; color: #2E7D32;'>🏘️ Comunidade</h4>
-            <p><strong>📛 Nome:</strong> {name}</p>
-            <p><strong>📍 Distrito:</strong> {distrito}</p>
-            </div>
-            """
+            
             folium.Marker(
                 location=[coords[1], coords[0]],
                 tooltip=nome,
