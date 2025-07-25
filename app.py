@@ -293,7 +293,7 @@ if not df_filtrado.empty:
         postos_layer.add_to(m)
 
     if show_urbanas and geojson_data.get("urbanas"):
-    if show_comunidades and geojson_data.get("comunidades"):
+        if show_comunidades and geojson_data.get("comunidades"):
         comunidades_layer = folium.FeatureGroup(name="Comunidades")
         for feature in geojson_data["comunidades"]["features"]:
             coords = feature["geometry"]["coordinates"]
