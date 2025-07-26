@@ -163,9 +163,9 @@ if not df_filtrado.empty:
         "attr": "Google Satellite imagery"
         },
         {
-            "name": "Stamen Toner",
-            "url": "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
-            "attr": "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
+        "name": "Google Streets",
+        "url": "https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
+        "attr": "Google Streets imagery"
         },
         {
             "name": "CartoDB Positron",
