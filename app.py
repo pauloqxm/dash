@@ -69,6 +69,7 @@ try:
     # GeoJSONs
     geojson_files = {
         "outorgas": "outorgado.geojson",
+        "saaeq": "saaeq.geojson",
         "distrito": "distrito.geojson",
         "chafarizes": "Chafarizes.geojson",
         "pocos": "pocos_profundos.geojson",
@@ -118,6 +119,7 @@ with st.sidebar.expander("💧 Recursos Hídricos"):
     show_pocos = st.checkbox("Poços", value=False)
     show_cisternas = st.checkbox("Cisternas", value=False)
     show_sistemas = st.checkbox("Sistemas de Abastecimento", value=False)
+    show_saaeq = st.checkbox("Sistemas SAAE", value=False)
     show_outorgas = st.checkbox("Outorgas", value=False)
     show_acudes = st.checkbox("Açudes", value=False)
 
@@ -443,6 +445,28 @@ if not df_filtrado.empty:
                 )
             ).add_to(sistemas_layer)
         sistemas_layer.add_to(m)
+
+    if show_saaeq and geojson_data.get("saaeq"):
+        saaeq_layer = folium.FeatureGroup(name="Sistemas SAAE")
+        for feature in geojson_data["saaeq"]["features"]:
+            coords = feature["geometry"]["coordinates"]
+            props = feature["properties"]
+            popup_info = (
+                "<div style='font-family: Arial, sans-serif; border: 2px solid #008080; border-radius: 8px; padding: 8px; background-color: #f0ffff;'>"
+                "<h4 style='margin-top: 0; margin-bottom: 8px; color: #008080; border-bottom: 1px solid #ccc;'>📝 Outorga</h4>"
+                "<p style='margin: 4px 0;'><strong>📄 Sistema:</strong> " + str(props.get("Sistema principal", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>🌊 Localidade:</strong> " + str(props.get("Comunidade", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>📅 Operador:</strong> " + str(props.get("Operador", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>💧 Ligações Ativas:</strong> " + str(props.get("Ligações Ativas", "Não informado")) + "</p>"
+                "</div>"
+            )
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                popup=folium.Popup(popup_info, max_width=300),
+                tooltip=props.get("TIPO_DE_US", "Outorga"),
+                icon=folium.CustomIcon("https://i.ibb.co/kg8SpYRY/certificate.png", icon_size=(23, 23))
+            ).add_to(saaeq_layer)
+        saaeq_layer.add_to(m)
 
     if show_outorgas and geojson_data.get("outorgas"):
         outorgas_layer = folium.FeatureGroup(name="Outorgas")
