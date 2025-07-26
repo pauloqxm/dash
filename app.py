@@ -153,6 +153,11 @@ if not df_filtrado.empty:
             "attr": "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
         },
         {
+        "name": "Sentinel-2 (sem nuvem)",
+        "url": "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg",
+        "attr": "Sentinel-2 cloudless by EOX"
+        },
+        {
             "name": "Stamen Toner",
             "url": "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
             "attr": "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
