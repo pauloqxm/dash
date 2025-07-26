@@ -454,17 +454,17 @@ if not df_filtrado.empty:
             popup_info = (
                 "<div style='font-family: Arial, sans-serif; border: 2px solid #008080; border-radius: 8px; padding: 8px; background-color: #f0ffff;'>"
                 "<h4 style='margin-top: 0; margin-bottom: 8px; color: #008080; border-bottom: 1px solid #ccc;'>📝 Outorga</h4>"
-                "<p style='margin: 4px 0;'><strong>📄 Sistema:</strong> " + str(props.get("Sistema principal", "Não informado")) + "</p>"
-                "<p style='margin: 4px 0;'><strong>🌊 Localidade:</strong> " + str(props.get("Comunidade", "Não informado")) + "</p>"
-                "<p style='margin: 4px 0;'><strong>📅 Operador:</strong> " + str(props.get("Operador", "Não informado")) + "</p>"
-                "<p style='margin: 4px 0;'><strong>💧 Ligações Ativas:</strong> " + str(props.get("Ligações Ativas", "Não informado")) + "</p>"
-                "<p style='margin: 4px 0;'><strong>💧 Ligações Hidrômetros:</strong> " + str(props.get("Hidrômetros", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>🚰 Sistema:</strong> " + str(props.get("Sistema principal", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>📍 Localidade:</strong> " + str(props.get("Comunidade", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>👷🏽 Operador:</strong> " + str(props.get("Operador", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>🏠 Ligações Ativas:</strong> " + str(props.get("Ligações Ativas", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>🕤 Hidrômetros:</strong> " + str(props.get("Hidrômetros", "Não informado")) + "</p>"
                 "</div>"
             )
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(popup_info, max_width=300),
-                tooltip=props.get("TIPO_DE_US", "Outorga"),
+                tooltip=props.get("Sistema principal", "Sistema"),
                 icon=folium.CustomIcon("https://i.ibb.co/m56JXGqy/73016potablewater-109514.png", icon_size=(23, 23))
             ).add_to(saaeq_layer)
         saaeq_layer.add_to(m)
