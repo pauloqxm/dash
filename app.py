@@ -52,7 +52,7 @@ st.markdown("""
     </style>
 
     <div class='top-header'>
-        <img src="https://i.ibb.co/J6SJBRr/brasao.png" alt="Brasão">
+        <img src="https://i.ibb.co/jPF2kVzn/brasao.png" alt="Brasão">
         <h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
 """, unsafe_allow_html=True)
