@@ -18,19 +18,37 @@ st.markdown("""
             width: 100%;
             background-color: #004080;
             color: white;
-            text-align: center;
-            padding: 10px 0;
+            text-align: left;
+            padding: 10px 20px;
             z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 4px solid #002952;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
-        .reportview-container .main {
-            padding-top: 70px;
+
+        .fixed-header img {
+            height: 40px;
         }
+
+        .fixed-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        [data-testid="stAppViewContainer"] > .main {
+            margin-top: 70px;
+        }
+
         section[data-testid="stSidebar"] details:nth-of-type(1) summary {
             background-color: #003366 !important;
             color: white !important;
             font-weight: bold;
             border-radius: 5px;
         }
+
         section[data-testid="stSidebar"] details:nth-of-type(2) summary {
             background-color: #0059b3 !important;
             color: white !important;
@@ -38,7 +56,11 @@ st.markdown("""
             border-radius: 5px;
         }
     </style>
-    <div class='fixed-header'><h2>BASE DE DADOS ESPACIAIS</h2></div>
+
+    <div class='fixed-header'>
+        <img src="https://i.ibb.co/J6SJBRr/brasao.png" alt="Brasão">
+        <h2>BASE DE DADOS ESPACIAIS</h2>
+    </div>
 """, unsafe_allow_html=True)
 
 try:
