@@ -172,7 +172,7 @@ if not df_filtrado.empty:
     ))
     
     # Ajustar os limites do mapa
-    m.fit_bounds([sw, ne])
+    # m.fit_bounds([sw, ne])  # Desabilitado para evitar movimentação ao selecionar camada
     
     # Adicionar camadas de fundo
     tile_layers = [
