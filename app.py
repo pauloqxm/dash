@@ -183,10 +183,10 @@ if not df_filtrado.empty:
             "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
             "attr": "Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc."
         },
-        {
-        "name": "Google Streets",
-        "url": "https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
-        "attr": "Google Streets imagery"
+       {
+           "name": "Google Terrain",
+           "url": "https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+           "attr": "Google Terrain imagery"
        }
     ]
 
