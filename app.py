@@ -464,7 +464,7 @@ if not df_filtrado.empty:
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(popup_info, max_width=300),
                 tooltip=props.get("TIPO_DE_US", "Outorga"),
-                icon=folium.CustomIcon("https://i.ibb.co/kg8SpYRY/certificate.png", icon_size=(23, 23))
+                icon=folium.CustomIcon("https://i.ibb.co/m56JXGqy/73016potablewater-109514.png", icon_size=(23, 23))
             ).add_to(saaeq_layer)
         saaeq_layer.add_to(m)
 
