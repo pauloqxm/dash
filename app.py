@@ -153,7 +153,7 @@ if not df_filtrado.empty:
             "attr": "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
         },
           {
-            "name": "OpenS treet Map",
+            "name": "Open Street Map",
             "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             "attr": "© OpenStreetMap contributors"
         },
