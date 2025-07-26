@@ -27,7 +27,7 @@ st.markdown("""
         }
 
         .top-header img {
-            height: 90px; /* Aumente aqui para mudar o tamanho da imagem */
+            height: 90px;
         }
 
         .top-header h2 {
@@ -92,6 +92,9 @@ try:
         except FileNotFoundError:
             st.warning(f"Arquivo {file} não encontrado. A camada correspondente não será exibida.")
             geojson_data[name] = None
+        except json.JSONDecodeError:
+            st.warning(f"Arquivo {file} está corrompido ou mal formatado. A camada correspondente não será exibida.")
+            geojson_data[name] = None
 except Exception as e:
     st.error(f"Erro ao carregar dados: {str(e)}")
     st.stop()
@@ -145,27 +148,32 @@ st.success(f"{total} registro(s) encontrado(s).")
 st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
 if not df_filtrado.empty:
+    # Verificar coordenadas válidas
+    if df_filtrado["LATITUDE"].isnull().any() or df_filtrado["LONGITUDE"].isnull().any():
+        st.warning("Algumas coordenadas são inválidas e serão ignoradas.")
+        df_filtrado = df_filtrado.dropna(subset=["LATITUDE", "LONGITUDE"])
+    
     # Calcular os limites do mapa com margem
-    padding = 0.02  # graus de margem
+    padding = 0.02
     sw = [df_filtrado["LATITUDE"].min() - padding, df_filtrado["LONGITUDE"].min() - padding]
     ne = [df_filtrado["LATITUDE"].max() + padding, df_filtrado["LONGITUDE"].max() + padding]
     
-    # Criar mapa centralizado na média
+    # Criar mapa centralizado
     m = folium.Map(
-    location=[-5.1971, -39.2886],
-    zoom_start=10,
-    tiles=None
-)
-m.add_child(MeasureControl(
-    primary_length_unit="meters",
-    secondary_length_unit="kilometers",
-    primary_area_unit="hectares",
-    secondary_area_unit="sqmeters"
-))
-
-)
+        location=[-5.1971, -39.2886],
+        zoom_start=10,
+        tiles=None
+    )
+    m.add_child(MeasureControl(
+        primary_length_unit="meters",
+        secondary_length_unit="kilometers",
+        primary_area_unit="hectares",
+        secondary_area_unit="sqmeters"
+    ))
     
-    # Ajustar os limites do mapa para incluir todos os pontos
+    # Ajustar os limites do mapa
+    m.fit_bounds([sw, ne])
+    
     # Adicionar camadas de fundo
     tile_layers = [
         {
@@ -173,25 +181,25 @@ m.add_child(MeasureControl(
             "url": "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
             "attr": "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
         },
-          {
+        {
             "name": "Open Street Map",
             "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             "attr": "© OpenStreetMap contributors"
         },
         {
-        "name": "Sentinel-2 (sem nuvem)",
-        "url": "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg",
-        "attr": "Sentinel-2 cloudless by EOX"
+            "name": "Sentinel-2 (sem nuvem)",
+            "url": "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg",
+            "attr": "Sentinel-2 cloudless by EOX"
         },
         {
-        "name": "Google Satellite",
-        "url": "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-        "attr": "Google Satellite imagery"
+            "name": "Google Satellite",
+            "url": "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+            "attr": "Google Satellite imagery"
         },
         {
-        "name": "Google Streets",
-        "url": "https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
-        "attr": "Google Streets imagery"
+            "name": "Google Streets",
+            "url": "https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
+            "attr": "Google Streets imagery"
         },
         {
             "name": "CartoDB Positron",
@@ -203,17 +211,16 @@ m.add_child(MeasureControl(
             "url": "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
             "attr": "© OpenStreetMap contributors, © CARTO"
         },
-        
         {
             "name": "Esri Satellite",
             "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
             "attr": "Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc."
         },
-       {
-           "name": "Google Terrain",
-           "url": "https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
-           "attr": "Google Terrain imagery"
-       }
+        {
+            "name": "Google Terrain",
+            "url": "https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+            "attr": "Google Terrain imagery"
+        }
     ]
 
     for layer in tile_layers:
@@ -286,14 +293,13 @@ m.add_child(MeasureControl(
             coords = feature["geometry"]["coordinates"]
             props = feature["properties"]
             popup_info = (
-    "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
-    "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏫 Escola Municipal</h4>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Nome:</span> " + props.get("no_entidad", "Sem nome") + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Endereço:</span> " + props.get("endereco", "Não informado") + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Contato:</span> " + str(props.get("fone_1", "Não informado")) + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Localização:</span> " + props.get("no_localiz", "Não informado") + "</p>"
-    "</div>"
-
+                "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
+                "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏫 Escola Municipal</h4>"
+                "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Nome:</span> " + props.get("no_entidad", "Sem nome") + "</p>"
+                "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Endereço:</span> " + props.get("endereco", "Não informado") + "</p>"
+                "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Contato:</span> " + str(props.get("fone_1", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Localização:</span> " + props.get("no_localiz", "Não informado") + "</p>"
+                "</div>"
             )
             folium.Marker(
                 location=[coords[1], coords[0]],
@@ -312,14 +318,13 @@ m.add_child(MeasureControl(
             coords = feature["geometry"]["coordinates"]
             props = feature["properties"]
             popup_info = (
-    "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
-    "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏥 Postos de Saúde</h4>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Posto:</span> " + props.get("nome", "Sem nome") + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Endereço:</span> " + props.get("endereco", "Não informado") + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Bairro:</span> " + str(props.get("bairro", "Não informado")) + "</p>"
-    "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Município:</span> " + props.get("municipio", "Não informado") + "</p>"
-    "</div>"
-
+                "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
+                "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🏥 Postos de Saúde</h4>"
+                "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Posto:</span> " + props.get("nome", "Sem nome") + "</p>"
+                "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Endereço:</span> " + props.get("endereco", "Não informado") + "</p>"
+                "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📞 Bairro:</span> " + str(props.get("bairro", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧭 Município:</span> " + props.get("municipio", "Não informado") + "</p>"
+                "</div>"
             )
             folium.Marker(
                 location=[coords[1], coords[0]],
@@ -349,7 +354,7 @@ m.add_child(MeasureControl(
             popup_info = f"""
             <div style='font-family: Arial, sans-serif; border: 2px solid #4CAF50; border-radius: 8px; padding: 8px; background-color: #f0fff0;'>
             <h4 style='margin-top: 0; margin-bottom: 8px; color: #2E7D32;'>🏘️ Comunidade</h4>
-            <p><strong>📛 Nome:</strong> {name}</p>
+            <p><strong>📛 Nome:</strong> {nome}</p>
             <p><strong>📍 Distrito:</strong> {distrito}</p>
             </div>
             """
@@ -418,7 +423,6 @@ m.add_child(MeasureControl(
             style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '#000000', 'weight': 1}
         ).add_to(m)
 
-    
     if show_sistemas and geojson_data.get("sistemas"):
         sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
         for feature in geojson_data["sistemas"]["features"]:
@@ -463,12 +467,10 @@ m.add_child(MeasureControl(
             ).add_to(outorgas_layer)
         outorgas_layer.add_to(m)
  
-    
     folium.LayerControl(collapsed=True).add_to(m)
-    # Plugins interativos
     MousePosition().add_to(m)
     Draw(export=True).add_to(m)
-    # Exemplo de uso do Search (você pode substituir 'comunidades_layer' por outra camada)
+    
     if show_comunidades and geojson_data.get("comunidades"):
         Search(layer=comunidades_layer, search_label="Name", placeholder="🔍 Buscar comunidade").add_to(m)
 
