@@ -27,7 +27,7 @@ st.markdown("""
         }
 
         .top-header img {
-            height: 70px; /* Aumente aqui para mudar o tamanho da imagem */
+            height: 90px; /* Aumente aqui para mudar o tamanho da imagem */
         }
 
         .top-header h2 {
