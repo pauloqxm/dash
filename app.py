@@ -149,7 +149,7 @@ if not df_filtrado.empty:
     tile_layers = [
         {
             "name": "Stamen Terrain",
-            "url": "https://tile.stamen.com/terrain/{z}/{x}/{y}.png",
+            "url": "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
             "attr": "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
         },
         {
