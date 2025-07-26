@@ -459,6 +459,8 @@ if not df_filtrado.empty:
                 "<p style='margin: 4px 0;'><strong>👷🏽 Operador:</strong> " + str(props.get("Operador", "Não informado")) + "</p>"
                 "<p style='margin: 4px 0;'><strong>🏠 Ligações Ativas:</strong> " + str(props.get("Ligações Ativas", "Não informado")) + "</p>"
                 "<p style='margin: 4px 0;'><strong>🕤 Hidrômetros:</strong> " + str(props.get("Hidrômetros", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>🚩 Captação:</strong> " + str(props.get("Captação", "Não informado")) + "</p>"
+                "<p style='margin: 4px 0;'><strong>🔌 Enérgia:</strong> " + str(props.get("Energia", "Não informado")) + "</p>"
                 "</div>"
             )
             folium.Marker(
