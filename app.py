@@ -160,8 +160,14 @@ if not df_filtrado.empty:
     if show_distritos and geojson_data.get("distrito"):
         distrito_coords = []
         for feature in geojson_data["distrito"]["features"]:
-            for coord in feature["geometry"]["coordinates"][0]:
-                distrito_coords.append((coord[1], coord[0]))
+            geometry = feature["geometry"]
+            if geometry["type"] == "Polygon":
+                for coord in geometry["coordinates"][0]:
+                    distrito_coords.append((coord[1], coord[0]))
+            elif geometry["type"] == "MultiPolygon":
+                for polygon in geometry["coordinates"]:
+                    for coord in polygon[0]:
+                        distrito_coords.append((coord[1], coord[0]))
         if distrito_coords:
             m.fit_bounds(distrito_coords)
 
