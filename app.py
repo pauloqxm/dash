@@ -158,6 +158,11 @@ if not df_filtrado.empty:
         "attr": "Sentinel-2 cloudless by EOX"
         },
         {
+        "name": "NASA Blue Marble",
+        "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_ShadedRelief_Bathymetry/default/2020-06-01/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg",
+        "attr": "NASA Blue Marble"
+        },
+        {
             "name": "Stamen Toner",
             "url": "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
             "attr": "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
