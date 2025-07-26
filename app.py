@@ -156,7 +156,7 @@ if not df_filtrado.empty:
         zoom_start=10,
         tiles=None
     )
-m.add_child(MeasureControl(primary_length_unit=\'meters\', secondary_length_unit=\'kilometers\', primary_area_unit=\'hectares\', secondary_area_unit=\'sqmeters\'))
+m.add_child(MeasureControl(primary_length_unit="meters", secondary_length_unit="kilometers", primary_area_unit="hectares", secondary_area_unit="sqmeters"))
 )
     
     # Ajustar os limites do mapa para incluir todos os pontos
