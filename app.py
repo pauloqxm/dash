@@ -11,32 +11,26 @@ st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
 # Estilos personalizados para a sidebar
 st.markdown("""
     <style>
-        .spacer {
-            height: 70px;
-        }
-
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .top-header {
             width: 100%;
             background-color: #004080;
             color: white;
             text-align: left;
-            padding: 10px 20px;
-            z-index: 9999;
+            padding: 15px 20px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 20px;
             border-bottom: 4px solid #002952;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 0 0 8px 8px;
         }
 
-        .fixed-header img {
+        .top-header img {
             height: 40px;
         }
 
-        .fixed-header h2 {
+        .top-header h2 {
             margin: 0;
             font-size: 1.5rem;
             color: #ffffff;
@@ -57,11 +51,10 @@ st.markdown("""
         }
     </style>
 
-    <div class='fixed-header'>
+    <div class='top-header'>
         <img src="https://i.ibb.co/J6SJBRr/brasao.png" alt="Brasão">
         <h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
-    <div class='spacer'></div>
 """, unsafe_allow_html=True)
 
 try:
