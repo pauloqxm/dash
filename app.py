@@ -6,7 +6,7 @@ from folium.plugins import MeasureControl
 from folium.plugins import Draw, Search, MousePosition
 import json
 
-st.set_page_config(page_title="BASE DE DADOS ESPACIAIS", layout="wide")
+st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
 
 # Estilos personalizados para a sidebar
 st.markdown("""
@@ -27,12 +27,12 @@ st.markdown("""
         }
 
         .top-header img {
-            height: 40px;
+            height: 60px; /* Aumente aqui para mudar o tamanho da imagem */
         }
 
         .top-header h2 {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             color: #ffffff;
         }
 
