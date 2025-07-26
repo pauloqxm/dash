@@ -17,17 +17,17 @@ st.markdown("""
             color: white;
             text-align: left;
             padding: 15px 20px;
-            margin-bottom: 20px;
+            margin: 0;
             display: flex;
             align-items: center;
             gap: 20px;
             border-bottom: 4px solid #002952;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            border-radius: 0 0 8px 8px;
+            border-radius: 0;
         }
 
         .top-header img {
-            height: 90px; /* Aumente aqui para mudar o tamanho da imagem */
+            height: 60px;
         }
 
         .top-header h2 {
@@ -52,7 +52,7 @@ st.markdown("""
     </style>
 
     <div class='top-header'>
-        <img src="https://i.ibb.co/jPF2kVzn/brasao.png" alt="Brasão">
+        <img src="https://i.ibb.co/J6SJBRr/brasao.png" alt="Brasão">
         <h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
 """, unsafe_allow_html=True)
