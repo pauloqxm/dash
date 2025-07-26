@@ -11,6 +11,10 @@ st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
 # Estilos personalizados para a sidebar
 st.markdown("""
     <style>
+        .spacer {
+            height: 70px;
+        }
+
         .fixed-header {
             position: fixed;
             top: 0;
@@ -38,10 +42,6 @@ st.markdown("""
             color: #ffffff;
         }
 
-        [data-testid="stAppViewContainer"] > .main {
-            margin-top: 70px;
-        }
-
         section[data-testid="stSidebar"] details:nth-of-type(1) summary {
             background-color: #003366 !important;
             color: white !important;
@@ -61,6 +61,7 @@ st.markdown("""
         <img src="https://i.ibb.co/J6SJBRr/brasao.png" alt="Brasão">
         <h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
+    <div class='spacer'></div>
 """, unsafe_allow_html=True)
 
 try:
