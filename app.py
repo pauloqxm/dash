@@ -158,9 +158,9 @@ if not df_filtrado.empty:
         "attr": "Sentinel-2 cloudless by EOX"
         },
         {
-        "name": "Esri Satellite",
-        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "attr": "Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, etc."
+        "name": "Google Satellite",
+        "url": "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+        "attr": "Google Satellite imagery"
         },
         {
             "name": "Stamen Toner",
