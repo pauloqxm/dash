@@ -152,15 +152,22 @@ if not df_filtrado.empty:
     
     # Criar mapa centralizado na média
     m = folium.Map(
-        location=[df_filtrado["LATITUDE"].mean(), df_filtrado["LONGITUDE"].mean()],
+        location=[-5.1971, -39.2886],
         zoom_start=10,
         tiles=None
     )
+    # Ajustar os limites do mapa para incluir os distritos
+    if show_distritos and geojson_data.get("distrito"):
+        distrito_coords = []
+        for feature in geojson_data["distrito"]["features"]:
+            for coord in feature["geometry"]["coordinates"][0]:
+                distrito_coords.append((coord[1], coord[0]))
+        if distrito_coords:
+            m.fit_bounds(distrito_coords)
+
     m.add_child(MeasureControl(primary_length_unit='meters', secondary_length_unit='kilometers', primary_area_unit='hectares', secondary_area_unit='sqmeters'))
     
     # Ajustar os limites do mapa para incluir todos os pontos
-    m.fit_bounds([sw, ne])
-
     # Adicionar camadas de fundo
     tile_layers = [
         {
