@@ -159,9 +159,7 @@ if not df_filtrado.empty:
     ne = [df_filtrado["LATITUDE"].max() + padding, df_filtrado["LONGITUDE"].max() + padding]
     
     # Criar mapa centralizado
-    m = folium.Map(
-        location=[-5.1971, -39.2886],
-        zoom_start=10,
+    m = folium.Map(location=[-5.1971, -39.2886], zoom_start=10,
         tiles=None
     )
     m.add_child(MeasureControl(
@@ -173,7 +171,7 @@ if not df_filtrado.empty:
 ))
     
     # Ajustar os limites do mapa
-    # m.fit_bounds([sw, ne])  # Desabilitado para evitar movimentação ao selecionar camada
+    #  # Desabilitado para evitar movimentação ao selecionar camada
     
     # Adicionar camadas de fundo
     tile_layers = [
