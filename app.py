@@ -152,11 +152,17 @@ if not df_filtrado.empty:
     
     # Criar mapa centralizado na média
     m = folium.Map(
-        location=[-5.1971, -39.2886],
-        zoom_start=10,
-        tiles=None
-    )
-m.add_child(MeasureControl(primary_length_unit="meters", secondary_length_unit="kilometers", primary_area_unit="hectares", secondary_area_unit="sqmeters"))
+    location=[-5.1971, -39.2886],
+    zoom_start=10,
+    tiles=None
+)
+m.add_child(MeasureControl(
+    primary_length_unit="meters",
+    secondary_length_unit="kilometers",
+    primary_area_unit="hectares",
+    secondary_area_unit="sqmeters"
+))
+
 )
     
     # Ajustar os limites do mapa para incluir todos os pontos
