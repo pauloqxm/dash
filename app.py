@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import folium_static
-from folium.plugins import MeasureControl, Fullscreen
+from folium.plugins import MeasureControl
 from folium.plugins import Draw, Search, MousePosition
 import json
 
@@ -11,49 +11,49 @@ st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 # Estilos personalizados para a sidebar
 st.markdown("""
     <style>
-.top-header {
-width: 100%;
-background-color: #004080;
-color: white;
-text-align: left;
-padding: 15px 20px;
-margin-bottom: 20px;
-display: flex;
-align-items: center;
-gap: 20px;
-border-bottom: 4px solid #002952;
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-border-radius: 0 0 8px 8px;
-}
+        .top-header {
+            width: 100%;
+            background-color: #004080;
+            color: white;
+            text-align: left;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 4px solid #002952;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 0 0 8px 8px;
+        }
 
-.top-header img {
-height: 90px;
-}
+        .top-header img {
+            height: 90px;
+        }
 
-.top-header h2 {
-margin: 0;
-font-size: 1.7rem;
-color: #ffffff;
-}
+        .top-header h2 {
+            margin: 0;
+            font-size: 1.7rem;
+            color: #ffffff;
+        }
 
-section[data-testid="stSidebar"] details:nth-of-type(1) summary {
-background-color: #003366 !important;
-color: white !important;
-font-weight: bold;
-border-radius: 5px;
-}
+        section[data-testid="stSidebar"] details:nth-of-type(1) summary {
+            background-color: #003366 !important;
+            color: white !important;
+            font-weight: bold;
+            border-radius: 5px;
+        }
 
-section[data-testid="stSidebar"] details:nth-of-type(2) summary {
-background-color: #0059b3 !important;
-color: white !important;
-font-weight: bold;
-border-radius: 5px;
-}
+        section[data-testid="stSidebar"] details:nth-of-type(2) summary {
+            background-color: #0059b3 !important;
+            color: white !important;
+            font-weight: bold;
+            border-radius: 5px;
+        }
     </style>
 
     <div class='top-header'>
-<img src="https://i.ibb.co/jPF2kVzn/brasao.png" alt="Brasão">
-<h2>BASE DE DADOS ESPACIAIS</h2>
+        <img src="https://i.ibb.co/jPF2kVzn/brasao.png" alt="Brasão">
+        <h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
 """, unsafe_allow_html=True)
 
@@ -97,7 +97,6 @@ try:
         except json.JSONDecodeError:
             st.warning(f"Arquivo {file} está corrompido ou mal formatado. A camada correspondente não será exibida.")
             geojson_data[name] = None
-
 except Exception as e:
     st.error(f"Erro ao carregar dados: {str(e)}")
     st.stop()
@@ -116,7 +115,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_estradas = st.checkbox("Estradas", value=False)
     show_escolas = st.checkbox("Escolas", value=False)
     show_postos = st.checkbox("Postos de Saúde", value=False)
-
+        
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
     show_pocos = st.checkbox("Poços", value=False)
@@ -156,7 +155,7 @@ if not df_filtrado.empty:
     # Verificar coordenadas válidas
     if df_filtrado["LATITUDE"].isnull().any() or df_filtrado["LONGITUDE"].isnull().any():
         st.warning("Algumas coordenadas são inválidas e serão ignoradas.")
-    df_filtrado = df_filtrado.dropna(subset=["LATITUDE", "LONGITUDE"])
+        df_filtrado = df_filtrado.dropna(subset=["LATITUDE", "LONGITUDE"])
     
     # Calcular os limites do mapa com margem
     padding = 0.02
@@ -165,7 +164,6 @@ if not df_filtrado.empty:
     
     # Criar mapa centralizado
     m = folium.Map(location=[-5.1971, -39.2886], zoom_start=10, tiles=None)
-    Fullscreen(position='topright', title='Tela Cheia', title_cancel='Sair da Tela Cheia', force_separate_button=True).add_to(m)
     m.add_child(MeasureControl(
         primary_length_unit="meters",
         secondary_length_unit="kilometers",
@@ -173,6 +171,25 @@ if not df_filtrado.empty:
         secondary_area_unit="sqmeters",
         position="topleft"
     ))
+    
+    # Botão de tela cheia
+    from branca.element import Element
+    fullscreen_button = Element("""
+        <div style='position: absolute; top: 85px; left: 10px; z-index: 9999;'>
+            <a href="/fullscreen_mapa" target="_blank" style="
+                background-color: #004080;
+                color: white;
+                padding: 8px 14px;
+                border-radius: 5px;
+                font-weight: bold;
+                font-family: Arial, sans-serif;
+                text-decoration: none;
+                box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+                display: inline-block;
+            ">🔍 Tela Cheia</a>
+        </div>
+    """)
+    m.get_root().html.add_child(fullscreen_button)
     
     # Adicionar camadas de fundo
     tile_layers = [
@@ -250,7 +267,7 @@ if not df_filtrado.empty:
                 icon=folium.CustomIcon("https://i.ibb.co/S4VmxQcB/circle.png", icon_size=(23, 23))
             ).add_to(distritos_ponto_layer)
         distritos_ponto_layer.add_to(m)
-
+        
     if show_estradas and geojson_data.get("estradas"):
         folium.GeoJson(
             geojson_data["estradas"],
@@ -261,11 +278,11 @@ if not df_filtrado.empty:
     if show_produtores:
         for _, row in df_filtrado.iterrows():
             popup_info = f"""
-                <strong>Apelido:</strong> {row['APELIDO']}<br>
-                <strong>Produção dia:</strong> {row['PRODUCAO']}<br>
-                <strong>Fazenda:</strong> {row['FAZENDA']}<br>
-                <strong>Distrito:</strong> {row['DISTRITO']}<br>
-                <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
+            <strong>Apelido:</strong> {row['APELIDO']}<br>
+            <strong>Produção dia:</strong> {row['PRODUCAO']}<br>
+            <strong>Fazenda:</strong> {row['FAZENDA']}<br>
+            <strong>Distrito:</strong> {row['DISTRITO']}<br>
+            <strong>Escolaridade:</strong> {row['ESCOLARIDADE']}<br>
             """
             folium.Marker(
                 location=[row["LATITUDE"], row["LONGITUDE"]],
@@ -306,7 +323,7 @@ if not df_filtrado.empty:
                 style_function=lambda x: {"fillColor": "#ff7800", "color": "red", "weight": 1, "fillOpacity": 0.4}
             ).add_to(areas_layer)
         areas_layer.add_to(m)
-
+        
     if show_escolas and geojson_data.get("escolas"):
         escolas_layer = folium.FeatureGroup(name="Escolas")
         for feature in geojson_data["escolas"]["features"]:
