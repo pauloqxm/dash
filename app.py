@@ -513,7 +513,17 @@ if not df_filtrado.empty:
  
     folium.LayerControl(collapsed=True).add_to(m)
     MousePosition().add_to(m)
-    Draw(export=True).add_to(m)
+    Draw(
+    export=True,
+    draw_options={
+        "polyline": True,
+        "polygon": {"allowIntersection": False, "showArea": True},
+        "rectangle": {"showArea": True},
+        "circle": {"showArea": True},
+        "circlemarker": False
+    },
+    edit_options={"edit": True, "remove": True}
+).add_to(m)
         
     if show_comunidades and geojson_data.get("comunidades"):
         Search(layer=comunidades_layer, search_label="Name", placeholder="🔍 Buscar comunidade").add_to(m)
