@@ -105,6 +105,11 @@ except Exception as e:
 st.sidebar.title("🗺️ Controle de Camadas")
 
 st.sidebar.markdown("### 🌐 Acesso Rápido")
+if st.sidebar.button("🗺️ Abrir Mapa em Tela Cheia"):
+    st.markdown('<meta http-equiv="refresh" content="0;URL=mapa_tela_cheia.py">', unsafe_allow_html=True)
+
+
+st.sidebar.markdown("### 🌐 Acesso Rápido")
 if st.sidebar.button("🗺️ Abrir Mapa em Nova Aba"):
     st.markdown('<meta http-equiv="refresh" content="0;URL=https://atlas-sda.streamlit.app/fullscreen_mapa">', unsafe_allow_html=True)
 
