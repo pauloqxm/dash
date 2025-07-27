@@ -151,17 +151,6 @@ total = len(df_filtrado)
 st.success(f"{total} registro(s) encontrado(s).")
 st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
-
-html_button = """
-<div style='position: fixed; top: 100px; left: 15px; z-index: 9999;'>
-    <a href='/fullscreen_mapa' target='_blank' style='background-color: #004080; color: white; padding: 10px 14px; border-radius: 5px; text-decoration: none; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);'>
-        🔍 Tela Cheia
-    </a>
-</div>
-"""
-st.markdown(html_button, unsafe_allow_html=True)
-
-
 if not df_filtrado.empty:
     # Verificar coordenadas válidas
     if df_filtrado["LATITUDE"].isnull().any() or df_filtrado["LONGITUDE"].isnull().any():
@@ -175,6 +164,7 @@ if not df_filtrado.empty:
     
     # Criar mapa centralizado
     m = folium.Map(location=[-5.1971, -39.2886], zoom_start=10,
+    
         tiles=None
     )
     m.add_child(MeasureControl(
@@ -187,6 +177,26 @@ if not df_filtrado.empty:
     
     # Ajustar os limites do mapa
     #  # Desabilitado para evitar movimentação ao selecionar camada
+
+from branca.element import Element
+
+fullscreen_button = Element("""
+    <div style='position: absolute; top: 85px; left: 10px; z-index: 9999;'>
+        <a href="/fullscreen_mapa" target="_blank" style="
+            background-color: #004080;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            text-decoration: none;
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+            display: inline-block;
+        '>🔍 Tela Cheia</a>
+    </div>
+""")
+m.get_root().html.add_child(fullscreen_button)
+
     
     # Adicionar camadas de fundo
     tile_layers = [
