@@ -65,6 +65,7 @@ try:
     df["LONGITUDE"] = pd.to_numeric(df["LONGITUDE"], errors="coerce")
     df["ORDENHA?"] = df["ORDENHA?"].str.upper().fillna("NAO")
     df["INSEMINA?"] = df["INSEMINA?"].str.upper().fillna("NAO")
+    pass  # bloco adicionado
 
     # GeoJSONs
     geojson_files = {
@@ -90,8 +91,11 @@ try:
     for name, file in geojson_files.items():
 try:
 with open(file, "r", encoding="utf-8") as f:
+    pass  # bloco adicionado
 geojson_data[name] = json.load(f)
+    pass  # bloco adicionado
 except FileNotFoundError:
+        pass  # bloco adicionado
 st.warning(f"Arquivo {file} não encontrado. A camada correspondente não será exibida.")
 geojson_data[name] = None
 except json.JSONDecodeError:
@@ -115,6 +119,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_estradas = st.checkbox("Estradas", value=False)
     show_escolas = st.checkbox("Escolas", value=False)
     show_postos = st.checkbox("Postos de Saúde", value=False)
+    pass  # bloco adicionado
 
 with st.sidebar.expander("💧 Recursos Hídricos"):
     show_chafarizes = st.checkbox("Chafarizes", value=False)
@@ -124,12 +129,14 @@ with st.sidebar.expander("💧 Recursos Hídricos"):
     show_saaeq = st.checkbox("Sistemas SAAE", value=False)
     show_outorgas = st.checkbox("Outorgas", value=False)
     show_acudes = st.checkbox("Açudes", value=False)
+    pass  # bloco adicionado
 
 st.sidebar.title("🔎 Filtros")
 
 if st.sidebar.button("🔄 Reiniciar Filtros"):
     st.session_state.clear()
     st.rerun()
+    pass  # bloco adicionado
 
 tecnicos = st.sidebar.multiselect("👨‍🔧 Técnico", sorted(df["TECNICO"].dropna().unique()))
 distritos = st.sidebar.multiselect("📍 Distrito", sorted(df["DISTRITO"].dropna().unique()))
@@ -146,15 +153,21 @@ if compradores:
     df_filtrado = df_filtrado[df_filtrado["COMPRADOR"].isin(compradores)]
 if produtor:
     df_filtrado = df_filtrado[df_filtrado["PRODUTOR"].str.contains(produtor, case=False, na=False)]
+    pass  # bloco adicionado
 
+    pass  # bloco adicionado
 total = len(df_filtrado)
+    pass  # bloco adicionado
 st.success(f"{total} registro(s) encontrado(s).")
+    pass  # bloco adicionado
 st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
 
 if not df_filtrado.empty:
     # Verificar coordenadas válidas
     if df_filtrado["LATITUDE"].isnull().any() or df_filtrado["LONGITUDE"].isnull().any():
+        pass  # bloco adicionado
 st.warning("Algumas coordenadas são inválidas e serão ignoradas.")
+    pass  # bloco adicionado
 df_filtrado = df_filtrado.dropna(subset=["LATITUDE", "LONGITUDE"])
     
     # Calcular os limites do mapa com margem
@@ -242,6 +255,7 @@ display: inline-block;
     ]
 
     for layer in tile_layers:
+        pass  # bloco adicionado
 folium.TileLayer(
 tiles=layer["url"],
 attr=layer["attr"],
@@ -251,6 +265,7 @@ name=layer["name"]
     # CAMADAS INFRAESTRUTURA
     
     if show_distritos and geojson_data.get("distrito"):
+        pass  # bloco adicionado
 folium.GeoJson(
 geojson_data["distrito"],
 name="Distritos",
@@ -258,8 +273,10 @@ style_function=lambda x: {'fillColor': '#9fe2fc', 'fillOpacity': 0.2, 'color': '
 ).add_to(m)
 
     if show_distritos_ponto and geojson_data.get("distritos_ponto"):
+        pass  # bloco adicionado
 distritos_ponto_layer = folium.FeatureGroup(name="Sede Distritos")
 for feature in geojson_data["distritos_ponto"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 nome_distrito = feature["properties"].get("Name", "Sem nome")
 folium.Marker(
@@ -270,6 +287,7 @@ icon=folium.CustomIcon("https://i.ibb.co/S4VmxQcB/circle.png", icon_size=(23, 23
 distritos_ponto_layer.add_to(m)
 
     if show_estradas and geojson_data.get("estradas"):
+        pass  # bloco adicionado
 folium.GeoJson(
 geojson_data["estradas"],
 name="estradas",
@@ -278,7 +296,9 @@ style_function=lambda x: {'fillColor': '#802f04', 'fillOpacity': 0.2, 'color': '
 
     if show_produtores:
 for _, row in df_filtrado.iterrows():
+    pass  # bloco adicionado
 popup_info = f"""
+        pass  # bloco adicionado
 <strong>Apelido:</strong> {row['APELIDO']}<br>
 <strong>Produção dia:</strong> {row['PRODUCAO']}<br>
 <strong>Fazenda:</strong> {row['FAZENDA']}<br>
@@ -293,8 +313,10 @@ tooltip=row["PRODUTOR"]
 ).add_to(m)
 
     if show_apicultura and geojson_data.get("apicultura"):
+        pass  # bloco adicionado
 apicultura_layer = folium.FeatureGroup(name="Apicultura")
 for feature in geojson_data["apicultura"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 props = feature["properties"]
 nome = props.get("Nome", "Sem nome")
@@ -313,8 +335,10 @@ icon=folium.CustomIcon("https://i.ibb.co/yny9Yvjb/apitherapy.png", icon_size=(22
 apicultura_layer.add_to(m)
 
     if show_areas_reforma and geojson_data.get("areas_reforma"):
+        pass  # bloco adicionado
 areas_layer = folium.FeatureGroup(name="Áreas de Reforma")
 for feature in geojson_data["areas_reforma"]["features"]:
+    pass  # bloco adicionado
 popup_text = feature["properties"].get("Name", "Sem Nome")
 folium.GeoJson(
 feature,
@@ -326,8 +350,10 @@ style_function=lambda x: {"fillColor": "#ff7800", "color": "red", "weight": 1, "
 areas_layer.add_to(m)
 
     if show_escolas and geojson_data.get("escolas"):
+        pass  # bloco adicionado
 escolas_layer = folium.FeatureGroup(name="Escolas")
 for feature in geojson_data["escolas"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 props = feature["properties"]
 popup_info = (
@@ -351,8 +377,10 @@ icon_size=(25, 25)
 escolas_layer.add_to(m)
 
     if show_postos and geojson_data.get("postos"):
+        pass  # bloco adicionado
 postos_layer = folium.FeatureGroup(name="Postos")
 for feature in geojson_data["postos"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 props = feature["properties"]
 popup_info = (
@@ -376,6 +404,7 @@ icon_size=(25, 25)
 postos_layer.add_to(m)
 
     if show_urbanas and geojson_data.get("urbanas"):
+        pass  # bloco adicionado
 folium.GeoJson(
 geojson_data["urbanas"],
 name="Aréas Urbanas",
@@ -383,8 +412,10 @@ style_function=lambda x: {'fillColor': '#9e064d', 'fillOpacity': 0.2, 'color': '
 ).add_to(m)
 
     if show_comunidades and geojson_data.get("comunidades"):
+        pass  # bloco adicionado
 comunidades_layer = folium.FeatureGroup(name="Comunidades")
 for feature in geojson_data["comunidades"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 props = feature["properties"]
 nome = props.get("Name", "Sem nome")
@@ -407,8 +438,10 @@ comunidades_layer.add_to(m)
     # CAMADAS RECURSOS HÍDRICOS
 
     if show_chafarizes and geojson_data.get("chafarizes"):
+        pass  # bloco adicionado
 chafarizes_layer = folium.FeatureGroup(name="Chafarizes")
 for feature in geojson_data["chafarizes"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 folium.Marker(
 location=[coords[1], coords[0]],
@@ -418,8 +451,10 @@ icon=folium.CustomIcon("https://i.ibb.co/mk8HRKv/chafariz.png", icon_size=(25, 1
 chafarizes_layer.add_to(m)
 
     if show_pocos and geojson_data.get("pocos"):
+        pass  # bloco adicionado
 pocos_layer = folium.FeatureGroup(name="Poços")
 for feature in geojson_data["pocos"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 props = feature["properties"]
 
@@ -442,8 +477,10 @@ icon=folium.CustomIcon("https://i.ibb.co/6JrpxXMT/water.png", icon_size=(23, 23)
 pocos_layer.add_to(m)
 
     if show_cisternas and geojson_data.get("cisternas"):
+        pass  # bloco adicionado
 cisternas_layer = folium.FeatureGroup(name="Cisternas")
 for feature in geojson_data["cisternas"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 Bairro_Loc = feature["properties"].get("Comunidade", "Sem nome")
 folium.Marker(
@@ -455,6 +492,7 @@ icon=folium.CustomIcon("https://i.ibb.co/jvLz192m/water-tank.png", icon_size=(18
 cisternas_layer.add_to(m)
 
     if show_acudes and geojson_data.get("acudes"):
+        pass  # bloco adicionado
 folium.GeoJson(
 geojson_data["acudes"],
 name="Açudes",
@@ -462,8 +500,10 @@ style_function=lambda x: {'fillColor': '#026ac4', 'fillOpacity': 0.2, 'color': '
 ).add_to(m)
 
     if show_sistemas and geojson_data.get("sistemas"):
+        pass  # bloco adicionado
 sistemas_layer = folium.FeatureGroup(name="Sistemas de Abastecimento")
 for feature in geojson_data["sistemas"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 props = feature["properties"]
 popup_info = (
@@ -484,8 +524,10 @@ icon_size=(25, 25)
 sistemas_layer.add_to(m)
 
     if show_saaeq and geojson_data.get("saaeq"):
+        pass  # bloco adicionado
 saaeq_layer = folium.FeatureGroup(name="Sistemas SAAE")
 for feature in geojson_data["saaeq"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 props = feature["properties"]
 popup_info = (
@@ -509,8 +551,10 @@ icon=folium.CustomIcon("https://i.ibb.co/m56JXGqy/73016potablewater-109514.png",
 saaeq_layer.add_to(m)
 
     if show_outorgas and geojson_data.get("outorgas"):
+        pass  # bloco adicionado
 outorgas_layer = folium.FeatureGroup(name="Outorgas")
 for feature in geojson_data["outorgas"]["features"]:
+    pass  # bloco adicionado
 coords = feature["geometry"]["coordinates"]
 props = feature["properties"]
 popup_info = (
@@ -535,6 +579,7 @@ outorgas_layer.add_to(m)
     Draw(export=True).add_to(m)
     
     if show_comunidades and geojson_data.get("comunidades"):
+        pass  # bloco adicionado
 Search(layer=comunidades_layer, search_label="Name", placeholder="🔍 Buscar comunidade").add_to(m)
 
     folium_static(m, width=1200, height=700)
