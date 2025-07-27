@@ -164,9 +164,8 @@ if not df_filtrado.empty:
     
     # Criar mapa centralizado
     m = folium.Map(location=[-5.1971, -39.2886], zoom_start=10, tiles=None)
+Fullscreen(position='topright', title='Tela Cheia', title_cancel='Sair da Tela Cheia', force_separate_button=True).add_to(m)
     m.add_child(MeasureControl(
-    Fullscreen(position="topright", title="Tela Cheia", title_cancel="Sair da Tela Cheia", force_separate_button=True).add_to(m)
-
         primary_length_unit="meters",
         secondary_length_unit="kilometers",
         primary_area_unit="hectares",
