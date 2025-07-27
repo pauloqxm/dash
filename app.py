@@ -536,9 +536,13 @@ if not df_filtrado.empty:
     }
 
     function getPolygonArea(layer) {
-        var latlngs = layer.getLatLngs();
-        if (latlngs.length > 0 && Array.isArray(latlngs[0])) {
-            return L.GeometryUtil.geodesicArea(latlngs[0]);
+        try {
+            var latlngs = layer.getLatLngs();
+            if (latlngs.length > 0 && Array.isArray(latlngs[0])) {
+                return L.GeometryUtil.geodesicArea(latlngs[0]);
+            }
+        } catch (e) {
+            return 0;
         }
         return 0;
     }
@@ -548,6 +552,9 @@ if not df_filtrado.empty:
         let hectares = areaInHectares(area);
         let content = "<div style='font-family: Arial; font-size: 14px'><strong>📏 Área:</strong> " + hectares + " ha</div>";
         layer.bindPopup(content);
+        layer.on('click', function () {
+            layer.openPopup();
+        });
     }
 
     map.on('draw:created', function (e) {
