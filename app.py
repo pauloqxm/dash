@@ -1,3 +1,4 @@
+from folium.plugins import Fullscreen
 import streamlit as st
 import pandas as pd
 import folium
@@ -104,16 +105,6 @@ except Exception as e:
 # Sidebar
 st.sidebar.title("🗺️ Controle de Camadas")
 
-st.sidebar.markdown("### 🌐 Acesso Rápido")
-if st.sidebar.button("🗺️ Abrir Mapa em Tela Cheia"):
-    st.markdown('<meta http-equiv="refresh" content="0;URL=mapa_tela_cheia.py">', unsafe_allow_html=True)
-
-
-st.sidebar.markdown("### 🌐 Acesso Rápido")
-if st.sidebar.button("🗺️ Abrir Mapa em Nova Aba"):
-    st.markdown('<meta http-equiv="refresh" content="0;URL=https://atlas-sda.streamlit.app/fullscreen_mapa">', unsafe_allow_html=True)
-
-
 with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos = st.checkbox("Distritos", value=True)
     show_distritos_ponto = st.checkbox("Sede Distritos", value=False)
@@ -174,6 +165,7 @@ if not df_filtrado.empty:
     
     # Criar mapa centralizado
     m = folium.Map(location=[-5.1971, -39.2886], zoom_start=10, tiles=None)
+Fullscreen(position='topleft').add_to(m)
     m.add_child(MeasureControl(
         primary_length_unit="meters",
         secondary_length_unit="kilometers",
