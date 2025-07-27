@@ -124,12 +124,6 @@ with st.sidebar.expander("💧 Recursos Hídricos"):
     show_saaeq = st.checkbox("Sistemas SAAE", value=False)
     show_outorgas = st.checkbox("Outorgas", value=False)
     show_acudes = st.checkbox("Açudes", value=False)
-st.sidebar.markdown("""
----
-🖥️ **Visualização do Mapa**
-""")
-expandir = st.sidebar.toggle("Tela Cheia", value=False)
-
 
 st.sidebar.title("🔎 Filtros")
 
@@ -156,6 +150,17 @@ if produtor:
 total = len(df_filtrado)
 st.success(f"{total} registro(s) encontrado(s).")
 st.subheader("🗺️ Mapa com Distritos, Produtores e Áreas de Reforma")
+
+
+html_button = """
+<div style='position: fixed; top: 100px; left: 15px; z-index: 9999;'>
+    <a href='/fullscreen_mapa' target='_blank' style='background-color: #004080; color: white; padding: 10px 14px; border-radius: 5px; text-decoration: none; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);'>
+        🔍 Tela Cheia
+    </a>
+</div>
+"""
+st.markdown(html_button, unsafe_allow_html=True)
+
 
 if not df_filtrado.empty:
     # Verificar coordenadas válidas
@@ -530,7 +535,7 @@ if not df_filtrado.empty:
     if show_comunidades and geojson_data.get("comunidades"):
         Search(layer=comunidades_layer, search_label="Name", placeholder="🔍 Buscar comunidade").add_to(m)
 
-    folium_static(m, width=0 if expandir else 1200, height=0 if expandir else 700)
+    folium_static(m, width=1200, height=700)
 
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
