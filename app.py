@@ -164,28 +164,6 @@ if not df_filtrado.empty:
     
     # Criar mapa centralizado
     m = folium.Map(location=[-5.1971, -39.2886], zoom_start=10, tiles=None)
-
-
-from branca.element import Element
-fullscreen_button = Element("""
-    <div style='position: absolute; top: 85px; left: 10px; z-index: 9999;'>
-        <a href="fullscreen_mapa.py" target="_blank" style="
-            background-color: #004080;
-            color: white;
-            padding: 8px 14px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-family: Arial, sans-serif;
-            text-decoration: none;
-            box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-            display: inline-block;
-        ">🔍 Tela Cheia</a>
-    </div>
-""")
-m.get_root().html.add_child(fullscreen_button)
-
-
-
     m.add_child(MeasureControl(
         primary_length_unit="meters",
         secondary_length_unit="kilometers",
