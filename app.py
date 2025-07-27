@@ -6,7 +6,7 @@ from folium.plugins import MeasureControl
 from folium.plugins import Draw, Search, MousePosition
 import json
 
-st.set_page_config(page_title="Dashboard SDA - Folium", layout="wide")
+st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
 # Estilos personalizados para a sidebar
 st.markdown("""
