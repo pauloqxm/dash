@@ -163,40 +163,33 @@ if not df_filtrado.empty:
     ne = [df_filtrado["LATITUDE"].max() + padding, df_filtrado["LONGITUDE"].max() + padding]
     
     # Criar mapa centralizado
-    m = folium.Map(location=[-5.1971, -39.2886], zoom_start=10,
-    
-        tiles=None
-    )
+    m = folium.Map(location=[-5.1971, -39.2886], zoom_start=10, tiles=None)
     m.add_child(MeasureControl(
-    primary_length_unit="meters",
-    secondary_length_unit="kilometers",
-    primary_area_unit="hectares",
-    secondary_area_unit="sqmeters",
-    position="topleft"
-))
+        primary_length_unit="meters",
+        secondary_length_unit="kilometers",
+        primary_area_unit="hectares",
+        secondary_area_unit="sqmeters",
+        position="topleft"
+    ))
     
-    # Ajustar os limites do mapa
-    #  # Desabilitado para evitar movimentação ao selecionar camada
-
-from branca.element import Element
-
-fullscreen_button = Element("""
-    <div style='position: absolute; top: 85px; left: 10px; z-index: 9999;'>
-        <a href="/fullscreen_mapa" target="_blank" style="
-            background-color: #004080;
-            color: white;
-            padding: 8px 14px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-family: Arial, sans-serif;
-            text-decoration: none;
-            box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-            display: inline-block;
-        '>🔍 Tela Cheia</a>
-    </div>
-""")
-m.get_root().html.add_child(fullscreen_button)
-
+    # Botão de tela cheia
+    from branca.element import Element
+    fullscreen_button = Element("""
+        <div style='position: absolute; top: 85px; left: 10px; z-index: 9999;'>
+            <a href="/fullscreen_mapa" target="_blank" style="
+                background-color: #004080;
+                color: white;
+                padding: 8px 14px;
+                border-radius: 5px;
+                font-weight: bold;
+                font-family: Arial, sans-serif;
+                text-decoration: none;
+                box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+                display: inline-block;
+            ">🔍 Tela Cheia</a>
+        </div>
+    """)
+    m.get_root().html.add_child(fullscreen_button)
     
     # Adicionar camadas de fundo
     tile_layers = [
@@ -298,7 +291,6 @@ m.get_root().html.add_child(fullscreen_button)
                 tooltip=row["PRODUTOR"]
             ).add_to(m)
 
-
     if show_apicultura and geojson_data.get("apicultura"):
         apicultura_layer = folium.FeatureGroup(name="Apicultura")
         for feature in geojson_data["apicultura"]["features"]:
@@ -318,7 +310,6 @@ m.get_root().html.add_child(fullscreen_button)
                 icon=folium.CustomIcon("https://i.ibb.co/yny9Yvjb/apitherapy.png", icon_size=(22, 22))
             ).add_to(apicultura_layer)
         apicultura_layer.add_to(m)
-
 
     if show_areas_reforma and geojson_data.get("areas_reforma"):
         areas_layer = folium.FeatureGroup(name="Áreas de Reforma")
