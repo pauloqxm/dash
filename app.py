@@ -535,16 +535,19 @@ if not df_filtrado.empty:
         return (areaInSqMeters / 10000).toFixed(2);
     }
 
-    function showPopupWithArea(e) {
-        var layer = e.layer;
+    function attachPopupWithArea(layer) {
         if (layer instanceof L.Polygon || layer instanceof L.Rectangle || layer instanceof L.Circle) {
             var area = L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]);
             var hectares = areaInHectares(area);
-            layer.bindPopup("📏 Área: " + hectares + " ha").openPopup();
+            layer.bindPopup("📏 Área: " + hectares + " ha");
         }
     }
 
-    map.on('draw:created', showPopupWithArea);
+    map.on('draw:created', function (e) {
+        var layer = e.layer;
+        attachPopupWithArea(layer);
+        drawnItems.addLayer(layer);
+    });
 </script>
 ''', height=0)
 
