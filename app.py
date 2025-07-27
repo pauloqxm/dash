@@ -176,7 +176,7 @@ if not df_filtrado.empty:
     from branca.element import Element
     fullscreen_button = Element("""
         <div style='position: absolute; top: 85px; left: 10px; z-index: 9999;'>
-            <a href="/fullscreen_mapa" target="_blank" style="
+            <a href="#" onclick="document.querySelector('.folium-map').requestFullscreen(); return false;" style="
                 background-color: #004080;
                 color: white;
                 padding: 8px 14px;
