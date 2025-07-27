@@ -537,3 +537,11 @@ else:
 st.title("📋 Dados dos Produtores")
 colunas = ["TECNICO", "PRODUTOR", "APELIDO", "FAZENDA", "DISTRITO", "ORDENHA?", "INSEMINA?", "LATICINIO", "COMPRADOR"]
 st.dataframe(df_filtrado[colunas], use_container_width=True)
+
+
+st.markdown('''
+<br><br>
+<div style='background-color: #d9edf7; color: #31708f; padding: 15px; border-radius: 8px; font-size: 16px; text-align: center;'>
+    <strong>Atlas da Prefeitura Municipal de Quixeramobim</strong>
+</div>
+''', unsafe_allow_html=True)
