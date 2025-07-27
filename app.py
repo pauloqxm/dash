@@ -83,6 +83,7 @@ try:
         "postos": "postos.geojson",
         "urbanas": "urbanas.geojson",
         "comunidades": "comunidades.geojson",
+        "apicultura": "apicultura.geojson",
     }
 
     geojson_data = {}
@@ -109,6 +110,7 @@ with st.sidebar.expander("🏘️ Infraestrutura"):
     show_comunidades = st.checkbox("Comunidades", value=False)
     show_urbanas = st.checkbox("Áreas Urbanas", value=False)
     show_produtores = st.checkbox("Produtores", value=False)
+    show_apicultura = st.checkbox("Apicultura", value=False)
     show_areas_reforma = st.checkbox("Assentamentos", value=False)
     show_estradas = st.checkbox("Estradas", value=False)
     show_escolas = st.checkbox("Escolas", value=False)
@@ -274,6 +276,28 @@ if not df_filtrado.empty:
                 popup=folium.Popup(popup_info, max_width=300),
                 tooltip=row["PRODUTOR"]
             ).add_to(m)
+
+
+    if show_apicultura and geojson_data.get("apicultura"):
+        apicultura_layer = folium.FeatureGroup(name="Apicultura")
+        for feature in geojson_data["apicultura"]["features"]:
+            coords = feature["geometry"]["coordinates"]
+            props = feature["properties"]
+            nome = props.get("Nome", "Sem nome")
+            popup_info = f"""
+            <div style='font-family: Arial, sans-serif; border: 2px solid #ffb300; border-radius: 8px; padding: 8px; background-color: #fff8e1;'>
+            <h4 style='margin-top: 0; margin-bottom: 8px; color: #ff6f00;'>🍯 Apicultura</h4>
+            <p><strong>📛 Nome:</strong> {nome}</p>
+            </div>
+            """
+            folium.Marker(
+                location=[coords[1], coords[0]],
+                tooltip=nome,
+                popup=folium.Popup(popup_info, max_width=300),
+                icon=folium.CustomIcon("https://i.ibb.co/M2MpdBc/beehive.png", icon_size=(22, 22))
+            ).add_to(apicultura_layer)
+        apicultura_layer.add_to(m)
+
 
     if show_areas_reforma and geojson_data.get("areas_reforma"):
         areas_layer = folium.FeatureGroup(name="Áreas de Reforma")
