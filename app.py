@@ -250,7 +250,7 @@ if not df_filtrado.empty:
             folium.Marker(
                 location=[coords[1], coords[0]],
                 popup=folium.Popup(f"Distrito: {nome_distrito}", max_width=200),
-                icon=folium.CustomIcon("https://i.ibb.co/S4VmxQcB/circle.png", icon_size=(20, 20))
+                icon=folium.CustomIcon("https://i.ibb.co/S4VmxQcB/circle.png", icon_size=(23, 23))
             ).add_to(distritos_ponto_layer)
         distritos_ponto_layer.add_to(m)
         
