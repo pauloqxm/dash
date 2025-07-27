@@ -535,16 +535,23 @@ if not df_filtrado.empty:
         return (areaInSqMeters / 10000).toFixed(2);
     }
 
-    function attachPopupWithArea(layer) {
-        if (layer instanceof L.Polygon || layer instanceof L.Rectangle || layer instanceof L.Circle) {
-            var area = L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]);
-            var hectares = areaInHectares(area);
-            layer.bindPopup("📏 Área: " + hectares + " ha");
+    function getPolygonArea(layer) {
+        var latlngs = layer.getLatLngs();
+        if (latlngs.length > 0 && Array.isArray(latlngs[0])) {
+            return L.GeometryUtil.geodesicArea(latlngs[0]);
         }
+        return 0;
+    }
+
+    function attachPopupWithArea(layer) {
+        let area = getPolygonArea(layer);
+        let hectares = areaInHectares(area);
+        let content = "<div style='font-family: Arial; font-size: 14px'><strong>📏 Área:</strong> " + hectares + " ha</div>";
+        layer.bindPopup(content);
     }
 
     map.on('draw:created', function (e) {
-        var layer = e.layer;
+        let layer = e.layer;
         attachPopupWithArea(layer);
         drawnItems.addLayer(layer);
     });
