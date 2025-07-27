@@ -524,7 +524,10 @@ if not df_filtrado.empty:
     if show_comunidades and geojson_data.get("comunidades"):
         Search(layer=comunidades_layer, search_label="Name", placeholder="🔍 Buscar comunidade").add_to(m)
 
-    folium_static(m, width=1200, height=700)
+    if st.button('🖥️ Expandir Mapa na Tela Toda'):
+        folium_static(m, width=0, height=0)
+    else:
+        folium_static(m, width=1200, height=700)
 
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
