@@ -50,9 +50,10 @@ font-weight: bold;
 border-radius: 5px;
 }
     </style>
+
     <div class='top-header'>
-        <img src="https://i.ibb.co/jPF2kVzn/brasao.png" alt="Brasão">
-        <h2>BASE DE DADOS ESPACIAIS</h2>
+<img src="https://i.ibb.co/jPF2kVzn/brasao.png" alt="Brasão">
+<h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
 """, unsafe_allow_html=True)
 
