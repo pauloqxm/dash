@@ -124,6 +124,12 @@ with st.sidebar.expander("💧 Recursos Hídricos"):
     show_saaeq = st.checkbox("Sistemas SAAE", value=False)
     show_outorgas = st.checkbox("Outorgas", value=False)
     show_acudes = st.checkbox("Açudes", value=False)
+st.sidebar.markdown("""
+---
+🖥️ **Visualização do Mapa**
+""")
+expandir = st.sidebar.toggle("Tela Cheia", value=False)
+
 
 st.sidebar.title("🔎 Filtros")
 
@@ -524,10 +530,7 @@ if not df_filtrado.empty:
     if show_comunidades and geojson_data.get("comunidades"):
         Search(layer=comunidades_layer, search_label="Name", placeholder="🔍 Buscar comunidade").add_to(m)
 
-    if st.button('🖥️ Expandir Mapa na Tela Toda'):
-        folium_static(m, width=0, height=0)
-    else:
-        folium_static(m, width=1200, height=700)
+    folium_static(m, width=0 if expandir else 1200, height=0 if expandir else 700)
 
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
