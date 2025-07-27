@@ -5,6 +5,7 @@ from streamlit_folium import folium_static
 from folium.plugins import MeasureControl
 from folium.plugins import Draw, Search, MousePosition
 import json
+from branca.element import Element
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
@@ -172,24 +173,33 @@ if not df_filtrado.empty:
         position="topleft"
     ))
     
-    # Botão de tela cheia
-    from branca.element import Element
-    fullscreen_button = Element("""
-        <div style='position: absolute; top: 85px; left: 10px; z-index: 9999;'>
-            <a href="#" onclick="document.querySelector('.folium-map').requestFullscreen(); return false;" style="
+    # Botão de tela cheia moderno
+    fullscreen_html = """
+    <div style="position: fixed; 
+                top: 10px; 
+                left: 10px; 
+                z-index: 9999; 
                 background-color: #004080;
-                color: white;
-                padding: 8px 14px;
-                border-radius: 5px;
-                font-weight: bold;
-                font-family: Arial, sans-serif;
-                text-decoration: none;
-                box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-                display: inline-block;
-            ">🔍 Tela Cheia</a>
-        </div>
-    """)
-    m.get_root().html.add_child(fullscreen_button)
+                padding: 6px 12px;
+                border-radius: 4px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                border: 1px solid #002952;">
+        <button onclick="document.querySelector('.folium-map').requestFullscreen()" 
+                style="background: none;
+                       border: none;
+                       color: white;
+                       font-weight: bold;
+                       cursor: pointer;
+                       font-size: 14px;
+                       display: flex;
+                       align-items: center;
+                       gap: 5px;">
+            <span style="font-size: 16px;">⛶</span> Tela Cheia
+        </button>
+    </div>
+    """
+    fullscreen_element = Element(fullscreen_html)
+    m.get_root().html.add_child(fullscreen_element)
     
     # Adicionar camadas de fundo
     tile_layers = [
