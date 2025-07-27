@@ -529,6 +529,25 @@ if not df_filtrado.empty:
         Search(layer=comunidades_layer, search_label="Name", placeholder="🔍 Buscar comunidade").add_to(m)
 
     folium_static(m, width=1200, height=700)
+    st.components.v1.html('''
+<script>
+    function areaInHectares(areaInSqMeters) {
+        return (areaInSqMeters / 10000).toFixed(2);
+    }
+
+    function showPopupWithArea(e) {
+        var layer = e.layer;
+        if (layer instanceof L.Polygon || layer instanceof L.Rectangle || layer instanceof L.Circle) {
+            var area = L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]);
+            var hectares = areaInHectares(area);
+            layer.bindPopup("📏 Área: " + hectares + " ha").openPopup();
+        }
+    }
+
+    map.on('draw:created', showPopupWithArea);
+</script>
+''', height=0)
+
 
 else:
     st.info("Nenhum produtor encontrado com os filtros selecionados.")
@@ -538,10 +557,8 @@ st.title("📋 Dados dos Produtores")
 colunas = ["TECNICO", "PRODUTOR", "APELIDO", "FAZENDA", "DISTRITO", "ORDENHA?", "INSEMINA?", "LATICINIO", "COMPRADOR"]
 st.dataframe(df_filtrado[colunas], use_container_width=True)
 
-
-st.markdown('''
-<br><br>
-<div style='background-color: #d9edf7; color: #31708f; padding: 15px; border-radius: 8px; font-size: 16px; text-align: center;'>
-    <strong>Atlas da Prefeitura Municipal de Quixeramobim</strong>
-</div>
-''', unsafe_allow_html=True)
+st.markdown("""
+    <div style='background-color: #d9edf7; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;'>
+        <strong>Atlas da Prefeitura Municipal de Quixeramobim</strong>
+    </div>
+""", unsafe_allow_html=True)
