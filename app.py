@@ -104,6 +104,11 @@ except Exception as e:
 # Sidebar
 st.sidebar.title("🗺️ Controle de Camadas")
 
+st.sidebar.markdown("### 🌐 Acesso Rápido")
+if st.sidebar.button("🗺️ Abrir Mapa em Nova Aba"):
+    st.markdown('<meta http-equiv="refresh" content="0;URL=https://atlas-sda.streamlit.app/fullscreen_mapa">', unsafe_allow_html=True)
+
+
 with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos = st.checkbox("Distritos", value=True)
     show_distritos_ponto = st.checkbox("Sede Distritos", value=False)
@@ -176,7 +181,7 @@ if not df_filtrado.empty:
     from branca.element import Element
     fullscreen_button = Element("""
         <div style='position: absolute; top: 85px; left: 10px; z-index: 9999;'>
-            <a href="#" onclick="document.querySelector('.folium-map').requestFullscreen(); return false;" style="
+            <a href="/fullscreen_mapa" target="_blank" style="
                 background-color: #004080;
                 color: white;
                 padding: 8px 14px;
