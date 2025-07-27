@@ -174,51 +174,32 @@ if not df_filtrado.empty:
     ))
     
     # Botão de tela cheia moderno - VERSÃO CORRIGIDA
-    fullscreen_js = """
-    document.addEventListener('DOMContentLoaded', function() {
-        const mapDiv = document.querySelector('.folium-map');
-        if (mapDiv) {
-            const fullscreenBtn = document.createElement('div');
-            fullscreenBtn.innerHTML = `
-                <button style="
-                    position: absolute;
-                    top: 10px;
-                    left: 10px;
-                    z-index: 9999;
-                    background-color: #004080;
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                    padding: 6px 12px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    font-size: 14px;
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-                    border: 1px solid #002952;
-                ">
-                    <span style="font-size: 16px;">⛶</span> Tela Cheia
-                </button>
-            `;
-            
-            mapDiv.appendChild(fullscreenBtn);
-            
-            fullscreenBtn.querySelector('button').addEventListener('click', function() {
-                if (mapDiv.requestFullscreen) {
-                    mapDiv.requestFullscreen();
-                } else if (mapDiv.webkitRequestFullscreen) {
-                    mapDiv.webkitRequestFullscreen();
-                } else if (mapDiv.msRequestFullscreen) {
-                    mapDiv.msRequestFullscreen();
-                }
-            });
+    st.sidebar.markdown("""
+    <style>
+        .fullscreen-btn {
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            text-align: center;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border: 1px solid #002952;
         }
-    });
-    """
+        .fullscreen-btn:hover {
+            background-color: #0059b3;
+        }
+    </style>
     
-    m.get_root().html.add_child(folium.Element(fullscreen_js))
+    <button class="fullscreen-btn" onclick="document.querySelector('.folium-map').requestFullscreen()">
+        <span style="font-size: 16px;">⛶</span> Tela Cheia
+    </button>
+""", unsafe_allow_html=True)
     
     # Adicionar camadas de fundo
     tile_layers = [
