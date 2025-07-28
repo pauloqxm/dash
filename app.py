@@ -576,6 +576,6 @@ st.dataframe(df_filtrado[colunas], use_container_width=True)
 
 st.markdown("""
     <div style='background-color: #d9edf7; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;'>
-        <strong>Atlas da Prefeitura Municipal de Quixeramobim</strong>
+        <strong>Atlas da Prefeitura Municipal de Quixeramobim 2025</strong>
     </div>
 """, unsafe_allow_html=True)
