@@ -181,11 +181,6 @@ if not df_filtrado.empty:
             "attr": "Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL."
         },
         {
-            "name": "Open Street Map",
-            "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            "attr": "© OpenStreetMap contributors"
-        },
-        {
             "name": "Sentinel-2 (sem nuvem)",
             "url": "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg",
             "attr": "Sentinel-2 cloudless by EOX"
@@ -220,6 +215,11 @@ if not df_filtrado.empty:
             "url": "https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
             "attr": "Google Terrain imagery"
         }
+        {
+            "name": "Open Street Map",
+            "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            "attr": "© OpenStreetMap contributors"
+        },
     ]
 
     for layer in tile_layers:
