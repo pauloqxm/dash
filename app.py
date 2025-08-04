@@ -55,7 +55,7 @@ st.markdown("""
             font-weight: bold;
             border-radius: 5px;
         }
-        /* Reexibe e ajusta botão de menu lateral */
+        /* Reexibe e ajusta botão de menu lateral com destaque visual para debug */
         [data-testid="collapsedControl"] {
             display: flex !important;
             align-items: center;
@@ -64,14 +64,22 @@ st.markdown("""
             visibility: visible !important;
             width: 2.5rem !important;
             height: 2.5rem !important;
-            background-color: #004080;
+            background-color: #ff5722;
             color: white;
+            border: 2px solid yellow;
             border-radius: 0 8px 8px 0;
             position: fixed;
             top: 80px;
             left: 0;
-            z-index: 1100;
+            z-index: 9999;
             cursor: pointer;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
         }
     </style>
 
@@ -80,6 +88,7 @@ st.markdown("""
         <h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
 """, unsafe_allow_html=True)
+
 # O restante do seu código continua igual daqui em diante...
 
 try:
