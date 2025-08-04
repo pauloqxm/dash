@@ -18,7 +18,7 @@ st.markdown("""
             padding: 0;
             margin: -5px;
             opacity: 0;
-            transition: opacity 1s ease;
+            transition: opacity 0.3s ease;
         }
         
         /* Mostra a barra quando o mouse passa por cima */
