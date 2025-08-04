@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import folium
@@ -8,24 +9,13 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
-# Logo centralizado 50x50
-col1, col2, col3 = st.columns([1, 1, 1])
-with col2:
-    st.logo("https://i.ibb.co/jPF2kVzn/brasao.png", size=(50, 50))
-
-
 # Estilos personalizados para a sidebar e para ocultar a barra superior
 st.markdown("""
     <style>
         /* Oculta a barra superior do Streamlit por padrão */
         header[data-testid="stHeader"] {
             background: transparent;
-            height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    position: absolute;
-    top: 0;
-    z-index: -1;
+            height: 0;
             padding: 0;
             margin: 0;
             opacity: 0;
@@ -50,7 +40,7 @@ st.markdown("""
             color: white;
             text-align: left;
             padding: 15px 20px;
-            margin: 0;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 20px;
