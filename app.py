@@ -585,54 +585,20 @@ st.dataframe(df_filtrado[colunas], use_container_width=True)
 
 st.markdown(
     """
-    <div style='
-        border: 1px solid #004080;
-        border-radius: 8px;
-        padding: 15px;
-        margin-top: 20px;
-        background-color: #f8f9fa;
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-    '>
-        <div style='
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        '>
-            <div style='display: flex; align-items: center; gap: 5px; white-space: nowrap;'>
-                📞 (88) 3441-1000
-            </div>
-            <div style='color: #00408080;'>|</div>
-            <div style='display: flex; align-items: center; gap: 5px; white-space: nowrap;'>
-                📧 gabinete@quixeramobim.ce.gov.br
-            </div>
-            <div style='color: #00408080;'>|</div>
-            <div style='font-weight: bold; white-space: nowrap;'>
-                Atlas da Prefeitura Municipal de Quixeramobim 2025
-            </div>
-        </div>
-
-        <div style='
-            border-top: 1px solid #00408080;
-            padding-top: 10px;
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        '>
-            <div style='display: flex; align-items: center; gap: 5px; white-space: nowrap;'>
-                🏢 R. Dr. Álvaro Fernandes, 36/42 - Centro
-            </div>
-            <div style='color: #00408080;'>|</div>
-            <div style='white-space: nowrap;'>
-                Quixeramobim - CE, 63800-000
-            </div>
-        </div>
+    <div style='text-align: center; 
+                border: 1px solid #004080;
+                padding: 15px; 
+                border-radius: 8px;
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;'>
+        <span>📞 (88) 99999-9999</span>
+        <span>|</span>
+        <span>📧 contato@quixeramobim.ce.gov.br</span>
+        <span>|</span>
+        <span><b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b></span>
     </div>
     """,
     unsafe_allow_html=True
