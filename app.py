@@ -9,6 +9,13 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
+st.markdown("""
+    <div style='display: flex; justify-content: center; align-items: center; margin: 0;'>
+        <img src='https://i.ibb.co/jPF2kVzn/brasao.png' width='50' height='50'>
+    </div>
+""", unsafe_allow_html=True)
+
+
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
     st.logo("https://i.ibb.co/jPF2kVzn/brasao.png", size=(50, 50))
