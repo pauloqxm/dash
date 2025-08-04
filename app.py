@@ -80,6 +80,8 @@ try:
     df["ORDENHA?"] = df["ORDENHA?"].str.upper().fillna("NAO")
     df["INSEMINA?"] = df["INSEMINA?"].str.upper().fillna("NAO")
 
+    st.success("Atlas carregado.")
+
     # GeoJSONs
     geojson_files = {
         "outorgas": "outorgado.geojson",
