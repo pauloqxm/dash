@@ -8,7 +8,7 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
-# CSS global para remover espaço superior e cabeçalho, preservando o menu lateral
+# CSS global para remover espaço superior e cabeçalho, preservando e ajustando o menu lateral
 st.markdown("""
     <style>
         .block-container {
@@ -55,16 +55,23 @@ st.markdown("""
             font-weight: bold;
             border-radius: 5px;
         }
-        /* Reexibe botão de menu lateral com mais margem */
+        /* Reexibe e ajusta botão de menu lateral */
         [data-testid="collapsedControl"] {
-            display: block !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
             opacity: 1 !important;
             visibility: visible !important;
-            height: auto !important;
-            width: auto !important;
-            margin-top: 20px;
-            margin-left: 20px;
-            z-index: 1000;
+            width: 2.5rem !important;
+            height: 2.5rem !important;
+            background-color: #004080;
+            color: white;
+            border-radius: 0 8px 8px 0;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            z-index: 1100;
+            cursor: pointer;
         }
     </style>
 
@@ -73,7 +80,6 @@ st.markdown("""
         <h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
 """, unsafe_allow_html=True)
-
 # O restante do seu código continua igual daqui em diante...
 
 try:
