@@ -591,15 +591,18 @@ st.markdown(
                 padding: 30px; 
                 border-radius: 8px;
                 margin-top: 20px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 10px;'>
-        <span>📞 (88) 99999-9999</span>
-        <span>|</span>
-        <span>📧 contato@quixeramobim.ce.gov.br</span>
-        <span>|</span>
-        <span><b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b></span>
+                font-size: 14px;
+                line-height: 1.6;'>
+        <div style='display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;'>
+            <span>📞 (88) 99999-9999</span>
+            <span>|</span>
+            <span>📧 contato@quixeramobim.ce.gov.br</span>
+            <span>|</span>
+            <span><b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b></span>
+        </div>
+        <div style='margin-top: 10px;'>
+            🏢 R. Dr. Álvaro Fernandes, 36/42 - Centro, Quixeramobim - CE, 63800-000
+        </div>
     </div>
     """,
     unsafe_allow_html=True
