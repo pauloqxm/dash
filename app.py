@@ -12,12 +12,18 @@ st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 # Estilos personalizados para a sidebar
 st.markdown("""
     <style>
-    html, body, [data-testid="stAppViewContainer"] > .main {
+         html, body, [data-testid="stAppViewContainer"] > .main {
             padding: 0 !important;
-            margin: 0 !important;
-      
+            margin: 0 !important;      
+        }
+         
         .block-container {
             padding-top: 0rem !important;
+        }
+
+         button[title="View fullscreen"] {
+            display: none;
+        }
         
         .top-header {
             width: 100%;
