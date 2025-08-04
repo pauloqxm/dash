@@ -593,7 +593,7 @@ st.markdown(
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 10px;'>
+                gap: 20px;'>
         <span>📞 (88) 99999-9999</span>
         <span>|</span>
         <span>📧 contato@quixeramobim.ce.gov.br</span>
