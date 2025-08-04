@@ -581,36 +581,54 @@ st.title("📋 Dados dos Produtores")
 colunas = ["TECNICO", "PRODUTOR", "APELIDO", "FAZENDA", "DISTRITO", "ORDENHA?", "INSEMINA?", "LATICINIO", "COMPRADOR"]
 st.dataframe(df_filtrado[colunas], use_container_width=True)
 
+# Dados de rodapé
+
 st.markdown(
     """
-    <div style='text-align: center; 
-                border: 1px solid #004080;
-                padding: 15px; 
-                border-radius: 8px;
-                margin-top: 20px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;'>
-        
-        <div style='display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 10px;'>
-            <span>📞 (88) 99999-9999</span>
+    <div style='
+        border: 1px solid #004080;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 20px;
+        background-color: #f8f9fa;
+    '>
+        <div style='
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        '>
+            <span style='display: flex; align-items: center; gap: 5px;'>
+                📞 (88) 3441-1000
+            </span>
             <span>|</span>
-            <span>📧 contato@quixeramobim.ce.gov.br</span>
+            <span style='display: flex; align-items: center; gap: 5px;'>
+                📧 gabinete@quixeramobim.ce.gov.br
+            </span>
             <span>|</span>
-            <span><b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b></span>
+            <span style='font-weight: bold;'>
+                Atlas da Prefeitura Municipal de Quixeramobim 2025
+            </span>
         </div>
-        
-        <div style='border-top: 1px solid #00408080; 
-                    padding-top: 10px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 5px;'>
-            <span>🏢</span>
-            <span>Endereço: R. Dr. Álvaro Fernandes, 36/42 - Centro, Quixeramobim - CE, 63800-000</span>
+
+        <div style='
+            border-top: 1px solid #00408080;
+            padding-top: 10px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        '>
+            <span style='display: flex; align-items: center; gap: 5px;'>
+                🏢 R. Dr. Álvaro Fernandes, 36/42 - Centro
+            </span>
+            <span>|</span>
+            <span>
+                Quixeramobim - CE, 63800-000
+            </span>
         </div>
     </div>
     """,
