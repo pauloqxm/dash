@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import folium
@@ -587,3 +586,11 @@ st.markdown("""
         <strong>Atlas da Prefeitura Municipal de Quixeramobim 2025</strong>
     </div>
 """, unsafe_allow_html=True)
+
+
+st.markdown(
+    "<div style='text-align: center; background-color: #e1f0fb; padding: 20px; border-radius: 8px;'>"
+    "<b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b>"
+    "</div>",
+    unsafe_allow_html=True
+)
