@@ -9,31 +9,9 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
-# Estilos personalizados para a sidebar e para ocultar a barra superior
+# Estilos personalizados para a sidebar
 st.markdown("""
     <style>
-        /* Oculta a barra superior do Streamlit por padrão */
-        header[data-testid="stHeader"] {
-            background: transparent;
-            height: 0;
-            padding: 0;
-            margin: 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        /* Mostra a barra quando o mouse passa por cima */
-        header[data-testid="stHeader"]:hover {
-            opacity: 1;
-            height: auto;
-            padding: 0.5rem 1rem;
-        }
-        
-        /* Ajusta o conteúdo principal para compensar a barra oculta */
-        .main .block-container {
-            padding-top: 0;
-        }
-
         .top-header {
             width: 100%;
             background-color: #004080;
@@ -126,13 +104,6 @@ except Exception as e:
 
 # Sidebar
 st.sidebar.title("🗺️ Controle de Camadas")
-
-st.sidebar.markdown("""
-    <div style='text-align: center; margin-bottom: 20px;'>
-        <img src='https://i.ibb.co/jPF2kVzn/brasao.png' width='50' height='50'>
-    </div>
-""", unsafe_allow_html=True)
-
 
 with st.sidebar.expander("🏘️ Infraestrutura"):
     show_distritos = st.checkbox("Distritos", value=True)
