@@ -587,7 +587,7 @@ st.markdown(
     """
     <div style='text-align: center; 
                 border: 1px solid #004080;
-                padding: 50px; 
+                padding: 80px; 
                 border-radius: 8px;
                 margin-top: 20px;
                 display: flex;
