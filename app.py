@@ -16,7 +16,7 @@ st.markdown("""
             background: transparent;
             height: 0;
             padding: 0;
-            margin: 20px;
+            margin: -5px;
             opacity: 1;
             transition: opacity 0.3s ease;
         }
