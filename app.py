@@ -24,7 +24,7 @@ st.markdown("""
             background-color: #004080;
             color: white;
             text-align: left;
-            padding: 5px 20px 2px 20px;
+            padding: 100px 20px 2px 20px;
             margin-bottom: 0px;
             display: flex;
             align-items: center;
