@@ -8,15 +8,11 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
-# CSS global para remover espaço superior e cabeçalho, preservando e ajustando o menu lateral
+# CSS global com barra do Streamlit visível e layout compacto
 st.markdown("""
     <style>
         .block-container {
             padding-top: 0rem !important;
-        }
-        header[data-testid="stHeader"] {
-            height: 0px;
-            visibility: hidden;
         }
         button[title="View fullscreen"] {
             display: none;
@@ -54,32 +50,6 @@ st.markdown("""
             color: white !important;
             font-weight: bold;
             border-radius: 5px;
-        }
-        /* Reexibe e ajusta botão de menu lateral com destaque visual para debug */
-        [data-testid="collapsedControl"] {
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            opacity: 1 !important;
-            visibility: visible !important;
-            width: 2.5rem !important;
-            height: 2.5rem !important;
-            background-color: #ff5722;
-            color: white;
-            border: 2px solid yellow;
-            border-radius: 0 8px 8px 0;
-            position: fixed;
-            top: 80px;
-            left: 0;
-            z-index: 9999;
-            cursor: pointer;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
         }
     </style>
 
