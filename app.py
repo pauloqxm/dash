@@ -9,6 +9,11 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
+col1, col2, col3 = st.columns([1, 1, 1])
+with col2:
+    st.logo("https://i.ibb.co/jPF2kVzn/brasao.png", size=(50, 50))
+
+
 # Estilos personalizados para a sidebar e para ocultar a barra superior
 st.markdown("""
     <style>
