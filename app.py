@@ -591,6 +591,9 @@ st.markdown(
         padding: 15px;
         margin-top: 20px;
         background-color: #f8f9fa;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
     '>
         <div style='
             display: flex;
@@ -599,17 +602,17 @@ st.markdown(
             gap: 10px;
             flex-wrap: wrap;
         '>
-            <span style='display: flex; align-items: center; gap: 5px;'>
+            <div style='display: flex; align-items: center; gap: 5px; white-space: nowrap;'>
                 📞 (88) 3441-1000
-            </span>
-            <span>|</span>
-            <span style='display: flex; align-items: center; gap: 5px;'>
+            </div>
+            <div style='color: #00408080;'>|</div>
+            <div style='display: flex; align-items: center; gap: 5px; white-space: nowrap;'>
                 📧 gabinete@quixeramobim.ce.gov.br
-            </span>
-            <span>|</span>
-            <span style='font-weight: bold;'>
+            </div>
+            <div style='color: #00408080;'>|</div>
+            <div style='font-weight: bold; white-space: nowrap;'>
                 Atlas da Prefeitura Municipal de Quixeramobim 2025
-            </span>
+            </div>
         </div>
 
         <div style='
@@ -622,13 +625,13 @@ st.markdown(
             gap: 8px;
             flex-wrap: wrap;
         '>
-            <span style='display: flex; align-items: center; gap: 5px;'>
+            <div style='display: flex; align-items: center; gap: 5px; white-space: nowrap;'>
                 🏢 R. Dr. Álvaro Fernandes, 36/42 - Centro
-            </span>
-            <span>|</span>
-            <span>
+            </div>
+            <div style='color: #00408080;'>|</div>
+            <div style='white-space: nowrap;'>
                 Quixeramobim - CE, 63800-000
-            </span>
+            </div>
         </div>
     </div>
     """,
