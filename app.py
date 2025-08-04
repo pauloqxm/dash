@@ -586,25 +586,26 @@ st.dataframe(df_filtrado[colunas], use_container_width=True)
 st.markdown(
     """
     <div style='
-        text-align: center;
+        text-align: center; 
         border: 1px solid #004080;
-        padding: 15px;
+        padding: 15px; 
         border-radius: 8px;
         margin-top: 20px;
+        background-color: #f8f9fa;
     '>
         <div style='
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
             flex-wrap: wrap;
+            margin-bottom: 10px;
         '>
-            <span>📞 (88) 3441-1000</span>
+            <span style='white-space: nowrap;'>📞 (88) 3441-1000</span>
             <span>|</span>
-            <span>📧 gabinete@quixeramobim.ce.gov.br</span>
+            <span style='white-space: nowrap;'>📧 gabinete@quixeramobim.ce.gov.br</span>
             <span>|</span>
-            <span><b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b></span>
+            <span style='white-space: nowrap; font-weight: bold;'>Atlas da Prefeitura Municipal de Quixeramobim 2025</span>
         </div>
         
         <div style='
@@ -612,9 +613,10 @@ st.markdown(
             justify-content: center;
             align-items: center;
             gap: 5px;
+            flex-wrap: wrap;
         '>
             <span>🏢</span>
-            <span>R. Dr. Álvaro Fernandes, 36/42 - Centro, Quixeramobim - CE, 63800-000</span>
+            <span style='white-space: nowrap;'>R. Dr. Álvaro Fernandes, 36/42 - Centro, Quixeramobim - CE, 63800-000</span>
         </div>
     </div>
     """,
