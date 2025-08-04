@@ -589,7 +589,7 @@ st.markdown(
                 border: 1px solid #004080;
                 padding: 50px; 
                 border-radius: 8px;
-                margin-top: 50px;
+                margin-top: 80px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
