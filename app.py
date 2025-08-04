@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import folium
@@ -9,7 +8,7 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
-# Estilos personalizados para a sidebar
+# Estilos personalizados compactos para a barra superior e sidebar
 st.markdown("""
     <style>
         .top-header {
@@ -17,23 +16,23 @@ st.markdown("""
             background-color: #004080;
             color: white;
             text-align: left;
-            padding: 20px 30px 10px 30px; 
-            margin-bottom: 20px;
+            padding: 5px 20px 2px 20px;
+            margin-bottom: 0px;
             display: flex;
             align-items: center;
-            gap: 20px;
-            border-bottom: 4px solid #002952;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            border-radius: 0 0 8px 8px;
+            gap: 12px;
+            border-bottom: 3px solid #002952;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 0 0 5px 5px;
         }
 
         .top-header img {
-            height: 90px;
+            height: 70px;
         }
 
         .top-header h2 {
             margin: 0;
-            font-size: 1.7rem;
+            font-size: 1.4rem;
             color: #ffffff;
         }
 
