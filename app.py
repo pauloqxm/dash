@@ -18,10 +18,7 @@ st.markdown("""
         }
         .block-container {
             padding-top: 0rem !important;
-        }
-        button[title="View fullscreen"] {
-            display: none;
-        }
+        
         section[data-testid="stSidebar"] {
             width: 220px !important;
             min-width: 220px !important;
