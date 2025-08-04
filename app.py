@@ -55,9 +55,16 @@ st.markdown("""
             font-weight: bold;
             border-radius: 5px;
         }
-        /* Reexibe botão de menu lateral */
+        /* Reexibe botão de menu lateral com mais margem */
         [data-testid="collapsedControl"] {
             display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            height: auto !important;
+            width: auto !important;
+            margin-top: 20px;
+            margin-left: 20px;
+            z-index: 1000;
         }
     </style>
 
