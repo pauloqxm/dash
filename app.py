@@ -8,43 +8,16 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
-# Estilos personalizados para a sidebar e para ocultar a barra superior
+# Estilos personalizados para a sidebar
 st.markdown("""
     <style>
-        /* Oculta a barra superior do Streamlit por padrão */
-        header[data-testid="stHeader"] {
-            background: transparent;
-            height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    position: absolute;
-    top: 0;
-    z-index: -1;
-            padding: 0;
-            margin: 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        /* Mostra a barra quando o mouse passa por cima */
-        header[data-testid="stHeader"]:hover {
-            opacity: 1;
-            height: auto;
-            padding: 0.5rem 1rem;
-        }
-        
-        /* Ajusta o conteúdo principal para compensar a barra oculta */
-        .main .block-container {
-            padding-top: 0;
-        }
-
         .top-header {
             width: 100%;
             background-color: #004080;
             color: white;
             text-align: left;
             padding: 15px 20px;
-            margin: 0;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 20px;
