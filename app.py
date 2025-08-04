@@ -103,6 +103,13 @@ except Exception as e:
     st.stop()
 
 # Sidebar
+
+st.sidebar.markdown("""
+    <div style='text-align: center; margin-bottom: 20px;'>
+        <img src='https://i.ibb.co/jPF2kVzn/brasao.png' width='50' height='50'>
+    </div>
+""", unsafe_allow_html=True)
+
 st.sidebar.title("🗺️ Controle de Camadas")
 
 with st.sidebar.expander("🏘️ Infraestrutura"):
