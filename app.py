@@ -583,8 +583,6 @@ st.dataframe(df_filtrado[colunas], use_container_width=True)
 
 # Dados de rodapé
 
-Este funiconou bem, apenas insira o endereço na linha infeirio da mesma célula
-
 st.markdown(
     """
     <div style='text-align: center; 
