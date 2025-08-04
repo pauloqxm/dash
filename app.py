@@ -39,7 +39,7 @@ st.markdown("""
             color: white;
             text-align: left;
             padding: 15px 20px;
-            margin: 0;
+            margin: 15;
             display: flex;
             align-items: center;
             gap: 20px;
