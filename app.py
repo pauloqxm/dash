@@ -8,9 +8,16 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
-# Estilos personalizados compactos para a barra superior e sidebar
+# CSS global para remover espaço superior e cabeçalho
 st.markdown("""
     <style>
+        .block-container {
+            padding-top: 0rem !important;
+        }
+        header[data-testid="stHeader"] {
+            height: 0px;
+            visibility: hidden;
+        }
         .top-header {
             width: 100%;
             background-color: #004080;
@@ -25,24 +32,20 @@ st.markdown("""
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
             border-radius: 0 0 5px 5px;
         }
-
         .top-header img {
             height: 70px;
         }
-
         .top-header h2 {
             margin: 0;
             font-size: 1.4rem;
             color: #ffffff;
         }
-
         section[data-testid="stSidebar"] details:nth-of-type(1) summary {
             background-color: #003366 !important;
             color: white !important;
             font-weight: bold;
             border-radius: 5px;
         }
-
         section[data-testid="stSidebar"] details:nth-of-type(2) summary {
             background-color: #0059b3 !important;
             color: white !important;
