@@ -12,7 +12,7 @@ st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 st.markdown("""
     <style>
         html, body, [data-testid="stAppViewContainer"] > .main {
-            padding: 10px !important;
+            padding: 0 !important;
             margin: 0 !important;
         }
         .block-container {
