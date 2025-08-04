@@ -8,7 +8,7 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
-# CSS global para remover espaço superior e cabeçalho
+# CSS global para remover espaço superior e cabeçalho, preservando o menu lateral
 st.markdown("""
     <style>
         .block-container {
@@ -17,6 +17,9 @@ st.markdown("""
         header[data-testid="stHeader"] {
             height: 0px;
             visibility: hidden;
+        }
+        button[title="View fullscreen"] {
+            display: none;
         }
         .top-header {
             width: 100%;
@@ -52,6 +55,10 @@ st.markdown("""
             font-weight: bold;
             border-radius: 5px;
         }
+        /* Reexibe botão de menu lateral */
+        [data-testid="collapsedControl"] {
+            display: block !important;
+        }
     </style>
 
     <div class='top-header'>
@@ -59,6 +66,8 @@ st.markdown("""
         <h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
 """, unsafe_allow_html=True)
+
+# O restante do seu código continua igual daqui em diante...
 
 try:
     # Carregar dados
