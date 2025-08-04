@@ -582,7 +582,7 @@ colunas = ["TECNICO", "PRODUTOR", "APELIDO", "FAZENDA", "DISTRITO", "ORDENHA?", 
 st.dataframe(df_filtrado[colunas], use_container_width=True)
 
 st.markdown(
-    "<div style='text-align: center; background-color: #e1f0fb; padding: 0px; border-radius: 8px;'>"
+    "<div style='text-align: center; background-color: #e1f0fb; padding: 20px; border-radius: 8px;'>"
     "<b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b>"
     "</div>",
     unsafe_allow_html=True
