@@ -17,6 +17,11 @@ st.markdown("""
         button[title="View fullscreen"] {
             display: none;
         }
+        section[data-testid="stSidebar"] {
+            width: 220px !important;
+            min-width: 220px !important;
+            max-width: 220px !important;
+        }
         .top-header {
             width: 100%;
             background-color: #004080;
