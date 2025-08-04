@@ -106,7 +106,7 @@ except Exception as e:
 
 st.sidebar.markdown("""
     <div style='text-align: center; margin-bottom: 20px;'>
-        <img src='https://i.ibb.co/jPF2kVzn/brasao.png' width='100' height='150'>
+        <img src='https://i.ibb.co/jPF2kVzn/brasao.png' width='150' height='100'>
     </div>
 """, unsafe_allow_html=True)
 
