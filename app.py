@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import folium
@@ -8,52 +9,41 @@ import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
 
-# CSS global com barra do Streamlit visível e layout compacto, sem espaço de rolagem antes da barra lateral
+# Estilos personalizados para a sidebar
 st.markdown("""
     <style>
-        html, body, [data-testid="stAppViewContainer"] > .main {
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        .block-container {
-            padding-top: 0rem !important;
-        }
-        button[title="View fullscreen"] {
-            display: none;
-        }
-        section[data-testid="stSidebar"] {
-            width: 220px !important;
-            min-width: 220px !important;
-            max-width: 220px !important;
-        }
         .top-header {
             width: 100%;
             background-color: #004080;
             color: white;
             text-align: left;
-            padding: 100px 20px 2px 20px;
-            margin-bottom: 0px;
+            padding: 20px 30px 10px 30px; 
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            border-bottom: 3px solid #002952;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-            border-radius: 0 0 5px 5px;
+            gap: 20px;
+            border-bottom: 4px solid #002952;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 0 0 8px 8px;
         }
+
         .top-header img {
-            height: 70px;
+            height: 90px;
         }
+
         .top-header h2 {
             margin: 0;
-            font-size: 1.4rem;
+            font-size: 1.7rem;
             color: #ffffff;
         }
+
         section[data-testid="stSidebar"] details:nth-of-type(1) summary {
             background-color: #003366 !important;
             color: white !important;
             font-weight: bold;
             border-radius: 5px;
         }
+
         section[data-testid="stSidebar"] details:nth-of-type(2) summary {
             background-color: #0059b3 !important;
             color: white !important;
@@ -67,8 +57,6 @@ st.markdown("""
         <h2>BASE DE DADOS ESPACIAIS</h2>
     </div>
 """, unsafe_allow_html=True)
-
-# O restante do seu código continua igual daqui em diante...
 
 try:
     # Carregar dados
