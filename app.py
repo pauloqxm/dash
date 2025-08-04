@@ -53,7 +53,7 @@ st.markdown("""
         }
 
         .top-header h2 {
-            margin: 0;
+            margin: 20px;
             font-size: 1.7rem;
             color: #ffffff;
         }
