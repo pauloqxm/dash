@@ -16,7 +16,7 @@ st.markdown("""
             background-color: #004080;
             color: white;
             text-align: left;
-            padding: 15px 20px;
+            padding: 20px 30px 10px 30px; 
             margin-bottom: 20px;
             display: flex;
             align-items: center;
