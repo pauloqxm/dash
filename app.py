@@ -7,7 +7,29 @@ from folium.plugins import Draw, Search, MousePosition
 import json
 
 st.set_page_config(page_title="ATLAS SDA - Quixeramobim", layout="wide")
-st.logo('https://i.ibb.co/jPF2kVzn/brasao.png')
+
+# Centraliza com div e aplica classe CSS
+st.markdown("""
+    <style>
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .logo-container img {
+            transition: all 0.3s ease;
+        }
+    </style>
+    <div class="logo-container">
+        <img id="dynamic-logo" src='https://i.ibb.co/jPF2kVzn/brasao.png' style="height: {}px;" />
+    </div>
+""", unsafe_allow_html=True)
+
+# Criar o slider de tamanho
+size = st.slider("Tamanho do Logo (px)", min_value=30, max_value=150, value=90)
+st.markdown(logo_html.format(size), unsafe_allow_html=True)
 
 
 # Estilos personalizados para a sidebar e para ocultar a barra superior
