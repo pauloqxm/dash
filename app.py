@@ -582,8 +582,22 @@ colunas = ["TECNICO", "PRODUTOR", "APELIDO", "FAZENDA", "DISTRITO", "ORDENHA?", 
 st.dataframe(df_filtrado[colunas], use_container_width=True)
 
 st.markdown(
-    "<div style='text-align: center; background-color: #e1f0fb; padding: 20px; border-radius: 8px;'>"
-    "<b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b>"
-    "</div>",
+    """
+    <div style='text-align: center; 
+                border: 1px solid #004080;
+                padding: 15px; 
+                border-radius: 8px;
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;'>
+        <span>📞 (88) 99999-9999</span>
+        <span>|</span>
+        <span>📧 contato@quixeramobim.ce.gov.br</span>
+        <span>|</span>
+        <span><b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b></span>
+    </div>
+    """,
     unsafe_allow_html=True
 )
