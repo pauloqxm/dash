@@ -14,7 +14,7 @@ st.markdown("""
     <style>
          html, body, [data-testid="stAppViewContainer"] > .main {
             padding: 10px
-            margin: 10px !important;      
+            margin: 10px    
         }
          
         .block-container {
