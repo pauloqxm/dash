@@ -16,7 +16,7 @@ st.markdown("""
             background: transparent;
             height: 0;
             padding: 0;
-            margin: -5px;
+            margin: 0;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -39,7 +39,7 @@ st.markdown("""
             color: white;
             text-align: left;
             padding: 15px 20px;
-            margin: 15;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 20px;
@@ -53,7 +53,7 @@ st.markdown("""
         }
 
         .top-header h2 {
-            margin: 20px;
+            margin: 0;
             font-size: 1.7rem;
             color: #ffffff;
         }
