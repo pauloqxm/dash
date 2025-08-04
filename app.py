@@ -585,20 +585,37 @@ st.dataframe(df_filtrado[colunas], use_container_width=True)
 
 st.markdown(
     """
-    <div style='text-align: center; 
-                border: 1px solid #004080;
-                padding: 15px; 
-                border-radius: 8px;
-                margin-top: 20px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 10px;'>
-        <span>📞 (88) 99999-9999</span>
-        <span>|</span>
-        <span>📧 contato@quixeramobim.ce.gov.br</span>
-        <span>|</span>
-        <span><b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b></span>
+    <div style='
+        text-align: center;
+        border: 1px solid #004080;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+    '>
+        <div style='
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        '>
+            <span>📞 (88) 3441-1000</span>
+            <span>|</span>
+            <span>📧 gabinete@quixeramobim.ce.gov.br</span>
+            <span>|</span>
+            <span><b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b></span>
+        </div>
+        
+        <div style='
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        '>
+            <span>🏢</span>
+            <span>R. Dr. Álvaro Fernandes, 36/42 - Centro, Quixeramobim - CE, 63800-000</span>
+        </div>
     </div>
     """,
     unsafe_allow_html=True
